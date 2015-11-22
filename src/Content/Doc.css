@@ -1,0 +1,122 @@
+﻿
+/**********************************************************
+ * For Index.html
+ *********************************************************/
+
+html, body {
+    /*background-color: #edf0f5 !important;*/
+}
+
+.view-animate.ng-enter, .view-animate.ng-leave {
+    transition: all cubic-bezier(0.250, 0.460, 0.450, 0.940) 0.5s;
+    display: block;
+    width: 100%;
+    position: absolute;
+}
+
+.view-animate.ng-enter {
+    opacity: 0;
+}
+
+    .view-animate.ng-enter.ng-enter-active {
+        opacity: 1;
+    }
+
+.view-animate.ng-leave.ng-leave-active {
+    opacity: 0;
+}
+
+/* Remove sppiner of number input */
+input[type=number]::-webkit-outer-spin-button,
+input[type=number]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input[type=number] {
+    -moz-appearance: textfield;
+}
+
+a[ng-click] {
+    cursor: pointer;
+}
+
+/* docOutput */
+
+#docOutput .highlight {
+    background-color: yellow;
+}
+
+#docOutput table {
+  width: 100%;
+  max-width: 100%;
+  margin-bottom: 20px;
+}
+
+#docOutput table > thead > tr > th,
+#docOutput table > tbody > tr > th,
+#docOutput table > tfoot > tr > th,
+#docOutput table > thead > tr > td,
+#docOutput table > tbody > tr > td,
+#docOutput table > tfoot > tr > td {
+  padding: 8px;
+  line-height: 1.42857143;
+  vertical-align: top;
+  border-top: 1px solid #ddd;
+}
+#docOutput table > thead > tr > th {
+  vertical-align: bottom;
+  border-bottom: 2px solid #ddd;
+}
+#docOutput table > caption + thead > tr:first-child > th,
+#docOutput table > colgroup + thead > tr:first-child > th,
+#docOutput table > thead:first-child > tr:first-child > th,
+#docOutput table > caption + thead > tr:first-child > td,
+#docOutput table > colgroup + thead > tr:first-child > td,
+#docOutput table > thead:first-child > tr:first-child > td {
+  border-top: 0;
+}
+#docOutput table > tbody + tbody {
+  border-top: 2px solid #ddd;
+}
+
+
+#docOutput table {
+  border: 1px solid #ddd;
+}
+#docOutput table > thead > tr > th,
+#docOutput table > tbody > tr > th,
+#docOutput table > tfoot > tr > th,
+#docOutput table > thead > tr > td,
+#docOutput table > tbody > tr > td,
+#docOutput table > tfoot > tr > td {
+  border: 1px solid #ddd;
+}
+#docOutput table > thead > tr > th,
+#docOutput table > thead > tr > td {
+  border-bottom-width: 2px;
+}
+
+#docOutput table > tbody > tr:hover {
+  background-color: #f5f5f5;
+}
+
+
+
+#docOutput table > thead > tr > th,
+#docOutput table > tbody > tr > th,
+#docOutput table > tfoot > tr > th,
+#docOutput table > thead > tr > td,
+#docOutput table > tbody > tr > td,
+#docOutput table > tfoot > tr > td {
+  padding: 5px;
+}
+
+
+#docOutput img {
+    max-width: 100%;
+}
+
+#docOutput p {
+    text-align: justify;
+}

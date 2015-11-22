@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <title>Documentation</title>
+
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no" />
+
+        <meta name="theme-color" content="#337ab7"/>
+
+        <!-- build:css css/lib.min.css -->
+        <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css"/>
+        <link rel="stylesheet" href="Content/Doc.css" />
+        <link rel="stylesheet" href="bower_components/highlightjs/styles/github.css" />
+        <!-- /build -->
+
+        <!-- build:js js/lib.min.js -->
+        <script src="bower_components/jquery/dist/jquery.min.js"></script>
+        <script src="bower_components/angular/angular.min.js"></script>
+        <script src="bower_components/angular-route/angular-route.min.js"></script>
+        <script src="bower_components/angular-sanitize/angular-sanitize.min.js"></script>
+
+        <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+
+        <script src="bower_components/marked/lib/marked.js"></script>
+        <script src="bower_components/highlightjs/highlight.pack.js"></script>
+        <!-- /build -->
+
+        <!-- not support in old android browser -->
+        <!--<script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>-->
+
+    </head>
+    <body ng-app="app" ng-controller="appCtrl">
+
+        <!-- no script section -->
+        <noscript>
+            <div style="background-color:red;color:white; text-align: center; padding: 20px;">
+                <h1>Javascript required</h1>
+                <p>Please enable javascript to use this site.</p>
+            </div>
+        </noscript>
+
+        <!-- show on script enabled -->
+        <div id="body_content" style="visibility: hidden;">
+
+            <nav class="navbar navbar-default">
+                <div class="pull-left">
+                    <div>
+                        <a class="navbar-brand" ng-href="#!/docs"><span class="visible-xs">Doc</span><span class="hidden-xs">Documentation</span></a>
+                    </div>
+                </div>
+                <div class="pull-right" style="padding-left: 15px; padding-right: 15px; padding-top: 10px; margin-left: auto; margin-right: auto;">
+                    <!-- Collect the nav links, forms, and other content for toggling -->
+                    <!-- /.navbar-collapse -->
+                    <div ng-show="project">
+                            <input type="text" class="form-control input-sm" ng-model="search" ng-change="searchPage(search)" placeholder="Search" />
+                    </div>
+                </div>
+                <!-- /.container-fluid -->
+            </nav>
+
+            <!-- Search result -->
+            <div class="container" ng-show="search">
+                <div class="col-xs-12">
+                    <div class="list-group" ng-if="searchResult.length != 0">
+                        <a ng-href="#!/docs/{{project.projectId}}/{{doc.docId}}" class="list-group-item" ng-repeat="doc in searchResult" ng-bind="doc.docName" ng-click="setNavigationVisiblity(false)"></a>
+                    </div>
+                    <div ng-if="searchResult.length == 0" style="text-align: center;">
+                        <h4>No result found</h4>
+                    </div>
+                    <div class="clearfix"></div>
+                    <hr />
+                </div>
+            </div>
+
+            <div class="container">
+                <div class="col-sm-5 col-md-4 col-lg-3" ng-class="{'hidden-xs': !isNavigationShow, 'hidden':!project}">
+                    <!--
+                    <div class="list-group">
+                        <a ng-href="#!/docs/{{project.projectId}}/{{doc.docId}}" class="list-group-item" ng-class="{'active': doc.docId == currentDoc.docId}" ng-repeat="doc in project.docs" ng-bind="doc.docName" ng-click="setNavigationVisiblity(false)"></a>
+                    </div>
+                    -->
+                    <div ng-repeat="category in project.categories">
+                        <h6 ng-bind="category.display" style="text-transform: uppercase; font-weight: bold; color:#777;"></h6>
+                        <div class="list-group">
+                            <a ng-href="#!/docs/{{project.projectId}}/{{doc.docId}}" class="list-group-item" ng-class="{'active': doc.docId == currentDoc.docId, 'list-group-item-danger': doc.noDoc === true}" ng-repeat="doc in project.docs| filter:{'category':category.name}:true" ng-bind="doc.docName" ng-click="setNavigationVisiblity(false)"></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-12" ng-class="{'hidden-xs': isNavigationShow, 'col-sm-7':project, 'col-md-8':project, 'col-lg-9':project, 'col-sm-12':!project, 'col-md-12':!project, 'col-lg-12':!project}">
+                    <div>
+                        <button class="btn btn-default visible-xs" ng-show="project.docs.length" ng-click="setNavigationVisiblity(true)">Show navigation</button>
+                    </div>
+                    <div ng-view="" class="view-animate"></div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- build:js js/app.min.js -->
+        <script src="app/data/data.js"></script>
+        <script src="app/app.js"></script>
+        <script src="app/services/docService.js"></script>
+        <script src="app/controllers/appCtrl.js"></script>
+        <script src="app/controllers/projectListCtrl.js"></script>
+        <script src="app/controllers/docCtrl.js"></script>
+        <!-- /build -->
+
+        <script>
+
+                                    $('#body_content').css('visibility', 'visible');
+
+                                    marked.setOptions({
+                                        renderer: new marked.Renderer(),
+                                        gfm: true,
+                                        tables: true,
+                                        breaks: false,
+                                        pedantic: false,
+                                        sanitize: false, // if false -> allow plain old HTML ;)
+                                        smartLists: true,
+                                        smartypants: false,
+                                        highlight: function (code, lang) {
+                                            if (lang) {
+                                                return hljs.highlight(lang, code).value;
+                                            } else {
+                                                return hljs.highlightAuto(code).value;
+                                            }
+                                        }
+                                    });
+        </script>
+
+        <script src="data.js"></script>
+    </body>
+</html>
