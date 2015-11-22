@@ -29,7 +29,7 @@ module.exports = function (grunt) {
                     'src/bower_components/marked/lib/marked.js',
                     'src/bower_components/highlightjs/highlight.pack.js',
                 ],
-                'dest': 'dist/js/lib.js'
+                'dest': 'dist/js/lib.min.js'
             },
             'css': {
                 'src': [
@@ -47,7 +47,7 @@ module.exports = function (grunt) {
             'dist': {
                 'files': {
                     'dist/js/app.min.js': ['dist/js/app.js'],
-                    'dist/js/lib.min.js': ['dist/js/lib.js']
+                    //'dist/js/lib.min.js': ['dist/js/lib.js']
                 }
             }
         },

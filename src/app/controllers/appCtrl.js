@@ -30,6 +30,7 @@
                         $scope.search = '';
                     };
                     $scope.searchPage = function (term) {
+
                         if (!term)
                             return;
 
@@ -54,7 +55,7 @@
                                     return tag.toLowerCase().indexOf(terms[i].toLowerCase()) != -1;
                                 });
 
-                                console.debug(s);
+                                //console.debug(s);
 
                                 return 0 != s.length
                                 //console.debug(item);
