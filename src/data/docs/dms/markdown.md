@@ -125,7 +125,7 @@ In this `[Google]` is text which was render and after that link and title (optio
 ### Image
 
 ```
-![test](data/img/dms/design-account-profile.jpg)
+![test](/data/img/dms/design.jpg)
 ```
 
 We just use `!` before link for image

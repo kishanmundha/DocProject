@@ -69,7 +69,8 @@ module.exports = function (grunt) {
                     {expand: true, cwd: 'src/data/', src: ['**/*.*'], dest: 'publish/data/'},
                     {expand: true, cwd: 'src/img/', src: ['**/*.*'], dest: 'publish/img/'},
                     {expand: true, cwd: 'src', src: ['favicon.ico'], dest: 'publish/'},
-                    {expand: true, cwd: 'src', src: ['data.js'], dest: 'publish/'},
+                    {expand: true, cwd: 'src', src: ['data.js'], dest: 'publish/data/'},
+                    {expand: true, cwd: 'src', src: ['server.js'], dest: 'publish/'},
                     //{expand: true, cwd: 'dist/', src: ['*.html'], dest: 'publish/'},
                     // includes files within path and its sub-directories
                     //{expand: true, src: ['path/**'], dest: 'dest/'},

@@ -26,7 +26,12 @@
                 'fileName': p.fileName,
                 'categories': p.categories,
                 'docs': p.docs.map(function (item) {
+                    return { 'docId': item.docId, 'docName': item.docName, 'fileName': item.fileName, 'tags': item.tags, 'category': item.category || '', 'noDoc': item.noDoc || false, 'noList': item.noList || false };
+                }),
+                'navigateDocs': p.docs.map(function (item) {
                     return { 'docId': item.docId, 'docName': item.docName, 'fileName': item.fileName, 'tags': item.tags, 'category': item.category || '', 'noDoc': item.noDoc || false };
+                }).filter(function(item) {
+                    return item.noList !== true;
                 })
             }
 
@@ -39,7 +44,7 @@
             if (!project)
                 return false;
 
-            var filePath = 'data/docs/';
+            var filePath = '/data/docs/';
 
             if (!docId) {
                 filePath += project.projectId + '/' + (project.fileName || project.projectId);

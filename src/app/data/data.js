@@ -66,6 +66,7 @@
                     doc.fileName = options.fileName;
                     doc.tags = options.tags;
                     doc.noDoc = options.noDoc;
+                    doc.noList = options.noList;
 
                     projectData.docs.push(doc);
 

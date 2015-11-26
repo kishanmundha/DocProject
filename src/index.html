@@ -45,7 +45,7 @@
             <nav class="navbar navbar-default">
                 <div class="pull-left">
                     <div>
-                        <a class="navbar-brand" ng-href="#!/docs"><span class="visible-xs">Doc</span><span class="hidden-xs">Documentation</span></a>
+                        <a class="navbar-brand" ng-href="/docs"><span class="visible-xs">Doc</span><span class="hidden-xs">Documentation</span></a>
                     </div>
                 </div>
                 <div class="pull-right" style="padding-left: 15px; padding-right: 15px; padding-top: 10px; margin-left: auto; margin-right: auto;">
@@ -62,7 +62,7 @@
             <div class="container" ng-show="search">
                 <div class="col-xs-12">
                     <div class="list-group" ng-if="searchResult.length != 0">
-                        <a ng-href="#!/docs/{{project.projectId}}/{{doc.docId}}" class="list-group-item" ng-repeat="doc in searchResult" ng-bind="doc.docName" ng-click="setNavigationVisiblity(false)"></a>
+                        <a ng-href="/docs/{{project.projectId}}/{{doc.docId}}" class="list-group-item" ng-repeat="doc in searchResult" ng-bind="doc.docName" ng-click="setNavigationVisiblity(false)"></a>
                     </div>
                     <div ng-if="searchResult.length == 0" style="text-align: center;">
                         <h4>No result found</h4>
@@ -76,13 +76,13 @@
                 <div class="col-sm-5 col-md-4 col-lg-3" ng-class="{'hidden-xs': !isNavigationShow, 'hidden':!project}">
                     <!--
                     <div class="list-group">
-                        <a ng-href="#!/docs/{{project.projectId}}/{{doc.docId}}" class="list-group-item" ng-class="{'active': doc.docId == currentDoc.docId}" ng-repeat="doc in project.docs" ng-bind="doc.docName" ng-click="setNavigationVisiblity(false)"></a>
+                        <a ng-href="/docs/{{project.projectId}}/{{doc.docId}}" class="list-group-item" ng-class="{'active': doc.docId == currentDoc.docId}" ng-repeat="doc in project.docs" ng-bind="doc.docName" ng-click="setNavigationVisiblity(false)"></a>
                     </div>
                     -->
                     <div ng-repeat="category in project.categories">
                         <h6 ng-bind="category.display" style="text-transform: uppercase; font-weight: bold; color:#777;"></h6>
                         <div class="list-group">
-                            <a ng-href="#!/docs/{{project.projectId}}/{{doc.docId}}" class="list-group-item" ng-class="{'active': doc.docId == currentDoc.docId, 'list-group-item-danger': doc.noDoc === true}" ng-repeat="doc in project.docs| filter:{'category':category.name}:true" ng-bind="doc.docName" ng-click="setNavigationVisiblity(false)"></a>
+                            <a ng-href="/docs/{{project.projectId}}/{{doc.docId}}" class="list-group-item" ng-class="{'active': doc.docId == currentDoc.docId, 'list-group-item-danger': doc.noDoc === true}" ng-repeat="doc in project.docs| filter:{'category':category.name}:true | filter:{'noList':false}" ng-bind="doc.docName" ng-click="setNavigationVisiblity(false)"></a>
                         </div>
                     </div>
                 </div>
@@ -128,6 +128,6 @@
                                     });
         </script>
 
-        <script src="data.js"></script>
+        <script src="data/data.js"></script>
     </body>
 </html>
