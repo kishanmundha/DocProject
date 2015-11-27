@@ -2,13 +2,12 @@
         (function () {
             'use strict'
             
-            var CONTENT_EMPTY_FILE = '<div style="max-width:200px; margin: 0px auto;">'
+            var CONTENT_EMPTY_FILE = '<div>'
                     + '<h3><span class="glyphicon glyphicon-warning-sign"></span> Content not found</h3>'
-                    + '<ul>'
-                    + '<li style="line-height:40px">Check your data.js file for mapped currectly.</li>'
-                    + '<li style="line-height:40px">Check file in directory, make sure file must exists</li>'
-                    + '<li style="line-height:40px">Check file, make sure file must not blank</li>'
-                    + '</ul>'
+                    + '<br/>'
+                    + '<p style="line-height:30px"><span class="glyphicon glyphicon-circle-arrow-right"></span> Check your <code>data.js</code> file for mapped currectly.</p>'
+                    + '<p style="line-height:30px"><span class="glyphicon glyphicon-circle-arrow-right"></span> Check file in directory, make sure file must exists.</p>'
+                    + '<p style="line-height:30px"><span class="glyphicon glyphicon-circle-arrow-right"></span> Check file, make sure file must not blank.</p>'
                     + '</div>';
 
             var app = angular.module('app');

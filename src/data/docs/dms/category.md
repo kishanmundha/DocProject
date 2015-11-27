@@ -4,7 +4,7 @@ First open Open `data.js` file
 
 Add this javascript code
 
-``` javascript
+```
 project.add(projectId, projectName)
     .addCategory(name, displayText)
 ```

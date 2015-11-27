@@ -14,5 +14,6 @@
     "grunt-processhtml": "^0.3.8"
   },
   "dependencies": {
+      "express": "4.13.3"
   }
 }

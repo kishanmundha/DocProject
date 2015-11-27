@@ -107,10 +107,10 @@ var a = 0;
 | 2       | value 2 |
 ```
 
-| Column1 | Column2 |
-| ------- | ------- |
-| 1 | value1 |
-| 2 | value 2 |
+| Column1 | Column2 | Column3 |
+| ------- | ------- | ------: |
+| 1 | value1 | $10.00 |
+| 2 | value 2 | $15.00 |
 
 > To set right alignment of text in a table column use `| -----: |`
 
