@@ -13,7 +13,7 @@
 
             var app = angular.module('app');
 
-            app.controller('docCtrl', ['$scope', '$location', '$routeParams', '$timeout', 'docService', function ($scope, $location, $routeParams, $timeout, docService) {
+            app.controller('docCtrl', ['$scope', '$location', '$routeParams', '$timeout', '$sce', 'docService', function ($scope, $location, $routeParams, $timeout, $sce, docService) {
                     var projectId = $routeParams.projectId;
                     var docId = $routeParams.docId;
 
@@ -26,13 +26,17 @@
                     var content = docService.getDocContent(projectId, docId, function (data) {
 
                         if (data) {
-                            $scope.markdown.outputText = marked(data);
+                            $scope.markdown.outputText = trustAsHtml ( marked(data) );
                         }
                         else {
                             //$scope.markdown.outputText = marked('## Empty page');
-                            $scope.markdown.outputText = CONTENT_EMPTY_FILE;
+                            $scope.markdown.outputText = trustAsHtml ( CONTENT_EMPTY_FILE );
                         }
                     });
+                    
+                    var trustAsHtml = function(string) {
+                        return $sce.trustAsHtml(string);
+                    };
 
                     if (!$scope.$parent.project || $scope.$parent.project.projectId != projectId) {
                         docService.setCurrentProject(projectId);
