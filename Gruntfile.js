@@ -8,7 +8,9 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-concat');
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-cssmin');
+    grunt.loadNpmTasks('grunt-contrib-clean');
     grunt.loadNpmTasks('grunt-contrib-copy');
+    grunt.loadNpmTasks('grunt-contrib-compress');
     grunt.loadNpmTasks('grunt-processhtml');
 
     // Project configuration.
@@ -58,6 +60,10 @@ module.exports = function (grunt) {
                 ]
             }
         },
+        'clean': {
+            'minify':['dist/**/*'],
+            'publish': ['publish/**/*']
+        },
         'copy': {
             main: {
                 files: [
@@ -87,9 +93,22 @@ module.exports = function (grunt) {
                     'publish/index.html': ['src/index.html']
                 }
             }
+        },
+        'compress': {
+            'main': {
+                'options': {
+                    //'archive': 'release/<%= pkg.name %>-<%= pkg.version %>.zip',
+                    'archive': 'release/<%= pkg.name %>-<%= pkg.version %>.zip'
+                    //'mode': 'gzip'
+                },
+                'files': [
+                    {expand: true, cwd: 'publish/', src: ['**/*'], dest: ''}
+                ]
+            }
         }
     });
 
     grunt.registerTask('minify', ['concat', 'uglify', 'cssmin']);
-    grunt.registerTask('publish', ['minify', 'processhtml', 'copy']);
+    grunt.registerTask('publish', ['clean', 'minify', 'processhtml', 'copy']);
+    grunt.registerTask('release', ['publish', 'compress']);
 };
