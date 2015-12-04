@@ -19,6 +19,10 @@
                                 templateUrl: '/app/views/docTemplate.html',
                                 controller: 'docCtrl'
                             })
+                            .when('/docs/edit/:projectId/:docId', {
+                                templateUrl: '/app/views/editDocTemplate.html',
+                                controller: 'editDocCtrl'
+                            })
                             .when('/error', {
                                 template: '<div style="width:400px; text-align:center; margin:0px auto; font-size:20px; font-weight:bold; padding-top:40px;">Sorry, This page not found</div>'
                             })
@@ -37,4 +41,5 @@
                 }]);
 
             //angular.bootstrap(document, 'app');
+
         })();

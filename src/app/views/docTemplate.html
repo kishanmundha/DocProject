@@ -1,1 +1,6 @@
-﻿<div ng-bind-html="markdown.outputText" id="docOutput" style="overflow-x: auto;"></div>
+<div style="position: relative;">
+    <div style="position:absolute; right: 0px; top:0px;">
+        <a class="btn btn-default" href="/docs/edit/{{projectId}}/{{docId}}"><span class="glyphicon glyphicon-pencil"></span></a>
+    </div>
+    ﻿<div ng-bind-html="markdown.outputText" id="docOutput" style="overflow-x: auto;"></div>
+</div>

@@ -15,6 +15,9 @@
             app.controller('docCtrl', ['$scope', '$location', '$routeParams', '$timeout', '$sce', 'docService', function ($scope, $location, $routeParams, $timeout, $sce, docService) {
                     var projectId = $routeParams.projectId;
                     var docId = $routeParams.docId;
+                    
+                    $scope.projectId = projectId;
+                    $scope.docId = docId;
 
                     $scope.docContent;
 
