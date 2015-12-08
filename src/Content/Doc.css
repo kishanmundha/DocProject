@@ -18,9 +18,9 @@ html, body {
     opacity: 0;
 }
 
-    .view-animate.ng-enter.ng-enter-active {
-        opacity: 1;
-    }
+.view-animate.ng-enter.ng-enter-active {
+    opacity: 1;
+}
 
 .view-animate.ng-leave.ng-leave-active {
     opacity: 0;
@@ -48,9 +48,9 @@ a[ng-click] {
 }
 
 #docOutput table {
-  width: 100%;
-  max-width: 100%;
-  margin-bottom: 20px;
+    width: 100%;
+    max-width: 100%;
+    margin-bottom: 20px;
 }
 
 #docOutput table > thead > tr > th,
@@ -59,14 +59,14 @@ a[ng-click] {
 #docOutput table > thead > tr > td,
 #docOutput table > tbody > tr > td,
 #docOutput table > tfoot > tr > td {
-  padding: 8px;
-  line-height: 1.42857143;
-  vertical-align: top;
-  border-top: 1px solid #ddd;
+    padding: 8px;
+    line-height: 1.42857143;
+    vertical-align: top;
+    border-top: 1px solid #ddd;
 }
 #docOutput table > thead > tr > th {
-  vertical-align: bottom;
-  border-bottom: 2px solid #ddd;
+    vertical-align: bottom;
+    border-bottom: 2px solid #ddd;
 }
 #docOutput table > caption + thead > tr:first-child > th,
 #docOutput table > colgroup + thead > tr:first-child > th,
@@ -74,15 +74,15 @@ a[ng-click] {
 #docOutput table > caption + thead > tr:first-child > td,
 #docOutput table > colgroup + thead > tr:first-child > td,
 #docOutput table > thead:first-child > tr:first-child > td {
-  border-top: 0;
+    border-top: 0;
 }
 #docOutput table > tbody + tbody {
-  border-top: 2px solid #ddd;
+    border-top: 2px solid #ddd;
 }
 
 
 #docOutput table {
-  border: 1px solid #ddd;
+    border: 1px solid #ddd;
 }
 #docOutput table > thead > tr > th,
 #docOutput table > tbody > tr > th,
@@ -90,15 +90,15 @@ a[ng-click] {
 #docOutput table > thead > tr > td,
 #docOutput table > tbody > tr > td,
 #docOutput table > tfoot > tr > td {
-  border: 1px solid #ddd;
+    border: 1px solid #ddd;
 }
 #docOutput table > thead > tr > th,
 #docOutput table > thead > tr > td {
-  border-bottom-width: 2px;
+    border-bottom-width: 2px;
 }
 
 #docOutput table > tbody > tr:hover {
-  background-color: #f5f5f5;
+    background-color: #f5f5f5;
 }
 
 
@@ -109,7 +109,7 @@ a[ng-click] {
 #docOutput table > thead > tr > td,
 #docOutput table > tbody > tr > td,
 #docOutput table > tfoot > tr > td {
-  padding: 5px;
+    padding: 5px;
 }
 
 
@@ -119,4 +119,13 @@ a[ng-click] {
 
 #docOutput p {
     text-align: justify;
+}
+
+/* Edit button in document page */
+.edit-button {
+    opacity: 0.4;
+}
+
+.edit-button:hover {
+    opacity: 1;
 }
