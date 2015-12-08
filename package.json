@@ -1,7 +1,7 @@
 {
   "name": "DocProject",
-  "namelower": "doc",
-  "version": "1.0.2",
+  "namelower": "docproject",
+  "version": "1.0.3",
   "description": "Document management system",
   "readme": "README.md",
   "devDependencies": {
