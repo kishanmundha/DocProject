@@ -12,11 +12,12 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-copy');
     grunt.loadNpmTasks('grunt-contrib-compress');
     grunt.loadNpmTasks('grunt-processhtml');
+    grunt.loadNpmTasks('grunt-html2js');
 
     // Project configuration.
     grunt.initConfig({
         'pkg': grunt.file.readJSON('package.json'),
-        'concat': {
+        concat: {
             'dist1': {
                 'src': ['src/app/**/*.js'],
                 'dest': 'dist/js/app.js'
@@ -42,7 +43,7 @@ module.exports = function (grunt) {
                 'dest': 'dist/css/lib.css'
             }
         },
-        'uglify': {
+        uglify: {
             'options': {
                 'mangle': false
             },
@@ -50,28 +51,29 @@ module.exports = function (grunt) {
                 'files': {
                     'dist/js/app.min.js': ['dist/js/app.js'],
                     //'dist/js/lib.min.js': ['dist/js/lib.js']
+                    'dist/js/template.min.js': ['dist/js/template.js'],
                 }
             }
         },
-        'cssmin': {
+        cssmin: {
             'target': {
                 'files': [
                     {expand: true, cwd: 'dist/css/', src: ['lib.css'], dest: 'dist/css/', ext: '.min.css'}
                 ]
             }
         },
-        'clean': {
-            'minify':['dist/**/*'],
+        clean: {
+            'minify': ['dist/**/*'],
             'publish': ['publish/**/*']
         },
-        'copy': {
+        copy: {
             main: {
                 files: [
                     // includes files within path
                     //{expand: true, src: ['src/*.html'], dest: 'dist/', filter: 'isFile'},
                     {expand: true, cwd: 'dist/js/', src: ['*.min.js'], dest: 'publish/js/'},
                     {expand: true, cwd: 'dist/css/', src: ['*.min.css'], dest: 'publish/css/'},
-                    {expand: true, cwd: 'src/app/', src: ['**/*.html'], dest: 'publish/app/'},
+                    //{expand: true, cwd: 'src/app/', src: ['**/*.html'], dest: 'publish/app/'},
                     {expand: true, cwd: 'src/data/', src: ['**/*.*'], dest: 'publish/data/'},
                     {expand: true, cwd: 'src/img/', src: ['**/*.*'], dest: 'publish/img/'},
                     {expand: true, cwd: 'src', src: ['favicon.ico'], dest: 'publish/'},
@@ -88,28 +90,53 @@ module.exports = function (grunt) {
                 ],
             },
         },
-        'processhtml': {
-            'dist':{
-                'files':{
+        processhtml: {
+            'dist': {
+                'files': {
                     'publish/index.html': ['src/index.html']
                 }
             }
         },
-        'compress': {
+        compress: {
             'main': {
                 'options': {
                     //'archive': 'release/<%= pkg.name %>-<%= pkg.version %>.zip',
                     'archive': 'release/<%= pkg.name %>-<%= pkg.version %>.zip'
-                    //'mode': 'gzip'
+                            //'mode': 'gzip'
                 },
                 'files': [
                     {expand: true, cwd: 'publish/', src: ['**/*'], dest: ''}
                 ]
             }
-        }
-    });
+        },
+        html2js: {
+            options: {
+                base: 'src',
+                module: 'app',
+                singleModule: true,
+                useStrict: true,
+                existingModule: true,
+                htmlmin: {
+                    collapseBooleanAttributes: true,
+                    collapseWhitespace: true,
+                    removeAttributeQuotes: true,
+                    removeComments: true,
+                    removeEmptyAttributes: true,
+                    removeRedundantAttributes: true,
+                    removeScriptTypeAttributes: true,
+                    removeStyleLinkTypeAttributes: true
+                },
+                rename: function (moduleName) {
+                    return '/' + moduleName;
+                }
+            },
+            main: {
+                src: ['src/app/**/*.html'],
+                dest: 'dist/js/template.js'
+            }
+        }});
 
-    grunt.registerTask('minify', ['concat', 'uglify', 'cssmin']);
-    grunt.registerTask('publish', ['clean', 'minify', 'processhtml', 'copy']);
+    grunt.registerTask('minify', ['clean:minify', 'concat', 'html2js', 'uglify', 'cssmin']);
+    grunt.registerTask('publish', ['clean:publish', 'minify', 'processhtml', 'copy']);
     grunt.registerTask('release', ['publish', 'compress']);
 };
