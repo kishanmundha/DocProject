@@ -28,7 +28,11 @@ app.use(function (err, req, res, next) {
 
 // Send file to client
 function sendFile(req, res) {
-    var str = req.url;
+    var str = req.url || '';
+    
+    if(str.indexOf('?') !== -1) {
+    	str = str.substring(0, str.indexOf('?'));
+    }
 
     getFileName(str, function (fileName, noAccess) {
         if (noAccess) {
