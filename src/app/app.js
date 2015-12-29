@@ -1,6 +1,6 @@
 ﻿
         (function () {
-            'use strict'
+            'use strict';
 
             var app = angular.module('app', ['ngRoute', 'ngSanitize']);
 
@@ -23,7 +23,7 @@
                                 templateUrl: '/app/views/docTemplate.html',
                                 controller: 'docCtrl'
                             })
-                            .when('/docs/:projectId/:docId', {// documentation page
+                            .when('/docs/:projectId/:docId*', {// documentation page    // :docId* will accept subpath
                                 templateUrl: '/app/views/docTemplate.html',
                                 controller: 'docCtrl'
                             })
