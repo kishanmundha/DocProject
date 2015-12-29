@@ -1,6 +1,6 @@
 ﻿
         (function () {
-            'use strict'
+            'use strict';
 
             var app = angular.module('app');
 
@@ -17,7 +17,11 @@
 
                     //console.debug($scope);
 
-                    var content = docService.getDocContent(projectId, docId, function (data) {
+                    docService.getDocContent(projectId, docId, function (data) {
+
+                        if (Object.prototype.toString.call(data) === '[object Object]') {
+                            data = data.data;
+                        }
 
                         $scope.markdown.inputText = data;
 
@@ -35,13 +39,13 @@
                             mdContent = '<div class="alert alert-warning" role="alert">Do not press on any link other wise your content will lost</div>' + mdContent;
                         }
                         catch (e) {
-                            mdContent = '<div class="alert alert-danger" role="alert">' + e + '</div>'
+                            mdContent = '<div class="alert alert-danger" role="alert">' + e + '</div>';
                             //console.error(e.message);
                             //throw e;
                         }
 
                         $scope.markdown.outputText = trustAsHtml(mdContent);
-                    }
+                    };
 
                     docService.setCurrentProject(false);
 
@@ -50,12 +54,12 @@
                         parseMarkdownContent();
 
                         $scope.isPreview = true;
-                    }
+                    };
                     
                     $scope.openSource = function() {
                         var base64Data = btoa($scope.markdown.inputText);
                         $window.open('data:text/plain;base64,' + base64Data);
-                    }
+                    };
                 }]);
 
         })();
