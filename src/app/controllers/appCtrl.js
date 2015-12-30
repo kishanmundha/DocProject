@@ -1,6 +1,6 @@
 ﻿
         (function () {
-            'use strict'
+            'use strict';
 
             var app = angular.module('app');
 
@@ -52,23 +52,25 @@
                                 //console.debug(tags);
 
                                 var s = tags.filter(function (tag) {
-                                    return tag.toLowerCase().indexOf(terms[i].toLowerCase()) != -1;
+                                    return tag.toLowerCase().indexOf(terms[i].toLowerCase()) !== -1;
                                 });
 
                                 //console.debug(s);
 
-                                return 0 != s.length
+                                return 0 !== s.length;
                                 //console.debug(item);
                             });
 
-                            if (i == 0) {
+                            if (i === 0) {
                                 results = result;
                             }
                             else {
+                                // This query reset results array with filter
+                                // match more word
                                 results = results.filter(function (item) {
-                                    return 0 != result.filter(function (item2) {
-                                        return item == item2;
-                                    });
+                                    return 0 !== result.filter(function (item2) {
+                                        return item === item2;
+                                    }).length;
                                 });
                             }
                         }
@@ -77,7 +79,7 @@
                         $scope.searchResult = results;
 
                         //console.debug($scope.searchResult);
-                    }
+                    };
 
                 }]);
 
