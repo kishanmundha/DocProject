@@ -61,10 +61,10 @@
             <!-- Search result -->
             <div class="container" ng-show="search">
                 <div class="col-xs-12">
-                    <div class="list-group" ng-if="searchResult.length != 0">
+                    <div class="list-group" ng-if="searchResult.length !== 0">
                         <a ng-href="/docs/{{project.projectId}}/{{doc.docId}}" class="list-group-item" ng-repeat="doc in searchResult" ng-bind="doc.docName" ng-click="setNavigationVisiblity(false)"></a>
                     </div>
-                    <div ng-if="searchResult.length == 0" style="text-align: center;">
+                    <div ng-if="searchResult.length === 0" style="text-align: center;">
                         <h4>No result found</h4>
                     </div>
                     <div class="clearfix"></div>
@@ -82,7 +82,7 @@
                     <div ng-repeat="category in project.categories">
                         <h6 ng-bind="category.display" style="text-transform: uppercase; font-weight: bold; color:#777;"></h6>
                         <div class="list-group">
-                            <a ng-href="/docs/{{project.projectId}}/{{doc.docId}}" class="list-group-item" ng-class="{'active': doc.docId == currentDoc.docId, 'list-group-item-danger': doc.noDoc === true}" ng-repeat="doc in project.docs| filter:{'category':category.name}:true | filter:{'noList':false}" ng-bind="doc.docName" ng-click="setNavigationVisiblity(false)"></a>
+                            <a ng-href="/docs/{{project.projectId}}/{{doc.docId}}" class="list-group-item" ng-class="{'active': doc.docId === currentDoc.docId, 'list-group-item-danger': doc.noDoc === true}" ng-repeat="doc in project.docs| filter:{'category':category.name}:true | filter:{'noList':false}" ng-bind="doc.docName" ng-click="setNavigationVisiblity(false)"></a>
                         </div>
                     </div>
                 </div>
