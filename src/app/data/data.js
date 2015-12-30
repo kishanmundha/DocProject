@@ -2,6 +2,14 @@
 
     var data = [];
 
+    /**
+     * @public
+     * @type Class
+     * @description Project constructor
+     * @param {String} projectId
+     * @param {String} projectName
+     * @returns {Object} Project instance
+     */
     var project = function (projectId, projectName) {
 
         var ERROR_DUPLICATE_CATEGORY = 'Duplicate category not allowed';
@@ -14,6 +22,13 @@
 
         var projectData = {'categories': [], 'docs': []};
 
+        /**
+         * @public
+         * @description Add a category
+         * @param {String} name
+         * @param {String} displayText
+         * @returns {Object} return instance of project
+         */
         var addCategory = function (name, displayText) {
             if (projectData.projectId) {
                 try {
@@ -39,8 +54,23 @@
             return this;
         };
 
+        /***
+         * @public
+         * @description Add document mapping
+         * @param {String} docId
+         * @param {String} docName
+         * @param {String} category (if this field is object then
+         *  category will set empty and options replace by this)
+         * @param {Object} options
+         * @returns {Object} return instance of project
+         */
         var addDoc = function (docId, docName, category, options) {
             if (projectData.projectId) {
+
+                if (Object.prototype.toString.call(category) === '[object Object]') {
+                    options = category;
+                    category = '';
+                }
 
                 try {
 
@@ -63,10 +93,10 @@
                     doc.docName = docName;
                     doc.category = category || '';
 
-                    doc.fileName = options.fileName;
-                    doc.tags = options.tags;
-                    doc.noDoc = options.noDoc;
-                    doc.noList = options.noList;
+                    doc.fileName = options.fileName || docId;
+                    doc.tags = options.tags || '';
+                    doc.noDoc = options.noDoc || false;
+                    doc.noList = options.noList || false;
 
                     projectData.docs.push(doc);
 
@@ -79,6 +109,7 @@
             return this;
         };
 
+        // validate and add project
         (function () {
             try {
                 if (!projectId)
@@ -110,10 +141,18 @@
         this.addDoc = addDoc;
     };
 
+    /**
+     * @public
+     * @description Add project to list
+     * @param {String} projectId
+     * @param {String} projectName
+     * @returns {Object} Instance of project
+     */
     project.add = function (projectId, projectName) {
         return new project(projectId, projectName);
     };
 
+    project.data = data;
     window.project = project;
     window.data = data;
 
