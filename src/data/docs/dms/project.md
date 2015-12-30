@@ -12,5 +12,7 @@ This code return instance of project
 
 ### Parameters
 
-* projectId : This is a unique project id
-* projectName : This is a text which was display in list
+| Parameter   | Type | Description | Remark |
+| ----------- | ---- | ----------- | ------ |
+| projectId   | string | A unique project Id for this project | Required |
+| projectName | string | Display string for project which was display in list | Required |

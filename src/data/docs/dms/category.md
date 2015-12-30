@@ -12,5 +12,7 @@ project.add(projectId, projectName)
 
 ### Parameters
 
-* name : This is a unique category name
-* displayText : This is a text which was display
+| Parameter   | Type | Description | Remark |
+| ----------- | ---- | ----------- | ------ |
+| name        | string | A unique category name | Required |
+| displayText | string | Display string for category which was display in list | Required |
