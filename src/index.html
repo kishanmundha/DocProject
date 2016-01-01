@@ -18,6 +18,7 @@
         <script src="/bower_components/angular/angular.min.js"></script>
         <script src="/bower_components/angular-route/angular-route.min.js"></script>
         <script src="/bower_components/angular-sanitize/angular-sanitize.min.js"></script>
+        <script src="/bower_components/angular-animate/angular-animate.min.js"></script>
 
         <script src="/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 
@@ -80,15 +81,18 @@
                     </div>
                     -->
                     <div ng-repeat="category in project.categories">
-                        <h6 ng-bind="category.display" style="text-transform: uppercase; font-weight: bold; color:#777;"></h6>
+                        <h6 ng-if="category.display" ng-bind="category.display" style="text-transform: uppercase; font-weight: bold; color:#777;"></h6>
                         <div class="list-group">
                             <a ng-href="/docs/{{project.projectId}}/{{doc.docId}}" class="list-group-item" ng-class="{'active': doc.docId === currentDoc.docId, 'list-group-item-danger': doc.noDoc === true}" ng-repeat="doc in project.docs| filter:{'category':category.name}:true | filter:{'noList':false}" ng-bind="doc.docName" ng-click="setNavigationVisiblity(false)"></a>
                         </div>
                     </div>
                 </div>
-                <div class="col-xs-12" ng-class="{'hidden-xs': isNavigationShow, 'col-sm-7':project, 'col-md-8':project, 'col-lg-9':project, 'col-sm-12':!project, 'col-md-12':!project, 'col-lg-12':!project}">
-                    <div>
-                        <button class="btn btn-default visible-xs" ng-show="project.docs.length" ng-click="setNavigationVisiblity(true)">Show navigation</button>
+                <div class="col-xs-12" ng-class="{'hidden-xs': isNavigationShow, 'col-sm-7':project, 'col-md-8':project, 'col-lg-9':project, 'col-sm-12':!project, 'col-md-12':!project, 'col-lg-12':!project}"
+                     style="padding-left: 0px; padding-right: 0px;">
+                    <div ng-show="project.docs.length" class="visible-xs">
+                        <button class="btn btn-default" ng-click="setNavigationVisiblity(true)">Show navigation</button>
+                        <div class="clearfix"></div>
+                        <br/>
                     </div>
                     <div ng-view="" class="view-animate"></div>
                 </div>
@@ -100,13 +104,19 @@
         <script src="/app/data/data.js"></script>
         <script src="/app/app.js"></script>
         <script src="/app/services/docService.js"></script>
+        <script src="/app/services/localStorageService.js"></script>
+        <script src="/app/services/authInterceptorFactory.js"></script>
+        <script src="/app/services/authService.js"></script>
         <script src="/app/directives/autoGrowDirective.js"></script>
         <script src="/app/controllers/appCtrl.js"></script>
         <script src="/app/controllers/projectListCtrl.js"></script>
         <script src="/app/controllers/docCtrl.js"></script>
         <script src="/app/controllers/editDocCtrl.js"></script>
+        <script src="/app/controllers/loginCtrl.js"></script>
         <!-- /build -->
-        
+
+        <script src="/config.js"></script>
+
         <!-- build:js /js/template.min.js -->
         <!-- /build -->
 
