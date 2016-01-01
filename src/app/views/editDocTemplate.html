@@ -1,25 +1,54 @@
-<div>
-    <ul class="nav nav-tabs">
-        <li role="presentation" ng-class="{'active':!isPreview}" ng-click="isPreview = false"><a href="#">Edit</a></li>
-        <li role="presentation" ng-class="{'active':isPreview}" ng-click="showPreview()"><a href="#">Preview</a></li>
-    </ul>
-    <div style="margin-top:20px;">
-        <div ng-show="!isPreview">
-            <textarea style="font-family: Consolas,'Courier New'; font-size:13px;"
-                      ng-model="markdown.inputText" class="form-control" auto-grow>
-            </textarea>
-            <hr/>
-            <div class="panel-body">
-                <div class="pull-right">
-                    <button class="btn btn-default" title="Open source in new window" ng-click="openSource()">View Source</button>
-                    <!--<button class="btn btn-success" ng-disabled="true" title="Plugin not available">Save</button>-->
-                </div>
-                <div class="clearfix"></div>
-            </div>
-            <!--<div class="alert alert-info" role="alert">Plugin for save not available right now. You can use "View Source" button to open source in new window and save it.</div>-->
+<style>
+    .removeCacheBtn {
+        -webkit-transition:all linear 0.5s;
+        transition:all linear 0.5s;
+    }
+
+    .removeCacheBtn.ng-hide {
+        opacity:0;
+    }
+
+</style>
+
+<div ng-if="!config.enableEditDoc" class="alert alert-warning text-center">
+    <h3>Access denied</h3>
+</div>
+
+<div ng-if="config.enableEditDoc" class="panel panel-default">
+    <div class="panel-heading" style="background-color: white;">
+        <div class="pull-right removeCacheBtn" ng-show="cacheTime">
+            <!--<span ng-bind="cacheTime | date:'hh:mm:ss'"></span>-->
+            <span>Data saving auto in 10 seconds</span>
+            <button class="btn btn-danger" ng-click="removeCache()" ng-disabled="!cacheTime">Remove cache</button>
         </div>
-        <div ng-show="isPreview">
-            <div ng-bind-html="markdown.outputText" id="docOutput" style="overflow-x: auto;"></div>
+        <ul class="nav nav-tabs">
+            <li role="presentation" ng-class="{
+                    'active'
+                    :!isPreview}" ng-click="isPreview = false"><a href="#">Edit</a></li>
+            <li role="presentation" ng-class="{
+                    'active':isPreview}" ng-click="showPreview();
+                                isPreview = true"><a href="#">Preview</a></li>
+        </ul>
+    </div>
+    <div class="panel-body">
+        <div style="margin-top:20px;">
+            <div ng-show="!isPreview">
+                <textarea style="font-family: Consolas,'Courier New'; font-size:13px;"
+                          ng-model="markdown.inputText" class="form-control" auto-grow>
+                </textarea>
+                <!--<div class="alert alert-info" role="alert">Plugin for save not available right now. You can use "View Source" button to open source in new window and save it.</div>-->
+            </div>
+            <div ng-show="isPreview">
+                <div ng-bind-html="markdown.outputText" id="docOutput" style="overflow-x: auto;"></div>
+            </div>
         </div>
     </div>
+    <div class="panel-footer" style="background-color: white;">
+        <div class="pull-right">
+            <button class="btn btn-default" title="Open source in new window" ng-click="openSource()">View Source</button>
+            <button class="btn btn-success" ng-disabled="!config.enableDocSave" title="{{config.enableDocSave?'Save':'Plugin not available'}}" ng-click="save()">Save</button>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+
 </div>
