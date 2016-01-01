@@ -14,6 +14,8 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-processhtml');
     grunt.loadNpmTasks('grunt-html2js');
 
+    grunt.loadNpmTasks('grunt-karma');
+
     // Project configuration.
     grunt.initConfig({
         'pkg': grunt.file.readJSON('package.json'),
@@ -28,6 +30,7 @@ module.exports = function (grunt) {
                     'src/bower_components/angular/angular.min.js',
                     'src/bower_components/angular-route/angular-route.min.js',
                     'src/bower_components/angular-sanitize/angular-sanitize.min.js',
+                    'src/bower_components/angular-animate/angular-animate.min.js',
                     'src/bower_components/bootstrap/dist/js/bootstrap.min.js',
                     'src/bower_components/marked/lib/marked.js',
                     'src/bower_components/highlightjs/highlight.pack.js',
@@ -79,6 +82,7 @@ module.exports = function (grunt) {
                     {expand: true, cwd: 'src', src: ['favicon.ico'], dest: 'publish/'},
                     {expand: true, cwd: 'src', src: ['data.js'], dest: 'publish/data/'},
                     {expand: true, cwd: 'src', src: ['server.js'], dest: 'publish/'},
+                    {expand: true, cwd: 'src', src: ['config.js'], dest: 'publish/'},
                     {expand: true, cwd: 'src/bower_components/bootstrap/dist/fonts', src: ['*.*'], dest: 'publish/fonts/'},
                     //{expand: true, cwd: 'dist/', src: ['*.html'], dest: 'publish/'},
                     // includes files within path and its sub-directories
@@ -134,8 +138,15 @@ module.exports = function (grunt) {
                 src: ['src/app/**/*.html'],
                 dest: 'dist/js/template.js'
             }
-        }});
+        },
+        karma: {
+            unit: {
+                configFile: 'test/karma.conf.js'
+            }
+        }
+    });
 
+    grunt.registerTask('test', ['karma']);
     grunt.registerTask('minify', ['clean:minify', 'concat', 'html2js', 'uglify', 'cssmin']);
     grunt.registerTask('publish', ['clean:publish', 'minify', 'processhtml', 'copy']);
     grunt.registerTask('release', ['publish', 'compress']);
