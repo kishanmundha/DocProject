@@ -1,7 +1,12 @@
-<div style="position: relative;">
-    <div style="position:absolute; right: 0px; top:0px;" class="edit-button">
-        <a class="btn btn-default" ng-href="/docs/edit/{{projectId}}/{{docId}}"><span class="glyphicon glyphicon-pencil"></span></a>
+<div class="panel panel-default">
+    <div class="panel-body">
+        <div style="position: relative;">
+            <div style="position:absolute; right: 0px; top:0px;" class="edit-button" ng-if="enableEditDoc">
+                <a class="btn btn-default" ng-href="/docs/edit/{{projectId}}/{{docId}}"><span class="glyphicon glyphicon-pencil"></span></a>
+            </div>
+            ﻿<div ng-bind-html="markdown.outputText" id="docOutput" style="overflow-x: auto;"></div>
+            <div ng-show="lastModified"><i style="color:#aaa;" class="pull-right" title="{{lastModified| date:'EEEE, MMMM d, yyyy \'at\' h:mm a'}}">Last modified about <span ng-bind="getDateStringAgo(lastModified)"></span> ago</i></div>
+            <div class="clearfix"></div>
+        </div>
     </div>
-    ﻿<div ng-bind-html="markdown.outputText" id="docOutput" style="overflow-x: auto;"></div>
-    <div ng-show="lastModified"><i style="color:#aaa;" class="pull-right" title="{{lastModified | date:'EEEE, MMMM d, yyyy \'at\' h:mm a'}}">Last modified about <span ng-bind="getDateStringAgo(lastModified)"></span> ago</i></div>
 </div>
