@@ -4,9 +4,10 @@
  *********************************************************/
 
 html, body {
-    /*background-color: #edf0f5 !important;*/
+    background-color: #f5f4f9 !important;
 }
 
+/*
 .view-animate.ng-enter, .view-animate.ng-leave {
     transition: all cubic-bezier(0.250, 0.460, 0.450, 0.940) 0.5s;
     display: block;
@@ -25,6 +26,7 @@ html, body {
 .view-animate.ng-leave.ng-leave-active {
     opacity: 0;
 }
+*/
 
 /* Remove sppiner of number input */
 input[type=number]::-webkit-outer-spin-button,
@@ -121,6 +123,23 @@ a[ng-click] {
     text-align: justify;
 }
 
+#docOutput h1 {
+
+}
+
+#docOutput h2 {
+
+}
+
+#docOutput h3 {
+    /*border-bottom: 1px solid #eee;
+    padding-bottom: 5px;*/
+}
+
+#docOutput h4 {
+
+}
+
 /* Edit button in document page */
 .edit-button {
     opacity: 0.4;
@@ -128,4 +147,22 @@ a[ng-click] {
 
 .edit-button:hover {
     opacity: 1;
+}
+
+/* alert message box */
+.msg {
+    padding: 5px 10px;
+    margin-bottom: 10px;
+    border-width: 1px;
+    border-style: solid;
+    border-radius: 2px;
+}
+
+.msg-danger {
+    border-color: #dd3c10;
+    background-color: #ffebe8;
+}
+.msg-success {
+    border-color: #3cdd10;
+    background-color: #ebffe8;
 }
