@@ -21,6 +21,7 @@
         <script src="/bower_components/angular-animate/angular-animate.min.js"></script>
 
         <script src="/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+        <script src="/bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
 
         <script src="/bower_components/marked/lib/marked.js"></script>
         <script src="/bower_components/highlightjs/highlight.pack.js"></script>
@@ -61,7 +62,7 @@
 
             <!-- Search result -->
             <div class="container" ng-show="search">
-                <div class="col-xs-12">
+                <div class="col-xs-12 no-padding-xs">
                     <div class="list-group" ng-if="searchResult.length !== 0">
                         <a ng-href="/docs/{{project.projectId}}/{{doc.docId}}" class="list-group-item" ng-repeat="doc in searchResult" ng-bind="doc.docName" ng-click="setNavigationVisiblity(false)"></a>
                     </div>
@@ -74,12 +75,12 @@
             </div>
 
             <div class="container">
-                <div class="col-sm-5 col-md-4 col-lg-3" ng-class="{'hidden-xs': !isNavigationShow, 'hidden':!project}">
-                    <!--
-                    <div class="list-group">
-                        <a ng-href="/docs/{{project.projectId}}/{{doc.docId}}" class="list-group-item" ng-class="{'active': doc.docId == currentDoc.docId}" ng-repeat="doc in project.docs" ng-bind="doc.docName" ng-click="setNavigationVisiblity(false)"></a>
-                    </div>
-                    -->
+                <div ng-show="project.docs.length" class="visible-xs" style="padding-left: 0px; padding-right: 0px;">
+                    <button class="btn btn-default col-xs-12" ng-click="setNavigationVisiblity(!isNavigationShow)">Show/Hide navigation</button>
+                    <div class="clearfix"></div>
+                    <br/>
+                </div>
+                <div class="col-xs-12 col-sm-5 col-md-4 col-lg-3 no-padding-xs" ng-class="{'hidden-xs': !isNavigationShow, 'hidden':!project}">
                     <div ng-repeat="category in project.categories">
                         <h6 ng-if="category.display" ng-bind="category.display" style="text-transform: uppercase; font-weight: bold; color:#777;"></h6>
                         <div class="list-group">
@@ -87,13 +88,8 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-xs-12" ng-class="{'hidden-xs': isNavigationShow, 'col-sm-7':project, 'col-md-8':project, 'col-lg-9':project, 'col-sm-12':!project, 'col-md-12':!project, 'col-lg-12':!project}"
-                     style="padding-left: 0px; padding-right: 0px;">
-                    <div ng-show="project.docs.length" class="visible-xs">
-                        <button class="btn btn-default" ng-click="setNavigationVisiblity(true)">Show navigation</button>
-                        <div class="clearfix"></div>
-                        <br/>
-                    </div>
+                <div class="col-xs-12 no-padding-xs" ng-class="{'hidden-xs': isNavigationShow, 'col-sm-7':project, 'col-md-8':project, 'col-lg-9':project, 'col-sm-12':!project, 'col-md-12':!project, 'col-lg-12':!project}"
+                     style="padding-left: 0px;">
                     <div ng-view="" class="view-animate"></div>
                 </div>
             </div>
@@ -107,7 +103,9 @@
         <script src="/app/services/localStorageService.js"></script>
         <script src="/app/services/authInterceptorFactory.js"></script>
         <script src="/app/services/authService.js"></script>
+        <script src="/app/services/loginModalService.js"></script>
         <script src="/app/directives/autoGrowDirective.js"></script>
+        <script src="/app/directives/loginDirective.js"></script>
         <script src="/app/controllers/appCtrl.js"></script>
         <script src="/app/controllers/projectListCtrl.js"></script>
         <script src="/app/controllers/docCtrl.js"></script>
@@ -123,25 +121,25 @@
 
         <script>
 
-                                    $('#body_content').css('visibility', 'visible');
+                            $('#body_content').css('visibility', 'visible');
 
-                                    marked.setOptions({
-                                        renderer: new marked.Renderer(),
-                                        gfm: true,
-                                        tables: true,
-                                        breaks: false,
-                                        pedantic: false,
-                                        sanitize: false, // if false -> allow plain old HTML ;)
-                                        smartLists: true,
-                                        smartypants: false,
-                                        highlight: function (code, lang) {
-                                            if (lang) {
-                                                return hljs.highlight(lang, code).value;
-                                            } else {
-                                                return hljs.highlightAuto(code).value;
-                                            }
-                                        }
-                                    });
+                            marked.setOptions({
+                                renderer: new marked.Renderer(),
+                                gfm: true,
+                                tables: true,
+                                breaks: false,
+                                pedantic: false,
+                                sanitize: false, // if false -> allow plain old HTML ;)
+                                smartLists: true,
+                                smartypants: false,
+                                highlight: function (code, lang) {
+                                    if (lang) {
+                                        return hljs.highlight(lang, code).value;
+                                    } else {
+                                        return hljs.highlightAuto(code).value;
+                                    }
+                                }
+                            });
         </script>
 
         <script src="/data/data.js"></script>
