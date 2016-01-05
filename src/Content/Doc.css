@@ -166,3 +166,29 @@ a[ng-click] {
     border-color: #3cdd10;
     background-color: #ebffe8;
 }
+.msg-warning {
+    border-color: #e2c822;
+    background-color: #fff9d7;
+}
+
+/* width div for device */
+
+@media (max-width: 768px) {
+    .no-padding-xs {
+        padding-left: 0px !important;
+        padding-right: 0px !important;
+    }
+}
+
+/* col-sm */
+@media (min-width: 768px) {
+
+}
+
+@media (min-width: 992px) {
+
+}
+
+@media (min-width: 1200px) {
+
+}
