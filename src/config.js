@@ -6,11 +6,11 @@
     app.constant('config', {
         debugEnabled: true, // log enabled
         enableEditDoc: true,
-        enableDocSave: false,
+        enableDocSave: true,
         editDoc: {
-            autoLocalSave: false,
-            autoSaveDuration: 1000 * 10,   // 10 seconds
-            autoSaveExpiry: 1000 * 60 * 60    // 1 hour
+            autoLocalSave: true,
+            autoSaveDuration: 60,   // 10 seconds
+            autoSaveExpiry: 60    // 1 hour
             // allow to guest
         },
         apiServiceBaseUri: '/api/',
