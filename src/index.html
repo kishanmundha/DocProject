@@ -31,7 +31,7 @@
         <!--<script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>-->
 
     </head>
-    <body ng-app="app" ng-controller="appCtrl">
+    <body ng-app="app" ng-controller="appCtrl" ng-strict-di>
 
         <!-- no script section -->
         <noscript>
@@ -45,18 +45,55 @@
         <div id="body_content" style="visibility: hidden;">
 
             <nav class="navbar navbar-default">
-                <div class="pull-left">
-                    <div>
-                        <a class="navbar-brand" ng-href="/docs"><span class="visible-xs">Doc</span><span class="hidden-xs">Documentation</span></a>
-                    </div>
-                </div>
-                <div class="pull-right" style="padding-left: 15px; padding-right: 15px; padding-top: 10px; margin-left: auto; margin-right: auto;">
-                    <!-- Collect the nav links, forms, and other content for toggling -->
-                    <!-- /.navbar-collapse -->
-                    <div ng-show="project">
-                        <input type="text" class="form-control input-sm" ng-model="search" ng-change="searchPage(search)" placeholder="Search" />
-                    </div>
-                </div>
+				<div class="container">
+					<div class="pull-left no-padding-xs" style="padding-left: 15px; padding-right: 15px; margin-left: auto; margin-right: auto;">
+						<div>
+							<a class="navbar-brand no-padding-xs" ng-href="/docs"><span class="visible-xs">Doc</span><span class="hidden-xs">Documentation</span></a>
+						</div>
+					</div>
+					<div class="pull-right no-padding-xs" style="padding-left: 15px; padding-right: 15px; padding-top: 10px; margin-left: auto; margin-right: auto;">
+						<!-- Collect the nav links, forms, and other content for toggling -->
+						<!-- /.navbar-collapse -->
+						<div ng-show="project" class="pull-left">
+							<input type="text" class="form-control input-sm" ng-model="search" ng-change="searchPage(search)" placeholder="Search" />
+						</div>
+						<ul class="nav navbar-nav navbar-right pull-right" style="margin-right:0px;margin:0px;" ng-if="isAuthenticated()">
+							<li class="dropdown">
+								<a href="#" class="dropdown-toggle" data-toggle="dropdown" style="padding-top:5px; padding-bottom:15px;background-color:transparent;">
+									<strong class="hidden-xs"><span ng-bind="getUserFirstName()"></span><span class="caret"></span></strong>
+									<strong class="visible-xs"><span class="glyphicon glyphicon-user"></span></strong>
+									
+								</a>
+								<ul class="dropdown-menu">
+									<li>
+										<div class="navbar-login" style="width:280px; padding:10px; padding-bottom: 0px;">
+											<div class="row">
+												<div class="col-xs-4">
+													<p class="text-center">
+														<span class="glyphicon glyphicon-user icon-size" style="font-size:87px"></span>
+													</p>
+												</div>
+												<div class="col-xs-8">
+													<p class="text-left"><strong ng-bind="getUserFullName()"></strong></p>
+													<p class="text-left small" ng-bind="getUserEmail()"></p>
+													<p class="text-left">
+														<a href="#" class="btn btn-danger btn-block btn-sm" ng-click="logOut()">Logout</a>
+													</p>
+												</div>
+											</div>
+										</div>
+									</li>
+								</ul>
+							</li>
+						</ul>
+						<!--
+						<div class="pull-right">
+							<span class="glyphicon glyphicon-user" style="color:white"></span>
+						</div>
+						<div ng-bind="userFirstName()"></div>
+						-->
+					</div>
+				</div>
                 <!-- /.container-fluid -->
             </nav>
 
@@ -104,6 +141,7 @@
         <script src="/app/services/authInterceptorFactory.js"></script>
         <script src="/app/services/authService.js"></script>
         <script src="/app/services/loginModalService.js"></script>
+        <script src="/app/services/messageModalService.js"></script>
         <script src="/app/directives/autoGrowDirective.js"></script>
         <script src="/app/directives/loginDirective.js"></script>
         <script src="/app/controllers/appCtrl.js"></script>
