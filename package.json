@@ -22,6 +22,7 @@
     "grunt-lib-contrib": "0.7.1",
     "grunt-processhtml": "^0.3.8",
     "grunt-protractor-runner": "3.0.0",
+    "grunt-string-replace": "^1.2.1",
     "http-server": "^0.6.1",
     "jshint": "2.9.1-rc2",
     "karma": "^0.13.0",

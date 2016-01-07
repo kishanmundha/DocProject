@@ -1,3 +1,5 @@
+"use strict";
+
 module.exports = function(config){
   config.set({
 
@@ -6,7 +8,7 @@ module.exports = function(config){
     files : [
       'src/bower_components/angular/angular.js',
       'src/bower_components/angular-route/angular-route.js',
-      'src/bower_components/angular-resource/angular-resource.js',
+      //'src/bower_components/angular-resource/angular-resource.js',
       'src/bower_components/angular-animate/angular-animate.js',
       'src/bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js',
       'src/bower_components/angular-mocks/angular-mocks.js',

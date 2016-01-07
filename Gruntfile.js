@@ -1,3 +1,5 @@
+"use strict";
+
 /* 
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -15,6 +17,8 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-html2js');
 
     grunt.loadNpmTasks('grunt-karma');
+    grunt.loadNpmTasks('grunt-protractor-runner');
+    grunt.loadNpmTasks('grunt-contrib-jshint');
 
     // Project configuration.
     grunt.initConfig({
@@ -44,6 +48,25 @@ module.exports = function (grunt) {
                     'src/bower_components/highlightjs/styles/github.css'
                 ],
                 'dest': 'dist/css/lib.css'
+            },
+            build: {
+                'bin/debug/js/app.js': ['src/app/**/*.js'],
+                //'bin/debug/js/lib.js': [],
+                'bin/debug/js/lib.min.js': [
+                    'src/bower_components/jquery/dist/jquery.min.js',
+                    'src/bower_components/angular/angular.min.js',
+                    'src/bower_components/angular-route/angular-route.min.js',
+                    'src/bower_components/angular-sanitize/angular-sanitize.min.js',
+                    'src/bower_components/angular-animate/angular-animate.min.js',
+                    'src/bower_components/bootstrap/dist/js/bootstrap.min.js',
+                    'src/bower_components/marked/lib/marked.js',
+                    'src/bower_components/highlightjs/highlight.pack.js',
+                ],
+                'dist/css/lib.css': [
+                    'src/bower_components/bootstrap/dist/css/bootstrap.css',
+                    'src/Content/Doc.css',
+                    'src/bower_components/highlightjs/styles/github.css'
+                ]
             }
         },
         uglify: {
@@ -67,7 +90,9 @@ module.exports = function (grunt) {
         },
         clean: {
             'minify': ['dist/**/*'],
-            'publish': ['publish/**/*']
+            'publish': ['publish/**/*'],
+            'build': ['bin/debug/**/*'],
+            'release': ['bin/release/**/*']
         },
         copy: {
             main: {
@@ -91,8 +116,19 @@ module.exports = function (grunt) {
                     //{expand: true, cwd: 'path/', src: ['**'], dest: 'dest/'},
                     // flattens results to a single level
                     //{expand: true, flatten: true, src: ['path/**'], dest: 'dest/', filter: 'isFile'},
-                ],
+                ]
             },
+            build: {
+                files: [
+                    {expand: true, cwd: 'src/data/', src: ['**/*.*'], dest: 'bin/debug/data/'},
+                    {expand: true, cwd: 'src/img/', src: ['**/*.*'], dest: 'bin/debug/img/'},
+                    {expand: true, cwd: 'src', src: ['favicon.ico'], dest: 'bin/debug/'},
+                    {expand: true, cwd: 'src', src: ['data.js'], dest: 'bin/debug/data/'},
+                    {expand: true, cwd: 'src', src: ['server.js'], dest: 'bin/debug/'},
+                    {expand: true, cwd: 'src', src: ['config.js'], dest: 'bin/debug/'},
+                    {expand: true, cwd: 'src/bower_components/bootstrap/dist/fonts', src: ['*.*'], dest: 'bin/debug/fonts/'},
+                ]
+            }
         },
         processhtml: {
             'dist': {
@@ -136,18 +172,67 @@ module.exports = function (grunt) {
             },
             main: {
                 src: ['src/app/**/*.html'],
-                dest: 'dist/js/template.js'
+                dest: 'bin/debug/js/template.js'
             }
         },
         karma: {
             unit: {
-                configFile: 'test/karma.conf.js'
+                configFile: 'test/karma.conf.js',
+                singleRun: true
+            }
+        },
+        protractor: {
+            /*options: {
+             configFile: "test/protractor-conf.js", // Default config file
+             keepAlive: true, // If false, the grunt process stops when the test fails.
+             noColor: false, // If true, protractor will not use colors in its output.
+             args: {
+             // Arguments passed to the command
+             }
+             },*/
+            all: {// Grunt requires at least one target to run so you can simply put 'all: {}' here too.
+                options: {
+                    configFile: "test/protractor-conf.js", // Target-specific config file
+                    keepAlive: true, // If false, the grunt process stops when the test fails.
+                    noColor: false, // If true, protractor will not use colors in its output.
+                    args: {} // Target-specific arguments
+                }
+            }
+        },
+        jshint: {
+            all: ['Gruntfile.js', 'src/**/*.js', 'test/**/*.js'],
+            options: {
+                jshintrc: true,
+                //ignores: ['src/bower_components/**/*.js']
             }
         }
     });
 
-    grunt.registerTask('test', ['karma']);
-    grunt.registerTask('minify', ['clean:minify', 'concat', 'html2js', 'uglify', 'cssmin']);
-    grunt.registerTask('publish', ['clean:publish', 'minify', 'processhtml', 'copy']);
+    grunt.registerTask('clean:all', ['clean:build', 'clean:release']);
+    grunt.registerTask('test', ['karma', 'protractor']);
+
+    grunt.registerTask('minify', ['concat', 'html2js', 'uglify', 'cssmin']);
+    grunt.registerTask('publish', ['minify', 'processhtml', 'copy']);
     grunt.registerTask('release', ['publish', 'compress']);
+
+    grunt.registerTask('build:debug', ['concat', 'html2js', 'copy:build']);
+    grunt.registerTask('build:release', ['clean:all', 'build', 'test', 'uglify', 'cssmin', 'processhtml', 'copy:release']);
+    grunt.registerTask('release', ['build:release', 'compress']);
+
+    /*
+     src folder use css - less
+     src folder use orignal files
+     
+     build folder use css - concat
+     js concat
+     html concat
+     everything was concat
+     envierment development
+     
+     in debug we run build code
+     
+     release folder use minify all build
+     
+     in run we run release code
+     */
 };

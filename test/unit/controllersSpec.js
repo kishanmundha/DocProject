@@ -100,7 +100,7 @@ describe('app controllers', function () {
             routeParams.docId = 'doc2';
             ctrl = controller('docCtrl', {$scope: scope, $routeParams: routeParams, $sce: sce, docService: docService});
             expect(scope.markdown.outputText).toBeDefined();
-            var outputText = scope.markdown.outputText.$$unwrapTrustedValue().trim();
+            outputText = scope.markdown.outputText.$$unwrapTrustedValue().trim();
             expect(outputText).toBe(expectHtml);
         });
 

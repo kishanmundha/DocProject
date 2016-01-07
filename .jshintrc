@@ -1,0 +1,36 @@
+{
+	"globalstrict": true,
+	"globals": {
+		"angular": false,
+		"describe": false,
+		"it": false,
+		"expect": false,
+		"beforeEach": false,
+		"afterEach": false,
+		"module": false,
+		"inject": false,
+		"Project": false,
+		"require": false,
+		"console": false,
+		"setTimeout": false,
+		"__dirname": false,
+		"browser": false,
+		"element": false,
+		"by": false
+	},
+	"predef": [
+		"jasmine",
+		"describe",
+		"xdescribe",
+		"before",
+		"beforeEach",
+		"after",
+		"afterEach",
+		"it",
+		"xit",
+		"it",
+		"inject",
+		"expect",
+		"spyOn"
+	]
+}

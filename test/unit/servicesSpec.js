@@ -21,9 +21,9 @@ describe('service', function () {
         var $httpBackend, docService;
 
         beforeEach(function () {
-            project.data.length = 0;
+            Project.data.length = 0;
 
-            project.add('dms', 'Help for Document Management')
+            Project.add('dms', 'Help for Document Management')
                     .addCategory('functions', 'Functions')
                     .addDoc('about', 'About', '', {"fileName": "dms"});
         });
@@ -52,7 +52,7 @@ describe('service', function () {
 
             expect(p).not.toBeDefined();
 
-            var p = docService.getProject('dms');
+            p = docService.getProject('dms');
 
             expect(p).toEqualData({
                 projectId: 'dms',
@@ -92,6 +92,6 @@ describe('service', function () {
             
         });
 
-    })
+    });
 
 });
