@@ -3,7 +3,7 @@
  * Documention for use this project
  */
 
-project.add('dms', 'Help for Document Management')
+Project.add('dms', 'Help for Document Management')
         .addCategory('functions', 'Functions')
         .addDoc('about', 'About', '', {"fileName": "dms"})
         .addDoc('markdown', 'Markdown', '')
