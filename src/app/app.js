@@ -1,7 +1,7 @@
 (function () {
     'use strict';
 
-    var app = angular.module('app', ['ngRoute', 'ngSanitize', 'ngAnimate']);
+    var app = angular.module('app', ['ngRoute', 'ngSanitize', 'ngAnimate', 'ui.bootstrap']);
 
     app.config(['$routeProvider', '$locationProvider', '$logProvider', '$httpProvider', 'config',
         function ($routeProvider, $locationProvider, $logProvider, $httpProvider, config) {

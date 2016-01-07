@@ -1,5 +1,7 @@
 (function () {
     'use strict';
+	
+	/* jshint laxbreak: true */
     var CONTENT_EMPTY_FILE = '<div>'
             + '<h3><span class="glyphicon glyphicon-warning-sign"></span> Content not found</h3>'
             + '<br/>'
@@ -8,15 +10,16 @@
             + '<p style="line-height:30px"><span class="glyphicon glyphicon-circle-arrow-right"></span> Check file, make sure file must not blank.</p>'
             + '</div>';
     var app = angular.module('app');
-    app.controller('docCtrl', ['$log', '$scope', '$routeParams', '$sce', 'docService', '$timeout', '$anchorScroll', 'config', function ($log, $scope, $routeParams, $sce, docService, $timeout, $anchorScroll, config) {
+    app.controller('docCtrl', ['$log', '$scope', '$routeParams', '$sce', 'docService', '$timeout', '$anchorScroll', 'config',
+		function ($log, $scope, $routeParams, $sce, docService, $timeout, $anchorScroll, config) {
             $log.debug('docCtrl controller called');
 
             var projectId = $routeParams.projectId;
             var docId = $routeParams.docId;
             $scope.projectId = projectId;
             $scope.docId = docId;
-            $scope.docContent;
-            $scope.lastModified;
+            $scope.docContent = undefined;
+            $scope.lastModified = undefined;
             $scope.config = config;
 
             $scope.enableEditDoc = config.enableEditDoc;

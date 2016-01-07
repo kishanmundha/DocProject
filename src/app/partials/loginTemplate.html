@@ -1,0 +1,27 @@
+<form>
+    <div class="msg msg-danger" ng-if="loginError" ng-bind="loginError"></div>
+    <div class="msg msg-success" ng-if="loginSuccess" ng-bind="loginSuccess"></div>
+    <div class="form-group">
+        <label for="username" class="control-label">Username</label>
+        <div class="input-group">
+            <span class="input-group-addon" id="sizing-addon2">
+                <span class="glyphicon glyphicon-user"></span>
+            </span>
+            <input id="username" type="text" ng-model="user.username" class="form-control" placeholder="Username" aria-describedby="sizing-addon2" ng-required autofocus>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="password" class="control-label">Password</label>
+        <div class="input-group">
+            <span class="input-group-addon" id="sizing-addon2">
+                <span class="glyphicon glyphicon-lock"></span>
+            </span>
+            <input id="password" type="password" ng-model="user.password" class="form-control" placeholder="Password" aria-describedby="sizing-addon2" ng-required>
+        </div>
+    </div>
+    <div class="pull-right">
+        <img ng-if="isLoging" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+        <button class="btn btn-success" ng-click="login()" ng-disabled="isLoging || loginSuccessed">Login</button>
+    </div>
+    <div class="clearfix"></div>
+</form>

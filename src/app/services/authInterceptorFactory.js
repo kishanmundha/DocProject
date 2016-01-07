@@ -21,16 +21,11 @@
             var _responseError = function (rejection) {
                 if (rejection.status === 401) {
                     var authService = $injector.get('authService');
+                    var loginModalService = $injector.get('loginModalService');
                     var authData = localStorageService.get('authorizationData');
 
-                    if (authData) {
-                        if (authData.useRefreshTokens) {
-                            $location.path('/refresh');
-                            return $q.reject(rejection);
-                        }
-                    }
                     authService.logOut();
-                    $location.path('/login');
+                    loginModalService.login();
                 }
                 return $q.reject(rejection);
             };

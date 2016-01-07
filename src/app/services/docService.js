@@ -3,8 +3,8 @@
 
     var app = angular.module('app');
 
-    app.service('docService', ['$log', '$http', '$rootScope',
-        function ($log, $http, $rootScope) {
+    app.service('docService', ['$log', '$http', '$rootScope', 'messageModalService',
+        function ($log, $http, $rootScope, messageModalService) {
 
             /**
              * @public
@@ -86,6 +86,7 @@
                 var filePath = '/data/docs/';
 
                 if (!docId) {
+                    /* jshint laxbreak: true */
                     filePath += project.projectId + '/'
                             + (project.fileName || project.projectId);
                 } else {
@@ -117,7 +118,7 @@
                 var path = getDocPath(projectId, docId);
 
                 if (!path) {
-                    callback && callback();
+                    callback && callback(); //jshint ignore:line
                     return;
                 }
 
@@ -133,12 +134,14 @@
 
                 $http.get(path).then(function (res) {
                     var headers = res.headers();
-                    callback && callback({
-                        'data': res.data,
-                        'lastModified': headers['last-modified']
-                    });
+                    if (callback) {
+                        callback({
+                            'data': res.data,
+                            'lastModified': headers['last-modified']
+                        });
+                    }
                 }, function (err) {
-                    callback && callback();
+                    callback && callback(); //jshint ignore:line
                 });
             };
 
@@ -149,7 +152,7 @@
              * @returns {undefined}
              */
             var setCurrentProject = function (projectId) {
-                var project = undefined;
+                var project = undefined; // jshint ignore:line
                 if (projectId) {
                     project = getProject(projectId);
                 }
@@ -166,8 +169,17 @@
                 $rootScope.$broadcast('changeDoc', {'docId': docId});
             };
 
-            var saveDocContent = function (projectId, docId, docContent) {
-                $http.post('/api/savedoc', {});
+            var saveDocContent = function (projectId, docId, docContent, callback) {
+                var docPath = getDocPath(projectId, docId);
+
+                $http.post('/api/savedoc', {path: docPath, content: docContent}).then(function (data) {
+                    callback && callback(); // jshint ignore:line
+                }, function (err, status) {
+                    if (status === 404) {
+                        var msg = err.data.error;
+                        messageModalService.show('Error', msg, 'danger');
+                    }
+                });
             };
 
             return {

@@ -3,10 +3,16 @@
 
     var app = angular.module('app');
 
-    app.controller('appCtrl', ['$scope', '$location', function ($scope, $location) {
+    app.controller('appCtrl', ['$scope', '$location', 'authService', function ($scope, $location, authService) {
             //$scope.project = {'projectId':'cati'};
-            $scope.currentDoc;
+            $scope.currentDoc = undefined;
             $scope.docList = [];
+            
+			$scope.isAuthenticated = authService.isAuthenticated;
+            $scope.getUserFirstName = authService.getFirstName;
+			$scope.getUserFullName = authService.getUserFullName;
+			$scope.getUserEmail = authService.getUserEmail;
+			$scope.logOut = authService.logOut;
 
             $scope.changeProject = function (project) {
                 $scope.project = project;
@@ -36,6 +42,8 @@
                 var terms = term.split(' ');
 
                 var results = [];
+				
+				/*jshint loopfunc: true */
                 for (var i = 0; i < terms.length; i++) {
                     var result = $scope.project.docs.filter(function (item) {
                         //console.debug(item.tags, item);
@@ -72,7 +80,6 @@
                         });
                     }
                 }
-                ;
 
                 $scope.searchResult = results;
 

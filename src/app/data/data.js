@@ -1,4 +1,5 @@
 (function (window) {
+    "use strict";
 
     var data = [];
 
@@ -10,7 +11,7 @@
      * @param {String} projectName
      * @returns {Object} Project instance
      */
-    var project = function (projectId, projectName) {
+    var Project = function (projectId, projectName) {
 
         var ERROR_DUPLICATE_CATEGORY = 'Duplicate category not allowed';
         var ERROR_EMPTY_PROJECT_ID = 'Empty ProjectId not allowed';
@@ -148,12 +149,12 @@
      * @param {String} projectName
      * @returns {Object} Instance of project
      */
-    project.add = function (projectId, projectName) {
-        return new project(projectId, projectName);
+    Project.add = function (projectId, projectName) {
+        return new Project(projectId, projectName);
     };
 
-    project.data = data;
-    window.project = project;
+    Project.data = data;
+    window.Project = Project;
     window.data = data;
 
 })(window);

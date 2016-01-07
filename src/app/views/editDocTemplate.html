@@ -16,7 +16,7 @@
 
 <div ng-if="config.enableEditDoc" class="panel panel-default">
     <div class="panel-heading" style="background-color: white;">
-        <div class="pull-right removeCacheBtn" ng-show="cacheTime">
+        <div class="pull-right removeCacheBtn" ng-show="false">
             <!--<span ng-bind="cacheTime | date:'hh:mm:ss'"></span>-->
             <span>Data saving auto in 10 seconds</span>
             <button class="btn btn-danger" ng-click="removeCache()" ng-disabled="!cacheTime">Remove cache</button>
@@ -44,6 +44,11 @@
         </div>
     </div>
     <div class="panel-footer" style="background-color: white;">
+        <div class="pull-left removeCacheBtn" ng-show="cacheTime">
+            <button class="btn btn-danger" ng-click="removeCache()" ng-disabled="!cacheTime"
+                    title="Auto cache save every {{getSaveDurationString()}}&#013;&#013;Last Cache saved on {{cacheTime | date:'EEEE, MMMM d, yyyy \'at\' h:mm a'}}">
+                Remove cache</button>
+        </div>
         <div class="pull-right">
             <button class="btn btn-default" title="Open source in new window" ng-click="openSource()">View Source</button>
             <button class="btn btn-success" ng-disabled="!config.enableDocSave" title="{{config.enableDocSave?'Save':'Plugin not available'}}" ng-click="save()">Save</button>

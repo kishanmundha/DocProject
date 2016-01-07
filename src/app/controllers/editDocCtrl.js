@@ -3,24 +3,53 @@
 
     var app = angular.module('app');
 
-    app.controller('editDocCtrl', ['$log', '$scope', '$routeParams', '$sce', '$window', 'docService', '$timeout', 'localStorageService', 'config',
-        function ($log, $scope, $routeParams, $sce, $window, docService, $timeout, localStorageService, config) {
+    app.controller('editDocCtrl', ['$log', '$scope', '$routeParams', '$sce', '$window', 'docService', '$timeout', 'localStorageService', 'config', '$location',
+        function ($log, $scope, $routeParams, $sce, $window, docService, $timeout, localStorageService, config, $location) {
             $log.debug('editDocCtrl called');
 
             var projectId = $routeParams.projectId;
             var docId = $routeParams.docId;
 
-            var autoSaveDuration = config.editDoc.autoSaveDuration || (1000 * 60);
-            var autoSaveExpiry = config.editDoc.autoSaveExpiry || (1000 * 60 * 60);    // 1 hour
+            var autoSaveDuration = (config.editDoc.autoSaveDuration || (60)) * 1000;
+            var autoSaveExpiry = (config.editDoc.autoSaveExpiry || (60 * 60)) * 1000;    // 1 hour
+            
+            $scope.getSaveDurationString = function () {
+                var s = autoSaveDuration / 1000;
+                
+                if(s === 1)
+                    return 'second';
+                
+                if(s <= 59) {
+                    return s + ' second';
+                }
+                
+                var m = parseInt(s / 60);
+                
+                if(m === 1)
+                    return 'minute';
+                
+                if(m <= 59)
+                    return m + ' minute';
+                
+                var h = parseInt(m / 60);
+                
+                if(h === 1)
+                    return 'hour';
+                
+                if(h <= 59)
+                    return h + ' hour';
+
+                return '10 minute';
+            };
 
             $scope.projectId = projectId;
             $scope.docId = docId;
-            
+
             var timer;
 
             $scope.config = config;
 
-            $scope.docContent;
+            $scope.docContent = undefined;
 
             $scope.markdown = {};
 
@@ -31,21 +60,21 @@
                     timestamp: (new Date()).getTime(),
                     content: $scope.markdown.inputText
                 };
-                
+
                 var key = projectId;
-                
-                if(docId)
+
+                if (docId)
                     key += '/' + docId;
 
                 localStorageService.setItem(key, obj);
 
                 $scope.cacheTime = new Date(obj.timestamp);
             };
-            
+
             var removeCache = function () {
                 var key = projectId;
-                
-                if(docId)
+
+                if (docId)
                     key += '/' + docId;
 
                 $scope.cacheTime = undefined;
@@ -56,8 +85,8 @@
 
             var getDocFromCache = function () {
                 var key = projectId;
-                
-                if(docId)
+
+                if (docId)
                     key += '/' + docId;
 
                 var obj = localStorageService.getItem(key);
@@ -65,7 +94,7 @@
                 if (!obj)
                     return '';
 
-                if((new Date()).getTime() - obj.timestamp > autoSaveExpiry) {
+                if ((new Date()).getTime() - obj.timestamp > autoSaveExpiry) {
                     removeCache();
                     return '';
                 }
@@ -73,9 +102,9 @@
                 if (obj.content) {
                     $scope.cacheTime = new Date(obj.timestamp);
                 }
-                
+
                 $scope.markdown.inputText = obj.content;
-                
+
                 saveToCache();
             };
 
@@ -126,7 +155,7 @@
 
             $scope.showPreview = function () {
                 parseMarkdownContent();
-                
+
                 $log.debug('showing preview');
 
                 if (config.editDoc.autoLocalSave) {
@@ -138,18 +167,28 @@
                 var base64Data = btoa($scope.markdown.inputText);
                 $window.open('data:text/plain;base64,' + base64Data);
             };
-            
-            $scope.save = function() {
-                if(!$scope.config.enableDocSave)
+
+            $scope.save = function () {
+                if (!$scope.config.enableDocSave)
                     return;
-                
-                docService.saveDocContent(projectId, docId, $scope.markdown.inputText);
+
+                docService.saveDocContent(projectId, docId, $scope.markdown.inputText, function () {
+                    var key = projectId;
+
+                    if (docId)
+                        key += '/' + docId;
+
+                    $location.path('/docs/' + key);
+
+                    $timeout.cancel(timer);
+                    removeCache();
+                });
             };
 
             $scope.removeCache = removeCache;
-            
+
             // remove timer on route change
-            $scope.$on('$destroy', function(e) {
+            $scope.$on('$destroy', function (e) {
                 $timeout.cancel(timer);
             });
 
