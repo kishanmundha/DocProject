@@ -8,6 +8,7 @@ env: BROWSERS=firefox E2E_BROWSERS=Firefox
 before_script:
   - export DISPLAY=:99.0
   - sh -e /etc/init.d/xvfb start
+  - chmod +x scripts/private/test-all.sh
 #  - npm run update-webdriver
 
 script:
