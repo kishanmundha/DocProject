@@ -9,6 +9,9 @@
 
         <!-- build:css /css/lib.min.css -->
         <link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap.css"/>
+        <link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap-theme.css" />
+        <link rel="stylesheet" href="/Content/bootstrap-extend.css" />
+        <link rel="stylesheet" href="/Content/bootstrap-theme-extene.css" />
         <link rel="stylesheet" href="/Content/Doc.css" />
         <link rel="stylesheet" href="/bower_components/highlightjs/styles/github.css" />
         <!-- /build -->
@@ -44,56 +47,56 @@
         <!-- show on script enabled -->
         <div id="body_content" style="visibility: hidden;">
 
-            <nav class="navbar navbar-default">
-				<div class="container">
-					<div class="pull-left no-padding-xs" style="padding-left: 15px; padding-right: 15px; margin-left: auto; margin-right: auto;">
-						<div>
-							<a class="navbar-brand no-padding-xs" ng-href="/docs"><span class="visible-xs">Doc</span><span class="hidden-xs">Documentation</span></a>
-						</div>
-					</div>
-					<div class="pull-right no-padding-xs" style="padding-left: 15px; padding-right: 15px; padding-top: 10px; margin-left: auto; margin-right: auto;">
-						<!-- Collect the nav links, forms, and other content for toggling -->
-						<!-- /.navbar-collapse -->
-						<div ng-show="project" class="pull-left">
-							<input type="text" class="form-control input-sm" ng-model="search" ng-change="searchPage(search)" placeholder="Search" />
-						</div>
-						<ul class="nav navbar-nav navbar-right pull-right" style="margin-right:0px;margin:0px;" ng-if="isAuthenticated()">
-							<li class="dropdown">
-								<a href="#" class="dropdown-toggle" data-toggle="dropdown" style="padding-top:5px; padding-bottom:15px;background-color:transparent;">
-									<strong class="hidden-xs"><span ng-bind="getUserFirstName()"></span><span class="caret"></span></strong>
-									<strong class="visible-xs"><span class="glyphicon glyphicon-user"></span></strong>
-									
-								</a>
-								<ul class="dropdown-menu">
-									<li>
-										<div class="navbar-login" style="width:280px; padding:10px; padding-bottom: 0px;">
-											<div class="row">
-												<div class="col-xs-4">
-													<p class="text-center">
-														<span class="glyphicon glyphicon-user icon-size" style="font-size:87px"></span>
-													</p>
-												</div>
-												<div class="col-xs-8">
-													<p class="text-left"><strong ng-bind="getUserFullName()"></strong></p>
-													<p class="text-left small" ng-bind="getUserEmail()"></p>
-													<p class="text-left">
-														<a href="#" class="btn btn-danger btn-block btn-sm" ng-click="logOut()">Logout</a>
-													</p>
-												</div>
-											</div>
-										</div>
-									</li>
-								</ul>
-							</li>
-						</ul>
-						<!--
-						<div class="pull-right">
-							<span class="glyphicon glyphicon-user" style="color:white"></span>
-						</div>
-						<div ng-bind="userFirstName()"></div>
-						-->
-					</div>
-				</div>
+            <nav class="navbar navbar-blue">
+                <div class="container">
+                    <div class="pull-left no-padding-xs" style="padding-left: 15px; padding-right: 15px; margin-left: auto; margin-right: auto;">
+                        <div>
+                            <a class="navbar-brand no-padding-xs" ng-href="/docs"><span class="visible-xs">Doc</span><span class="hidden-xs">Documentation</span></a>
+                        </div>
+                    </div>
+                    <div class="pull-right no-padding-xs" style="padding-left: 15px; padding-right: 15px; padding-top: 10px; margin-left: auto; margin-right: auto;">
+                        <!-- Collect the nav links, forms, and other content for toggling -->
+                        <!-- /.navbar-collapse -->
+                        <div ng-show="project" class="pull-left">
+                            <input type="text" class="form-control input-sm" ng-model="search" ng-change="searchPage(search)" placeholder="Search" />
+                        </div>
+                        <ul class="nav navbar-nav navbar-right pull-right" style="margin-right:0px;margin:0px;" ng-if="isAuthenticated()">
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" style="padding-top:5px; padding-bottom:15px;background-color:transparent;">
+                                    <strong class="hidden-xs"><span ng-bind="getUserFirstName()"></span><span class="caret"></span></strong>
+                                    <strong class="visible-xs"><span class="glyphicon glyphicon-user"></span></strong>
+
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li>
+                                        <div class="navbar-login" style="width:280px; padding:10px; padding-bottom: 0px;">
+                                            <div class="row">
+                                                <div class="col-xs-4">
+                                                    <p class="text-center">
+                                                        <span class="glyphicon glyphicon-user icon-size" style="font-size:87px"></span>
+                                                    </p>
+                                                </div>
+                                                <div class="col-xs-8">
+                                                    <p class="text-left"><strong ng-bind="getUserFullName()"></strong></p>
+                                                    <p class="text-left small" ng-bind="getUserEmail()"></p>
+                                                    <p class="text-left">
+                                                        <a href="#" class="btn btn-danger btn-block btn-sm" ng-click="logOut()">Logout</a>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                        <!--
+                        <div class="pull-right">
+                            <span class="glyphicon glyphicon-user" style="color:white"></span>
+                        </div>
+                        <div ng-bind="userFirstName()"></div>
+                        -->
+                    </div>
+                </div>
                 <!-- /.container-fluid -->
             </nav>
 

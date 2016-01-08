@@ -149,28 +149,6 @@ a[ng-click] {
     opacity: 1;
 }
 
-/* alert message box */
-.msg {
-    padding: 5px 10px;
-    margin-bottom: 10px;
-    border-width: 1px;
-    border-style: solid;
-    border-radius: 2px;
-}
-
-.msg-danger {
-    border-color: #dd3c10;
-    background-color: #ffebe8;
-}
-.msg-success {
-    border-color: #3cdd10;
-    background-color: #ebffe8;
-}
-.msg-warning {
-    border-color: #e2c822;
-    background-color: #fff9d7;
-}
-
 /* width div for device */
 
 @media (max-width: 768px) {
@@ -192,3 +170,16 @@ a[ng-click] {
 @media (min-width: 1200px) {
 
 }
+
+
+/* animation button */
+
+.btn-animation {
+    -webkit-transition:all linear 0.5s;
+    transition:all linear 0.5s;
+}
+
+.btn-animation.ng-hide {
+    opacity:0;
+}
+

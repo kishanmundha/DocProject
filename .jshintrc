@@ -13,10 +13,7 @@
 		"require": false,
 		"console": false,
 		"setTimeout": false,
-		"__dirname": false,
-		"browser": false,
-		"element": false,
-		"by": false
+		"__dirname": false
 	},
 	"predef": [
 		"jasmine",

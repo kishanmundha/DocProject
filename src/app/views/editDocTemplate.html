@@ -1,21 +1,9 @@
-<style>
-    .removeCacheBtn {
-        -webkit-transition:all linear 0.5s;
-        transition:all linear 0.5s;
-    }
-
-    .removeCacheBtn.ng-hide {
-        opacity:0;
-    }
-
-</style>
-
 <div ng-if="!config.enableEditDoc" class="alert alert-warning text-center">
     <h3>Access denied</h3>
 </div>
 
 <div ng-if="config.enableEditDoc" class="panel panel-default">
-    <div class="panel-heading" style="background-color: white;">
+    <div class="panel-heading">
         <div class="pull-right removeCacheBtn" ng-show="false">
             <!--<span ng-bind="cacheTime | date:'hh:mm:ss'"></span>-->
             <span>Data saving auto in 10 seconds</span>
@@ -43,8 +31,8 @@
             </div>
         </div>
     </div>
-    <div class="panel-footer" style="background-color: white;">
-        <div class="pull-left removeCacheBtn" ng-show="cacheTime">
+    <div class="panel-footer">
+        <div class="pull-left btn-animation" ng-show="cacheTime">
             <button class="btn btn-danger" ng-click="removeCache()" ng-disabled="!cacheTime"
                     title="Auto cache save every {{getSaveDurationString()}}&#013;&#013;Last Cache saved on {{cacheTime | date:'EEEE, MMMM d, yyyy \'at\' h:mm a'}}">
                 Remove cache</button>
