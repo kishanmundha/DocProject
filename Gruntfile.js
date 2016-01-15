@@ -35,6 +35,7 @@ module.exports = function (grunt) {
                     'src/bower_components/angular-route/angular-route.min.js',
                     'src/bower_components/angular-sanitize/angular-sanitize.min.js',
                     'src/bower_components/angular-animate/angular-animate.min.js',
+                    'src/bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js',
                     'src/bower_components/bootstrap/dist/js/bootstrap.min.js',
                     'src/bower_components/marked/lib/marked.js',
                     'src/bower_components/highlightjs/highlight.pack.js',
@@ -44,6 +45,9 @@ module.exports = function (grunt) {
             'css': {
                 'src': [
                     'src/bower_components/bootstrap/dist/css/bootstrap.css',
+                    'src/bower_components/bootstrap/dist/css/bootstrap-theme.css',
+                    'src/Content/bootstrap-extend.css',
+                    'src/Content/bootstrap-theme-extend.css',
                     'src/Content/Doc.css',
                     'src/bower_components/highlightjs/styles/github.css'
                 ],
@@ -71,7 +75,8 @@ module.exports = function (grunt) {
         },
         uglify: {
             'options': {
-                'mangle': false
+                'mangle': true,
+				'sourceMap': true
             },
             'dist': {
                 'files': {
@@ -99,8 +104,8 @@ module.exports = function (grunt) {
                 files: [
                     // includes files within path
                     //{expand: true, src: ['src/*.html'], dest: 'dist/', filter: 'isFile'},
-                    {expand: true, cwd: 'dist/js/', src: ['*.min.js'], dest: 'publish/js/'},
-                    {expand: true, cwd: 'dist/css/', src: ['*.min.css'], dest: 'publish/css/'},
+                    {expand: true, cwd: 'dist/js/', src: ['*.*'], dest: 'publish/js/'},
+                    {expand: true, cwd: 'dist/css/', src: ['*.*'], dest: 'publish/css/'},
                     //{expand: true, cwd: 'src/app/', src: ['**/*.html'], dest: 'publish/app/'},
                     {expand: true, cwd: 'src/data/', src: ['**/*.*'], dest: 'publish/data/'},
                     {expand: true, cwd: 'src/img/', src: ['**/*.*'], dest: 'publish/img/'},
@@ -172,7 +177,7 @@ module.exports = function (grunt) {
             },
             main: {
                 src: ['src/app/**/*.html'],
-                dest: 'bin/debug/js/template.js'
+                dest: 'dist/js/template.js'
             }
         },
         karma: {
@@ -209,7 +214,7 @@ module.exports = function (grunt) {
     });
 
     grunt.registerTask('clean:all', ['clean:build', 'clean:release']);
-    grunt.registerTask('test', ['karma', 'protractor']);
+    grunt.registerTask('test', ['jshint', 'karma', 'protractor']);
 
     grunt.registerTask('minify', ['concat', 'html2js', 'uglify', 'cssmin']);
     grunt.registerTask('publish', ['minify', 'processhtml', 'copy']);
@@ -235,4 +240,10 @@ module.exports = function (grunt) {
      
      in run we run release code
      */
+	 
+	grunt.registerTask('gruntTest', 'Grunt test', function() {
+		grunt.log.writeln('Currently running the "Grunt test" task.');
+		
+		grunt.task.run('test', 'minify');
+	});
 };
