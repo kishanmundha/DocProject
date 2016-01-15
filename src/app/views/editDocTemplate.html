@@ -4,11 +4,6 @@
 
 <div ng-if="config.enableEditDoc" class="panel panel-default">
     <div class="panel-heading">
-        <div class="pull-right removeCacheBtn" ng-show="false">
-            <!--<span ng-bind="cacheTime | date:'hh:mm:ss'"></span>-->
-            <span>Data saving auto in 10 seconds</span>
-            <button class="btn btn-danger" ng-click="removeCache()" ng-disabled="!cacheTime">Remove cache</button>
-        </div>
         <ul class="nav nav-tabs">
             <li role="presentation" ng-class="{
                     'active'
@@ -32,15 +27,47 @@
         </div>
     </div>
     <div class="panel-footer">
-        <div class="pull-left btn-animation" ng-show="cacheTime">
-            <button class="btn btn-danger" ng-click="removeCache()" ng-disabled="!cacheTime"
-                    title="Auto cache save every {{getSaveDurationString()}}&#013;&#013;Last Cache saved on {{cacheTime | date:'EEEE, MMMM d, yyyy \'at\' h:mm a'}}">
-                Remove cache</button>
+		<div class="visible-xs">
+			<button class="btn btn-success col-xs-12" ng-disabled="!config.enableDocSave" title="{{config.enableDocSave?'Save':'Plugin not available'}}" ng-click="save()">Save</button>
+			<div class="clearfix"></div>
+			<br/>
+			<button class="btn btn-default col-xs-12" ng-click="openSource()"
+                    uib-popover="View source content on new tab" popover-trigger="mouseenter"
+                    popover-placement="top">View Source</button>
+			<div class="clearfix"></div>
+			<div class="btn-animation"ng-show="cacheTime" >
+				<br/>
+				<button class="btn btn-danger col-xs-12" ng-click="removeCache()" ng-disabled="!cacheTime"
+						uib-popover="Last Cache saved on {{cacheTime| date:'EEEE, MMMM d, yyyy \'at\' h:mm a'}}" popover-trigger="mouseenter"
+						popover-title="Auto cache save every {{getSaveDurationString()}}"
+						popover-placement="top">Remove cache</button>
+			</div>
+		</div>
+	
+        <!--
+        <div class="alert alert-warning pull-right" ng-if="!config.enableDocSave" style="margin-bottom: 10px; margin-right: 0px;padding: 7px;">
+            Save plugin not avaialble yet, but you can save using view source, copy and replace it to source.
         </div>
-        <div class="pull-right">
-            <button class="btn btn-default" title="Open source in new window" ng-click="openSource()">View Source</button>
-            <button class="btn btn-success" ng-disabled="!config.enableDocSave" title="{{config.enableDocSave?'Save':'Plugin not available'}}" ng-click="save()">Save</button>
-        </div>
+        <div class="clearfix"></div>
+        -->
+		<div class="hidden-xs">
+			<div class="pull-left btn-animation" ng-show="cacheTime">
+				<button class="btn btn-danger" ng-click="removeCache()" ng-disabled="!cacheTime"
+						uib-popover="Last Cache saved on {{cacheTime| date:'EEEE, MMMM d, yyyy \'at\' h:mm a'}}" popover-trigger="mouseenter"
+						popover-title="Auto cache save every {{getSaveDurationString()}}"
+						popover-placement="right"
+						>
+					<!--title="Auto cache save every {{getSaveDurationString()}}&#013;&#013;Last Cache saved on {{cacheTime | date:'EEEE, MMMM d, yyyy \'at\' h:mm a'}}"-->
+					Remove cache</button>
+			</div>
+			<div class="pull-right">
+				<button class="btn btn-default" ng-click="openSource()"
+						uib-popover="View source content on new tab" popover-trigger="mouseenter"
+						popover-placement="top-right"
+						>View Source</button>
+				<button class="btn btn-success" ng-disabled="!config.enableDocSave" title="{{config.enableDocSave?'Save':'Plugin not available'}}" ng-click="save()">Save</button>
+			</div>
+		</div>
         <div class="clearfix"></div>
     </div>
 

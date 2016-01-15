@@ -8,14 +8,18 @@
         enableEditDoc: true,
         enableDocSave: true,
         editDoc: {
+			anonymousSave: false,
             autoLocalSave: true,
             autoSaveDuration: 60,   // 10 seconds
             autoSaveExpiry: 60    // 1 hour
-            // allow to guest
         },
         apiServiceBaseUri: '/api/',
+		apiLogin: '/api/login',
+		apiSaveDoc: '/api/saveDoc',
         isLoginEnable: function() {
-            return this.enableEditDoc;
+            return
+				this.enableEditDoc === true
+				&& this.editDoc.anonymousSave === false;
         }
         // authentication: {
         // enabled

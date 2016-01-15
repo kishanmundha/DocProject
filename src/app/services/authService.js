@@ -17,7 +17,7 @@
 
                 var deferred = $q.defer();
 
-                $http.post(serviceBase + 'login', user).success(function (response) {
+                $http.post(config.apiLogin, user).success(function (response) {
 
                     localStorageService.set('authorizationData', {
 						token: response.token,

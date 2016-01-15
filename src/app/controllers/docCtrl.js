@@ -54,7 +54,10 @@
                 }
 
                 var s = "";
-                if (year > 0) {
+				if(year < 0) {
+					s += "few seconds";
+				}
+                else if (year > 0) {
                     s += _sin_plu(year, 'year');
                 } else if (month > 0) {
                     s += _sin_plu(month, 'month');

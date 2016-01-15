@@ -5,8 +5,8 @@ First open Open `data.js` file
 Add this javascript code
 
 ```
-project.add(projectId, projectName)
-    .addDoc(docId, docName, category, options)
+Project.add(projectId, projectName)
+    .addDoc(docId, docName, [category], options)
 ```
 
 
@@ -16,8 +16,8 @@ project.add(projectId, projectName)
 | --------- | ---- | ----------- | ------ |
 | docId     | string | A unique document Id for this project | Required |
 | docName   | string | Display string for document | Required |
-| category | string | A valid category name for grouping (keep empty for no group) | |
-| options | object | Options have all other properties for document (see below table) | &nbsp; |
+| category | string | A valid category name for grouping (keep empty for no group) | Optional |
+| options | object | Options have all other properties for document (see [options](#options)) | &nbsp; |
 
 
 #### Options

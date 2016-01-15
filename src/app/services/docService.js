@@ -3,8 +3,8 @@
 
     var app = angular.module('app');
 
-    app.service('docService', ['$log', '$http', '$rootScope', 'messageModalService',
-        function ($log, $http, $rootScope, messageModalService) {
+    app.service('docService', ['$log', '$http', '$rootScope', 'messageModalService', 'config',
+        function ($log, $http, $rootScope, messageModalService, config) {
 
             /**
              * @public
@@ -172,10 +172,11 @@
             var saveDocContent = function (projectId, docId, docContent, callback) {
                 var docPath = getDocPath(projectId, docId);
 
-                $http.post('/api/savedoc', {path: docPath, content: docContent}).then(function (data) {
+                $http.post(config.apiSaveDoc, {path: docPath, content: docContent}).then(function (data) {
                     callback && callback(); // jshint ignore:line
-                }, function (err, status) {
-                    if (status === 404) {
+                }, function (err) {
+                    $log.debug(err);
+                    if (err.status !== 401) {
                         var msg = err.data.error;
                         messageModalService.show('Error', msg, 'danger');
                     }

@@ -5,7 +5,7 @@ First open Open `data.js` file
 Add this javascript code
 
 ```
-project.add(projectId, projectName)
+Project.add(projectId, projectName)
     .addCategory(name, displayText)
 ```
 
