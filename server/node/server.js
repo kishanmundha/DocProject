@@ -10,9 +10,9 @@
  */
 
 var config = {
-    saveDocEnabled: true, // save file
-    gitLocalSave: true, // commit on git
-    gitRemoteSave: true, // commit on remote
+    saveDocEnabled: false, // save file
+    gitLocalSave: false, // commit on git
+    gitRemoteSave: false, // commit on remote
     gitCredtianal: undefined, // from request, from db, from default
     gitDefaultCredtinal: {
         username: undefined,
