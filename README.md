@@ -35,7 +35,7 @@ We have 2 sample script to host over project
 
 #### 1. Make root folder
 
-Copy project data (source code) in a folder `project_folder` and download [`server.js`](http://github.com) and copy it to `project_folder`.
+Copy project data (source code) in a folder `project_folder` and download [`server/node/server.js`](https://raw.githubusercontent.com/kishanmundha/DocProject/master/server/node/server.js) and copy it to `project_folder`.
 
 #### 2. Install NodeJS
 
