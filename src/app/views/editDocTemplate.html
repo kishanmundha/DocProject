@@ -28,7 +28,7 @@
     </div>
     <div class="panel-footer">
 		<div class="visible-xs">
-			<button class="btn btn-success col-xs-12" ng-disabled="!config.enableDocSave" title="{{config.enableDocSave?'Save':'Plugin not available'}}" ng-click="save()">Save</button>
+			<button class="btn btn-success col-xs-12" ng-disabled="!config.enableDocSave || markdown.inputText.trim() == markdown.orignalValue.trim()" title="{{config.enableDocSave?'Save':'Plugin not available'}}" ng-click="save()">Save</button>
 			<div class="clearfix"></div>
 			<br/>
 			<button class="btn btn-default col-xs-12" ng-click="openSource()"
@@ -65,10 +65,9 @@
 						uib-popover="View source content on new tab" popover-trigger="mouseenter"
 						popover-placement="top-right"
 						>View Source</button>
-				<button class="btn btn-success" ng-disabled="!config.enableDocSave" title="{{config.enableDocSave?'Save':'Plugin not available'}}" ng-click="save()">Save</button>
+				<button class="btn btn-success" ng-disabled="!config.enableDocSave || markdown.inputText.trim() == markdown.orignalValue.trim()" title="{{config.enableDocSave?'Save':'Plugin not available'}}" ng-click="save()">Save</button>
 			</div>
 		</div>
         <div class="clearfix"></div>
     </div>
-
 </div>

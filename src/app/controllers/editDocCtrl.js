@@ -92,7 +92,7 @@
                 var obj = localStorageService.getItem(key);
 
                 if (!obj)
-                    return '';
+                    return;
 
                 if ((new Date()).getTime() - obj.timestamp > autoSaveExpiry) {
                     removeCache();
@@ -108,14 +108,20 @@
                 saveToCache();
             };
 
-            var getDocContent = function () {
+            var getDocContent = function (getOnly) {
                 docService.getDocContent(projectId, docId, function (data) {
 
                     if (Object.prototype.toString.call(data) === '[object Object]') {
                         data = data.data;
                     }
 
-                    $scope.markdown.inputText = data;
+                    data = data.replace(/\r\n/g, '\n');
+
+                    $scope.markdown.orignalValue = data;
+                    
+                    if(!getOnly) {
+                       $scope.markdown.inputText = data;
+                    }
 
                     //parseMarkdownContent();
                 });
@@ -130,10 +136,7 @@
             };
 
             getDocFromCache();
-
-            if (!$scope.markdown.inputText) {
-                getDocContent();
-            }
+            getDocContent($scope.markdown.inputText !== undefined);
 
             var trustAsHtml = function (string) {
                 return $sce.trustAsHtml(string);
