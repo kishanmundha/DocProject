@@ -17,8 +17,13 @@ BRANCH=$(git rev-parse --abbrev-ref HEAD)
 # Ensure that all the dependencies are there
 npm install
 
+npm install -g protractor
+npm install protractor
+webdriver-manager update
+webdriver-manager start
+
 # Ensure that the chromeDriver is installed
-npm run update-webdriver
+# npm run update-webdriver
 
 # Start up the web server
 node_modules/.bin/http-server -p 8000 &
