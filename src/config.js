@@ -17,9 +17,7 @@
 		apiLogin: '/api/login',
 		apiSaveDoc: '/api/saveDoc',
         isLoginEnable: function() {
-            return
-				this.enableEditDoc === true
-				&& this.editDoc.anonymousSave === false;
+            return this.enableEditDoc === true && this.editDoc.anonymousSave === false;
         }
         // authentication: {
         // enabled

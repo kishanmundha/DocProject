@@ -4,3 +4,4 @@ dist
 publish
 release
 bin
+coverage

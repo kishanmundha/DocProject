@@ -214,7 +214,8 @@ module.exports = function (grunt) {
     });
 
     grunt.registerTask('clean:all', ['clean:build', 'clean:release']);
-    grunt.registerTask('test', ['jshint', 'karma', 'protractor']);
+    grunt.registerTask('test', ['jshint', 'karma']);
+	grunt.registerTask('test:full', ['jshint', 'karma', 'protractor']);
 
     grunt.registerTask('minify', ['concat', 'html2js', 'uglify', 'cssmin']);
     grunt.registerTask('publish', ['minify', 'processhtml', 'copy']);
