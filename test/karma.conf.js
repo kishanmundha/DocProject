@@ -15,6 +15,7 @@ module.exports = function (config) {
             'src/app/**/*.js',
             'src/config.js',
             //'test/unit/**/*.js'
+	    'test/unit/helper.js',
             'test/unit/controllersSpec.js',
             'test/unit/servicesSpec.js',
             'test/unit/dataSpec.js'
