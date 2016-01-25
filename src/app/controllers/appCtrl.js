@@ -7,6 +7,7 @@
             //$scope.project = {'projectId':'cati'};
             $scope.currentDoc = undefined;
             $scope.docList = [];
+            $scope.searchResult = [];
             
 			$scope.isAuthenticated = authService.isAuthenticated;
             $scope.getUserFirstName = authService.getFirstName;
@@ -36,8 +37,11 @@
             };
             $scope.searchPage = function (term) {
 
-                if (!term)
+                if (!term) {
+                    // clear result on clearing search input
+                    $scope.searchResult = [];
                     return;
+                }
 
                 var terms = term.split(' ');
 

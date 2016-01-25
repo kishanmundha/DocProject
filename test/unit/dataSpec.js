@@ -2,7 +2,6 @@
 
 
 describe('data service', function () {
-    var a = 0;
 
     beforeEach(function () {
         Project.data.length = 0;
@@ -37,6 +36,12 @@ describe('data service', function () {
         expect(Project.data.length).toBe(0);
     });
 
+    it('empty project name should reject', function () {
+        Project.add('test-project', '');
+
+        expect(Project.data.length).toBe(0);
+    });
+
     it('add category should work properly', function () {
         Project.add('test-project', 'Test project')
                 .addCategory('test-category', 'Test category');
@@ -59,6 +64,13 @@ describe('data service', function () {
                 .addCategory('', 'Test category');
 
         expect(Project.data[0].categories.length).toBe(1);
+    });
+    
+    it('empty project should not add category', function() {
+        Project.add('', 'Test Project')
+                .addCategory('test-category', 'test category');
+
+        expect(Project.data.length).toBe(0);
     });
 
     it('add document should work properly', function () {
@@ -92,6 +104,13 @@ describe('data service', function () {
     it('empty document id should reject', function () {
         Project.add('test-project', 'Test project')
                 .addDoc('', 'Test Document', '');
+
+        expect(Project.data[0].docs.length).toBe(0);
+    });
+
+    it('empty document name should reject', function () {
+        Project.add('test-project', 'Test project')
+                .addDoc('test-doc', '', '');
 
         expect(Project.data[0].docs.length).toBe(0);
     });

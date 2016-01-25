@@ -183,8 +183,13 @@ module.exports = function (grunt) {
         karma: {
             unit: {
                 configFile: 'test/karma.conf.js',
-                singleRun: true
-            }
+                singleRun: true,
+				browsers:['PhantomJS']
+            },
+			full: {
+                configFile: 'test/karma.conf.js',
+                singleRun: true,
+			}
         },
         protractor: {
             /*options: {
@@ -214,7 +219,7 @@ module.exports = function (grunt) {
     });
 
     grunt.registerTask('clean:all', ['clean:build', 'clean:release']);
-    grunt.registerTask('test', ['jshint', 'karma']);
+    grunt.registerTask('test', ['jshint', 'karma:unit']);
 	grunt.registerTask('test:full', ['jshint', 'karma', 'protractor']);
 
     grunt.registerTask('minify', ['concat', 'html2js', 'uglify', 'cssmin']);

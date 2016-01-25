@@ -32,10 +32,12 @@ describe('app controllers', function () {
             scope.project = {
                 docs: [
                     {'docId': 'doc-test', 'docName': 'Doc Test', 'category': '', 'tags': 'doc,test'},
-                    {'docId': 'doc', 'docName': 'Doc', 'category': '', 'tags': 'doc'}
+                    {'docId': 'doc', 'docName': 'Doc', 'category': '', 'tags': 'doc'},
+                    {'docId': 'no-doc', 'docName': 'No Doc', 'category': '', 'tags': 'doc', 'noDoc': true},
+                    {'docId': 'no-tag', 'docName': 'No tag', 'category': '', 'tags': ''}
                 ]
             };
-
+            
             scope.searchPage('doc');
             expect(scope.searchResult.length).toEqual(2);
 
@@ -50,6 +52,53 @@ describe('app controllers', function () {
 
             scope.searchPage('docs');
             expect(scope.searchResult.length).toEqual(0);
+            
+            scope.searchPage('');
+            expect(scope.searchResult.length).toEqual(0);
+
+        });
+
+        it('changeProject', function () {
+
+            var p = {
+                docs: [
+                    {'docId': 'doc-test', 'docName': 'Doc Test', 'category': '', 'tags': 'doc,test'},
+                    {'docId': 'doc', 'docName': 'Doc', 'category': '', 'tags': 'doc'}
+                ]
+            };
+
+            var d = p[0];
+
+            scope.changeProject(undefined);
+            expect(scope.project).not.toBeDefined();
+
+            scope.changeProject(p);
+            expect(scope.project).toBe(p);
+            
+            rootScope.$broadcast('changeProject', undefined);
+            expect(scope.project).not.toBeDefined();
+
+            rootScope.$broadcast('changeProject', p);
+            expect(scope.project).toBe(p);
+
+            scope.changeDoc(undefined);
+            expect(scope.currentDoc).not.toBeDefined();
+
+            scope.changeDoc(d);
+            expect(scope.currentDoc).toBe(d);
+
+            rootScope.$broadcast('changeDoc', undefined);
+            expect(scope.currentDoc).not.toBeDefined();
+
+            rootScope.$broadcast('changeDoc', d);
+            expect(scope.currentDoc).toBe(d);
+            
+            scope.setNavigationVisiblity(true);
+            scope.search = 'search term';
+            scope.setNavigationVisiblity(false);
+            
+            expect(scope.search).toBe('');
+
         });
     });
 
@@ -63,8 +112,7 @@ describe('app controllers', function () {
                 getDocContent: function (projectId, docId, callback) {
                     if (docId === 'doc1') {
                         callback({'data': '[link](/docs/dms)', 'lastModified': undefined});
-                    }
-                    else {
+                    } else {
                         callback('[link](/docs/dms)');
                     }
                 },
