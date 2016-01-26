@@ -22,7 +22,6 @@
                 if (rejection.status === 401) {
                     var authService = $injector.get('authService');
                     var loginModalService = $injector.get('loginModalService');
-                    var authData = localStorageService.get('authorizationData');
 
                     authService.logOut();
                     loginModalService.login();

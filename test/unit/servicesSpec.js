@@ -1,3 +1,5 @@
+/* global jasmine, expect */
+
 'use strict';
 
 describe('service', function () {
@@ -14,10 +16,11 @@ describe('service', function () {
         });
     });
 
-    // load modules
-    beforeEach(module('app'));
-
     describe('docService', function () {
+
+        // load modules
+        beforeEach(module('app'));
+
         var $httpBackend, docService;
 
         beforeEach(function () {
@@ -84,14 +87,74 @@ describe('service', function () {
             //$httpBackend.flush();
         });
 
-        xit('function setCurrentProject', function() {
-            
+        xit('function setCurrentProject', function () {
+
         });
-        
-        xit('function setCurrentDoc', function() {
-            
+
+        xit('function setCurrentDoc', function () {
+
         });
 
     });
 
+    describe('authInterceptorService', function () {
+
+        var authInterceptorService, localStorageService,
+                authService, loginModalService;
+        var localStorageData = {};
+
+        beforeEach(module('app', function ($provide) {
+            localStorageService = {};
+
+            localStorageService.get = function (key) {
+                return localStorageData[key];
+            };
+            localStorageService.set = function (key, value) {
+                localStorageData[key] = value;
+            };
+
+            $provide.value('localStorageService', localStorageService);
+
+            authService = {};
+            authService.logOut = jasmine.createSpy();
+            authService.fillAuthData = jasmine.createSpy();
+
+            loginModalService = {};
+            loginModalService.login = jasmine.createSpy();
+
+            $provide.value('authService', authService);
+            $provide.value('loginModalService', loginModalService);
+        }));
+
+        beforeEach(inject(function (_authInterceptorService_) {
+            authInterceptorService = _authInterceptorService_;
+        }));
+
+        it('request should add header token', function () {
+
+            var config = {};
+
+            config = authInterceptorService.request(config);
+            expect(config).toEqual({headers: {}});
+
+            localStorageService.set('authorizationData', {token: 'token-1'});
+
+            config = authInterceptorService.request(config);
+            expect(config).toEqual({headers: {'x-access-token': 'token-1'}});
+        });
+
+        it('response error should call to login', function () {
+
+            authInterceptorService.responseError({status: 400});
+
+            expect(authService.logOut).not.toHaveBeenCalled();
+            expect(loginModalService.login).not.toHaveBeenCalled();
+
+            authInterceptorService.responseError({status: 401});
+
+            expect(authService.logOut).toHaveBeenCalled();
+            expect(loginModalService.login).toHaveBeenCalled();
+        });
+
+    });
 });

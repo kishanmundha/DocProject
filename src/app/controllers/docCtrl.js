@@ -1,7 +1,7 @@
 (function () {
     'use strict';
-	
-	/* jshint laxbreak: true */
+
+    /* jshint laxbreak: true */
     var CONTENT_EMPTY_FILE = '<div>'
             + '<h3><span class="glyphicon glyphicon-warning-sign"></span> Content not found</h3>'
             + '<br/>'
@@ -11,7 +11,7 @@
             + '</div>';
     var app = angular.module('app');
     app.controller('docCtrl', ['$log', '$scope', '$routeParams', '$sce', 'docService', '$timeout', '$anchorScroll', 'config',
-		function ($log, $scope, $routeParams, $sce, docService, $timeout, $anchorScroll, config) {
+        function ($log, $scope, $routeParams, $sce, docService, $timeout, $anchorScroll, config) {
             $log.debug('docCtrl controller called');
 
             var projectId = $routeParams.projectId;
@@ -31,6 +31,22 @@
                 return $sce.trustAsHtml(string);
             };
 
+            function _sin_plu(a, s) {
+                
+                // we trust on param
+                // it will never less then 1
+                // and it always be numeric
+                // 
+                // if (isNaN(a) || a < 1)
+                //    return a + " " + s;
+                
+                if (a === 1) {
+                    return a + " " + s;
+                }
+
+                return a + " " + s + 's';
+            }
+
             function getDateStringAgo(date) {
                 var d1 = new Date(date);
                 var d2 = new Date();
@@ -43,21 +59,10 @@
                 var hour = dd.getUTCHours();
                 var minute = dd.getUTCMinutes();
 
-                function _sin_plu(a, s) {
-                    if (isNaN(a) || a < 1)
-                        return a + " " + s;
-                    if (a === 1) {
-                        return a + " " + s;
-                    }
-
-                    return a + " " + s + 's';
-                }
-
                 var s = "";
-				if(year < 0) {
-					s += "few seconds";
-				}
-                else if (year > 0) {
+                if (year < 0) {
+                    s += "few seconds";
+                } else if (year > 0) {
                     s += _sin_plu(year, 'year');
                 } else if (month > 0) {
                     s += _sin_plu(month, 'month');

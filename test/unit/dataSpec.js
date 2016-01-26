@@ -1,3 +1,5 @@
+/* global Project, expect */
+
 'use strict';
 
 

@@ -1,3 +1,5 @@
+/* global jasmine, expect */
+
 'use strict';
 
 
@@ -155,6 +157,13 @@ describe('app controllers', function () {
         it('should show proper date ago string', function () {
             ctrl = controller('docCtrl', {$scope: scope, $routeParams: routeParams, $sce: sce, docService: docService});
             var d = new Date();
+            
+            // test for if time diffrence in negative
+            d.setMinutes((d.getMinutes() + 2));
+            expect(scope.getDateStringAgo(d)).toBe('few seconds');
+            
+            // set again orgianal time value
+            d.setMinutes((d.getMinutes() - 2));
 
             expect(scope.getDateStringAgo(d)).toBe('few seconds');
 
@@ -196,6 +205,43 @@ describe('app controllers', function () {
 
             d.setFullYear(d.getFullYear() - 5);
             expect(scope.getDateStringAgo(d)).toBe('6 years');
+        });
+    });
+    
+    describe('editDocCtrl', function() {
+        var rootScope, scope, ctrl, routeParams, sce;
+        var controller;
+        var docService;
+
+        beforeEach(function () {
+            docService = {
+                getDocContent: function (projectId, docId, callback) {
+                    if (docId === 'doc1') {
+                        callback({'data': '[link](/docs/dms)', 'lastModified': undefined});
+                    } else {
+                        callback('[link](/docs/dms)');
+                    }
+                },
+                setCurrentDoc: function (docId) {
+
+                },
+                setCurrentProject: function (projectId) {
+
+                }
+            };
+        });
+
+        beforeEach(inject(function ($rootScope, $controller, $routeParams, $sce) {
+            rootScope = $rootScope;
+            scope = $rootScope.$new();
+            routeParams = $routeParams;
+            sce = $sce;
+            controller = $controller;
+        }));
+
+        it('editDocCtrl', function() {
+            //'$log', '$scope', '$routeParams', '$sce', '$window', 'docService', '$timeout', 'localStorageService', 'config', '$location'
+            ctrl = controller('editDocCtrl', {$scope: scope, $routeParams: routeParams, $sce: sce, docService: docService});
         });
     });
 

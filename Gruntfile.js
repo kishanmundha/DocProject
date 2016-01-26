@@ -186,9 +186,9 @@ module.exports = function (grunt) {
                 singleRun: true,
 				browsers:['PhantomJS']
             },
-			full: {
+			debug: {
                 configFile: 'test/karma.conf.js',
-                singleRun: true,
+                //singleRun: true,
 			}
         },
         protractor: {
