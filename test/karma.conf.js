@@ -15,11 +15,12 @@ module.exports = function (config) {
             'src/app/**/*.js',
             'src/config.js',
             //'test/unit/**/*.js'
-	    'test/unit/helper.js',
+            'test/unit/helper.js',
+            'test/unit/routeSpec.js',
             'test/unit/controllersSpec.js',
             'test/unit/servicesSpec.js',
             'test/unit/dataSpec.js'
-                    //'test/unit/appCtrlSpec.js'
+            //'test/unit/appCtrlSpec.js'
         ],
         preprocessors: {
             'src/app/**/*.js': ['coverage']
@@ -33,7 +34,7 @@ module.exports = function (config) {
         plugins: [
             'karma-chrome-launcher',
             'karma-firefox-launcher',
-			"karma-phantomjs-launcher",
+            "karma-phantomjs-launcher",
             'karma-jasmine',
             'karma-jasmine-html-reporter',
             'karma-coverage'

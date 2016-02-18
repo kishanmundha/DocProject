@@ -1,4 +1,4 @@
-/* global jasmine, expect */
+/* global jasmine, expect, getMockLocalStorage */
 
 'use strict';
 
@@ -22,13 +22,16 @@ describe('service', function () {
         beforeEach(module('app'));
 
         var $httpBackend, docService;
+        var project;
 
         beforeEach(function () {
             Project.data.length = 0;
 
-            Project.add('dms', 'Help for Document Management')
-                    .addCategory('functions', 'Functions')
-                    .addDoc('about', 'About', '', {"fileName": "dms"});
+            project = Project.add('dms', 'Help for Document Management');
+            
+                    project.addCategory('functions', 'Functions')
+                    .addDoc('about', 'About', '', {"fileName": "dms"})
+            ;
         });
 
 
@@ -47,7 +50,7 @@ describe('service', function () {
 
             expect(docs.length).toBe(1);
 
-            expect(docs).toEqualData([{'projectId': 'dms', 'projectName': 'Help for Document Management'}]);
+            expect(docs).toEqual([{'projectId': 'dms', 'projectName': 'Help for Document Management'}]);
         });
 
         it('function getProject', function () {
@@ -57,7 +60,7 @@ describe('service', function () {
 
             p = docService.getProject('dms');
 
-            expect(p).toEqualData({
+            expect(p).toEqual({
                 projectId: 'dms',
                 projectName: 'Help for Document Management',
                 fileName: undefined,
@@ -76,15 +79,28 @@ describe('service', function () {
             expect(docService.getDocPath('dms', 'dms2')).toBe(false);
         });
 
-        xit('function getDocContetn', function () {
+        it('function getDocContent', function () {
             $httpBackend.expectGET('/data/docs/dms/dms.md').
                     respond('[link](/docs/dms)');
 
             docService.getDocContent('dms', function (data) {
-                expect(data).toBe('[link](/docs/dmskl)');
+                expect(data).toEqual({data: '[link](/docs/dms)', lastModified: undefined});
             });
 
-            //$httpBackend.flush();
+            $httpBackend.flush();
+            
+            $httpBackend.expectGET('/data/docs/dms/dms.md').
+                    respond(404);
+
+            docService.getDocContent('dms', function (data) {
+                expect(data).toBeUndefined();
+            });
+
+            $httpBackend.flush();
+            
+            docService.getDocContent('noproject', function (data) {
+                expect(data).toBeUndefined();
+            });
         });
 
         xit('function setCurrentProject', function () {
@@ -101,18 +117,9 @@ describe('service', function () {
 
         var authInterceptorService, localStorageService,
                 authService, loginModalService;
-        var localStorageData = {};
 
         beforeEach(module('app', function ($provide) {
-            localStorageService = {};
-
-            localStorageService.get = function (key) {
-                return localStorageData[key];
-            };
-            localStorageService.set = function (key, value) {
-                localStorageData[key] = value;
-            };
-
+            localStorageService = getMockLocalStorage();
             $provide.value('localStorageService', localStorageService);
 
             authService = {};
@@ -156,5 +163,105 @@ describe('service', function () {
             expect(loginModalService.login).toHaveBeenCalled();
         });
 
+    });
+
+    describe('authService', function () {
+
+        var $httpBackend, config, localStorageService, authService;
+
+        beforeEach(module('app', function ($provide) {
+            $provide.value('localStorageService', getMockLocalStorage());
+        }));
+
+        beforeEach(inject(function (_$httpBackend_, _config_, _localStorageService_, _authService_) {
+            $httpBackend = _$httpBackend_;
+            config = _config_;
+            localStorageService = _localStorageService_;
+            authService = _authService_;
+        }));
+
+        it('login success test', function () {
+            $httpBackend.expectPOST('/api/login', {}).
+                    respond({
+                        token: 'token1',
+                        username: 'user1',
+                        first_name: 'first_name1',
+                        last_name: 'last_name1',
+                        email: 'test@test.com'
+                    });
+
+            expect(localStorageService.get('authorizationData')).toBeUndefined();
+            expect(authService.isAuthenticated()).toBe(false);
+
+            authService.login({});
+
+            $httpBackend.flush();
+
+            expect(localStorageService.get('authorizationData')).toEqual({
+                token: 'token1',
+                username: 'user1',
+                first_name: 'first_name1',
+                last_name: 'last_name1',
+                email: 'test@test.com'
+            });
+
+            expect(authService.isAuthenticated()).toBe(true);
+        });
+
+        it('login fail test', function () {
+            $httpBackend.expectPOST('/api/login', {}).
+                    respond(400, 'bad request');
+
+            authService.login({});
+
+            $httpBackend.flush();
+
+            expect(localStorageService.get('authorizationData')).toBeUndefined();
+            expect(authService.isAuthenticated()).toBe(false);
+        });
+
+        it('logout test', function () {
+            localStorageService.set('authorizationData', {token: 'token1'});
+            authService.authentication.isAuth = true;
+
+            authService.logOut();
+
+            expect(localStorageService.get('authorizationData')).toBeUndefined();
+            expect(authService.isAuthenticated()).toBe(false);
+        });
+
+        it('fillAuthData and get user info test', function () {
+
+            authService.fillAuthData();
+
+            expect(authService.isAuthenticated()).toBe(false);
+
+            var authData = {
+                token: 'token1',
+                username: 'user1',
+                first_name: 'firstname',
+                last_name: 'lastname',
+                email: 'test@test.com'
+            };
+
+            localStorageService.set('authorizationData', authData);
+
+            // authentication should not use localStorage
+            expect(authService.isAuthenticated()).toBe(false);
+
+            authService.fillAuthData();
+
+            expect(authService.isAuthenticated()).toBe(true);
+
+            expect(authService.getFirstName()).toBe('firstname');
+            expect(authService.getUserFullName()).toBe('firstname lastname');
+            expect(authService.getUserEmail()).toBe('test@test.com');
+
+            authData.last_name = '';
+
+            authService.fillAuthData();
+
+            expect(authService.getUserFullName()).toBe('firstname');
+        });
     });
 });

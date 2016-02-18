@@ -97,8 +97,7 @@
                     if (!doc)
                         return false;
 
-                    filePath += project.projectId + '/'
-                            + (doc.fileName || doc.docId);
+                    filePath += project.projectId + '/' + doc.fileName;
                 }
 
                 filePath += ".md";
@@ -110,11 +109,18 @@
              * @public
              * @description Get markdown document content
              * @param {String} projectId
-             * @param {String} docId
+             * @param {String} docId (optional)
              * @param {function} callback function which invoke after fetch data
              * @returns {undefined}
              */
             var getDocContent = function (projectId, docId, callback) {
+                
+                // handle request when we send only two param
+                if(angular.isFunction(docId)) {
+                    callback = docId;
+                    docId = undefined;
+                }
+
                 var path = getDocPath(projectId, docId);
 
                 if (!path) {

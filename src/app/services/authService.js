@@ -64,7 +64,6 @@
                 if (authData) {
                     _authentication.isAuth = true;
                     _authentication.username = authData.username;
-                    _authentication.username = authData.username;
 					_authentication.first_name = authData.first_name;
 					_authentication.last_name = authData.last_name;
 					_authentication.email = authData.email;
