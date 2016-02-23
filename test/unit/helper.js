@@ -52,6 +52,13 @@ var getMockLocalStorage = function () {
     localStorageService.remove = function (key) {
         delete localStorageData[key];
     };
+    localStorageService.clear = function() {
+        localStorageData = {};
+    };
+
+    localStorageService.getItem = localStorageService.get;
+    localStorageService.setItem = localStorageService.set;
+    localStorageService.removeItem = localStorageService.remove;
     
     return localStorageService;
 };

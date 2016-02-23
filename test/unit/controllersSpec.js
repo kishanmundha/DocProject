@@ -18,7 +18,9 @@ describe('app controllers', function () {
         });
     });
 
-    beforeEach(module('app'));
+    beforeEach(module('app', function ($provide) {
+        $provide.value('localStorageService', getMockLocalStorage());
+    }));
 
     describe('appCtrl', function () {
         var rootScope, scope, ctrl, location;
@@ -39,7 +41,7 @@ describe('app controllers', function () {
                     {'docId': 'no-tag', 'docName': 'No tag', 'category': '', 'tags': ''}
                 ]
             };
-            
+
             scope.searchPage('doc');
             expect(scope.searchResult.length).toEqual(2);
 
@@ -54,7 +56,7 @@ describe('app controllers', function () {
 
             scope.searchPage('docs');
             expect(scope.searchResult.length).toEqual(0);
-            
+
             scope.searchPage('');
             expect(scope.searchResult.length).toEqual(0);
 
@@ -76,7 +78,7 @@ describe('app controllers', function () {
 
             scope.changeProject(p);
             expect(scope.project).toBe(p);
-            
+
             rootScope.$broadcast('changeProject', undefined);
             expect(scope.project).not.toBeDefined();
 
@@ -94,11 +96,11 @@ describe('app controllers', function () {
 
             rootScope.$broadcast('changeDoc', d);
             expect(scope.currentDoc).toBe(d);
-            
+
             scope.setNavigationVisiblity(true);
             scope.search = 'search term';
             scope.setNavigationVisiblity(false);
-            
+
             expect(scope.search).toBe('');
 
         });
@@ -157,11 +159,11 @@ describe('app controllers', function () {
         it('should show proper date ago string', function () {
             ctrl = controller('docCtrl', {$scope: scope, $routeParams: routeParams, $sce: sce, docService: docService});
             var d = new Date();
-            
+
             // test for if time diffrence in negative
             d.setMinutes((d.getMinutes() + 2));
             expect(scope.getDateStringAgo(d)).toBe('few seconds');
-            
+
             // set again orgianal time value
             d.setMinutes((d.getMinutes() - 2));
 
@@ -207,8 +209,8 @@ describe('app controllers', function () {
             expect(scope.getDateStringAgo(d)).toBe('6 years');
         });
     });
-    
-    describe('editDocCtrl', function() {
+
+    describe('editDocCtrl', function () {
         var rootScope, scope, ctrl, routeParams, sce;
         var controller;
         var docService;
@@ -239,7 +241,7 @@ describe('app controllers', function () {
             controller = $controller;
         }));
 
-        it('editDocCtrl', function() {
+        it('editDocCtrl', function () {
             //'$log', '$scope', '$routeParams', '$sce', '$window', 'docService', '$timeout', 'localStorageService', 'config', '$location'
             ctrl = controller('editDocCtrl', {$scope: scope, $routeParams: routeParams, $sce: sce, docService: docService});
         });
