@@ -12,31 +12,31 @@
 
             var autoSaveDuration = (config.editDoc.autoSaveDuration || (60)) * 1000;
             var autoSaveExpiry = (config.editDoc.autoSaveExpiry || (60 * 60)) * 1000;    // 1 hour
-            
+
             $scope.getSaveDurationString = function () {
                 var s = autoSaveDuration / 1000;
-                
-                if(s === 1)
+
+                if (s === 1)
                     return 'second';
-                
-                if(s <= 59) {
+
+                if (s <= 59) {
                     return s + ' second';
                 }
-                
+
                 var m = parseInt(s / 60);
-                
-                if(m === 1)
+
+                if (m === 1)
                     return 'minute';
-                
-                if(m <= 59)
+
+                if (m <= 59)
                     return m + ' minute';
-                
+
                 var h = parseInt(m / 60);
-                
-                if(h === 1)
+
+                if (h === 1)
                     return 'hour';
-                
-                if(h <= 59)
+
+                if (h <= 59)
                     return h + ' hour';
 
                 return '10 minute';
@@ -118,9 +118,9 @@
                     data = data.replace(/\r\n/g, '\n');
 
                     $scope.markdown.orignalValue = data;
-                    
-                    if(!getOnly) {
-                       $scope.markdown.inputText = data;
+
+                    if (!getOnly) {
+                        $scope.markdown.inputText = data;
                     }
 
                     //parseMarkdownContent();

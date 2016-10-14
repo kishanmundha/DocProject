@@ -48,7 +48,7 @@
         <div id="body_content" style="visibility: hidden;">
 
             <nav class="navbar navbar-blue">
-                <div class="container">
+                <div class="container container-fluid-sm">
                     <div class="pull-left no-padding-xs" style="padding-left: 15px; padding-right: 15px; margin-left: auto; margin-right: auto;">
                         <div>
                             <a class="navbar-brand no-padding-xs" ng-href="/docs"><span class="visible-xs">Doc</span><span class="hidden-xs">Documentation</span></a>
@@ -101,12 +101,15 @@
             </nav>
 
             <!-- Search result -->
-            <div class="container" ng-show="search">
+            <div class="container container-fluid-sm" ng-show="search">
                 <div class="col-xs-12 no-padding-xs">
                     <div class="list-group" ng-if="searchResult.length !== 0">
                         <a ng-href="/docs/{{project.projectId}}/{{doc.docId}}" class="list-group-item" ng-repeat="doc in searchResult" ng-bind="doc.docName" ng-click="setNavigationVisiblity(false)"></a>
                     </div>
-                    <div ng-if="searchResult.length === 0" style="text-align: center;">
+                    <div ng-if="!searchResult.$resolved" style="width:100px; margin: 0px auto;">
+                        <progress-circular></progress-circular>
+                    </div>
+                    <div ng-if="searchResult.$resolved && searchResult.length === 0" style="text-align: center;">
                         <h4>No result found</h4>
                     </div>
                     <div class="clearfix"></div>
@@ -114,13 +117,13 @@
                 </div>
             </div>
 
-            <div class="container">
+            <div id="view-container" class="container container-fluid-sm">
                 <div ng-show="project.docs.length" class="visible-xs" style="padding-left: 0px; padding-right: 0px;">
                     <button class="btn btn-default col-xs-12" ng-click="setNavigationVisiblity(!isNavigationShow)">Show/Hide navigation</button>
                     <div class="clearfix"></div>
                     <br/>
                 </div>
-                <div class="col-xs-12 col-sm-5 col-md-4 col-lg-3 no-padding-xs" ng-class="{'hidden-xs': !isNavigationShow, 'hidden':!project}">
+                <div class="col-xs-12 col-sm-4 col-md-3 col-lg-3 no-padding-xs" ng-class="{'hidden-xs': !isNavigationShow, 'hidden':!project}">
                     <div ng-repeat="category in project.categories">
                         <h6 ng-if="category.display" ng-bind="category.display" style="text-transform: uppercase; font-weight: bold; color:#777;"></h6>
                         <div class="list-group">
@@ -128,12 +131,22 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-xs-12 no-padding-xs" ng-class="{'hidden-xs': isNavigationShow, 'col-sm-7':project, 'col-md-8':project, 'col-lg-9':project, 'col-sm-12':!project, 'col-md-12':!project, 'col-lg-12':!project}"
+                <div class="col-xs-12 no-padding-xs" ng-class="{'hidden-xs': isNavigationShow, 'col-sm-8':!(!project), 'col-md-9':!(!project), 'col-lg-9':!(!project), 'col-sm-12':!project, 'col-md-12':!project, 'col-lg-12':!project}"
                      style="padding-left: 0px;">
                     <div ng-view="" class="view-animate"></div>
                 </div>
             </div>
 
+            <footer class="footer">
+                <div class="container-fluid" style="padding-top:5px;padding-bottom: 5px;">
+                    <span class="pull-right">
+                        <a href="https://github.com/kishanmundha/DocProject" target="_blank"><img src="/img/github-icon.png" width="16" height="16" style="margin-top: -3px;" /></a>
+                        <!-- build:template
+                        <a href="https://github.com/kishanmundha/DocProject/releases" target="_blank">v<%= version %></a>
+                        /build -->
+                    </span>
+                </div>
+            </footer>
         </div>
 
         <!-- build:js /js/app.min.js -->
@@ -147,11 +160,28 @@
         <script src="/app/services/messageModalService.js"></script>
         <script src="/app/directives/autoGrowDirective.js"></script>
         <script src="/app/directives/loginDirective.js"></script>
+        <script src="/app/directives/404NotFoundDirective.js"></script>
+        <script src="/app/directives/progressCircularDirective.js"></script>
+
         <script src="/app/controllers/appCtrl.js"></script>
         <script src="/app/controllers/projectListCtrl.js"></script>
         <script src="/app/controllers/docCtrl.js"></script>
         <script src="/app/controllers/editDocCtrl.js"></script>
         <script src="/app/controllers/loginCtrl.js"></script>
+        <script src="/app/controllers/searchCtrl.js"></script>
+
+        <script>
+                            (function () {
+                                var a = document.createElement("script");
+                                a.src = "https://rawgit.com/kentcdodds/ng-stats/master/dist/ng-stats.js";
+                                a.onload = function () {
+                                    var location = ((window.localStorage || {}).ngStats || 'bottomleft');
+
+                                    window.showAngularStats({position: location});
+                                };
+                                document.head.appendChild(a);
+                            })();
+        </script>
         <!-- /build -->
 
         <script src="/config.js"></script>

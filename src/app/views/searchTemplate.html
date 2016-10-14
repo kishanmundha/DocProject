@@ -1,0 +1,41 @@
+
+<div class="col-xs-12 col-sm-offset-2 col-sm-8 col-md-offset-2 col-md-8 col-lg-offset-3 col-lg-6">
+
+    <div class="panel">		
+        <div class="panel-body">
+            <form class="form-horizontal">
+                <div class="input-group">
+                    <input class="form-control" placeholder="Search document name or content..." ng-model="term" autofocus="" />
+                    <span class="input-group-btn">
+                        <button class="btn btn-default" ng-click="search()"><span class="glyphicon glyphicon-search"></span></button>
+                    </span>
+                </div>
+                <br/>
+                <div title="Search inside document content">
+                    <input type="checkbox" class="md-checkbox" id="searchInContent" ng-model="inContent" /> <label for="searchInContent" style="font-weight:normal">Search in content</label>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="panel panel-default" ng-if="q && !searchResult.$resolved">
+        <div class="panel-body">
+            <div style="width:100px; margin: 0px auto; background-color: white;">
+                <progress-circular></progress-circular>
+            </div>
+        </div>
+    </div>
+    <div class="panel panel-default" ng-show="q && searchResult.$resolved">
+        <div class="list-group">
+            <a href="/docs/{{doc.project.projectId}}/{{doc.docId}}" class="list-group-item" ng-repeat="doc in searchResult">
+                <span class="badge">{{doc.project.projectName}}</span>
+                {{doc.docName}}
+            </a>
+            <div class="list-group-item text-center" style="color:#888;font-size:20px;" ng-show="searchResult.length === 0">
+                No record found
+            </div>
+        </div>
+    </div>
+
+</div>
+

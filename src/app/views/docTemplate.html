@@ -1,13 +1,20 @@
-<div class="panel panel-default">
+<div class="panel panel-default" ng-if="!docLoaded">
+    <div class="panel-body">
+        <div style="width:100px; margin: 0px auto; background-color: white;">
+            <progress-circular></progress-circular>
+        </div>
+    </div>
+</div>
+<div class="panel panel-default" ng-if="::docLoaded">
     <div class="panel-body">
         <div style="position: relative;">
-            <div style="position:absolute; right: 0px; top:0px;" class="edit-button" ng-if="enableEditDoc">
-                <a class="btn btn-default" ng-href="/docs/edit/{{projectId}}/{{docId}}"
+            <div style="position:absolute; right: 0px; top:0px;" class="edit-button" ng-if="::enableEditDoc">
+                <a class="btn btn-default" ng-href="/docs/edit/{{::projectId}}/{{::docId}}"
                    title="Edit document"
                    ><span class="glyphicon glyphicon-pencil"></span></a>
             </div>
-            ﻿<div ng-bind-html="markdown.outputText" id="docOutput" style="overflow-x: auto;"></div>
-            <div ng-show="lastModified"><i style="color:#aaa;" class="pull-right" title="{{lastModified| date:'EEEE, MMMM d, yyyy \'at\' h:mm a'}}">Last modified about <span ng-bind="getDateStringAgo(lastModified)"></span> ago</i></div>
+            ﻿<div ng-bind-html="::markdown.outputText" id="docOutput" style="overflow-x: auto;"></div>
+            <div ng-show="::lastModified"><i style="color:#aaa;" class="pull-right" title="{{::lastModified| date:'EEEE, MMMM d, yyyy \'at\' h:mm a'}}">Last modified about <span ng-bind="::getDateStringAgo(lastModified)"></span> ago</i></div>
             <div class="clearfix"></div>
         </div>
     </div>

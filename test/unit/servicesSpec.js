@@ -1,4 +1,4 @@
-/* global jasmine, expect, getMockLocalStorage */
+/* global jasmine, expect, getMockLocalStorage, Project */
 
 'use strict';
 
@@ -53,7 +53,7 @@ describe('service', function () {
             });
             appCtrlScope.$on('changeDoc', function (evt, args) {
                 appCtrlScope.changeDoc(args);
-            })
+            });
         }));
 
 
@@ -71,14 +71,18 @@ describe('service', function () {
             expect(p).not.toBeDefined();
 
             p = docService.getProject('dms');
+            
+            p.docs.forEach(function(item) {
+                delete item.project;
+            });
 
             expect(p).toEqual({
                 projectId: 'dms',
                 projectName: 'Help for Document Management',
                 fileName: undefined,
                 categories: [{name: '', display: ''}, {name: 'functions', display: 'Functions'}],
-                docs: [{docId: 'about', docName: 'About', fileName: 'dms', tags: '', category: '', noDoc: false, noList: false}],
-                navigateDocs: [{docId: 'about', docName: 'About', fileName: 'dms', tags: '', category: '', noDoc: false}]
+                docs: [{docId: 'about', docName: 'About', fileName: 'dms', tags: 'about', category: '', noDoc: false, noList: false}],
+                navigateDocs: [{docId: 'about', docName: 'About', fileName: 'dms', tags: 'about', category: '', noDoc: false}]
             });
         });
 

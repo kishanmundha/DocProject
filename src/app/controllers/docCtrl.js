@@ -32,14 +32,14 @@
             };
 
             function _sin_plu(a, s) {
-                
+
                 // we trust on param
                 // it will never less then 1
                 // and it always be numeric
                 // 
                 // if (isNaN(a) || a < 1)
                 //    return a + " " + s;
-                
+
                 if (a === 1) {
                     return a + " " + s;
                 }
@@ -87,6 +87,8 @@
 
             docService.getDocContent(projectId, docId, function (data) {
 
+                $scope.docLoaded = true;
+
                 if (Object.prototype.toString.call(data) === '[object Object]') {
                     if (data.lastModified) {
                         $scope.lastModified = new Date(data.lastModified);
@@ -132,6 +134,7 @@
                     });
                 }, 100);
             });
+
             if (!$scope.$parent.project || $scope.$parent.project.projectId !== projectId) {
                 docService.setCurrentProject(projectId);
             }

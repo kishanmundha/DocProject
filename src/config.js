@@ -7,16 +7,17 @@
         debugEnabled: true, // log enabled
         enableEditDoc: true,
         enableDocSave: true,
+        searchCacheExpiry: 60 * 60, // in seconds
         editDoc: {
-			anonymousSave: false,
+            anonymousSave: false,
             autoLocalSave: true,
-            autoSaveDuration: 60,   // 10 seconds
+            autoSaveDuration: 60, // in seconds
             autoSaveExpiry: 60    // 1 hour
         },
         apiServiceBaseUri: '/api/',
-		apiLogin: '/api/login',
-		apiSaveDoc: '/api/saveDoc',
-        isLoginEnable: function() {
+        apiLogin: '/api/login',
+        apiSaveDoc: '/api/saveDoc',
+        isLoginEnable: function () {
             return this.enableEditDoc === true && this.editDoc.anonymousSave === false;
         }
         // authentication: {
@@ -27,7 +28,7 @@
         // sub version control password stroe on local, runtime, server
         // git api
         // }
-        
+
         /*
          * 1. Who can edit page -- no one, anomys, authenticated user
          *      a. auto save to cache

@@ -9,7 +9,7 @@
                 password: ''
             };
 
-            $scope.onLogin = function() {
+            $scope.onLogin = function () {
                 $log.debug('login success');
             };
         }]);

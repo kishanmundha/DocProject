@@ -18,6 +18,14 @@
                         templateUrl: '/app/views/editDocTemplate.html',
                         controller: 'editDocCtrl'
                     })
+                    .when('/docs/search', {
+                        templateUrl: '/app/views/searchTemplate.html',
+                        controller: 'searchCtrl'
+                    })
+                    .when('/docs/search?q=:term', {
+                        templateUrl: '/app/views/searchTemplate.html',
+                        controller: 'searchCtrl'
+                    })
                     .when('/docs/:projectId', {// home page for project
                         templateUrl: '/app/views/docTemplate.html',
                         controller: 'docCtrl'
@@ -27,7 +35,7 @@
                         controller: 'docCtrl'
                     })
                     .when('/error', {
-                        template: '<div style="width:400px; text-align:center; margin:0px auto; font-size:20px; font-weight:bold; padding-top:40px;">Sorry, This page not found</div>'
+                        template: '<not-found404></not-found404>'
                     })
                     .when('/', {
                         redirectTo: '/docs'

@@ -24,8 +24,8 @@
                                     $uibModalInstance.close();
                                 }, 1000);
                             };
-							
-                            $scope.close = function() {
+
+                            $scope.close = function () {
                                 $uibModalInstance.close();
                             };
                         }]

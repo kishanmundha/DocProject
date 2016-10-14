@@ -10,12 +10,13 @@ Project configuration available in `config.js` file
 1. `debugEnabled` provide us to log if it enabled true.
 2. `enableEditDoc` provide us to a way to edit doc from client side.
 3. `enableDocSave` provide us to save edited content directly from client side.
-4. `editDoc.autoLocalSave` store edited content in cache if any situation we lost access from browser it will restore in next session.
-5. `editDoc.autoSaveDuration` (in seconds) local save duration if `autoLocalSave` enabled.
-6. `editDoc.autoSaveExpiry` (in seconds) expiry duration of local save
-7. `apiServiceBaseUri` : Base of all API
-8. `apiLogin` : Login API Path
-9. `apiSaveDoc` : Save Document API path
+4. `searchCacheExpiry` (in seconds) expiry duration for search cached index.
+5. `editDoc.autoLocalSave` store edited content in cache if any situation we lost access from browser it will restore in next session.
+6. `editDoc.autoSaveDuration` (in seconds) local save duration if `autoLocalSave` enabled.
+7. `editDoc.autoSaveExpiry` (in seconds) expiry duration of local save
+8. `apiServiceBaseUri` : Base of all API
+9. `apiLogin` : Login API Path
+10. `apiSaveDoc` : Save Document API path
 
 
 ## Server side scripting for host project
@@ -29,7 +30,8 @@ we return not found if request path is directory but there is not content and ot
 We have 2 sample script to host over project
 
 1. node.js
-2. MVC (IIS)
+2. [lite-server](https://github.com/johnpapa/lite-server)
+3. MVC (IIS)
 
 ### Host project using NodeJS
 
@@ -112,3 +114,12 @@ public ActionResult Index()
 #### 4. Publish MVC project
 
 publish MVC project and host it on IIS. and copy document project data in hosted root folder.
+
+
+## Screenshots
+
+![Project list](https://raw.githubusercontent.com/kishanmundha/DocProject/master/private/screenshots/01_ProjectList.png)
+
+![Search](https://raw.githubusercontent.com/kishanmundha/DocProject/master/private/screenshots/02_Search.png)
+
+![Document](https://raw.githubusercontent.com/kishanmundha/DocProject/master/private/screenshots/03_Document.png)

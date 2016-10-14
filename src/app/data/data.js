@@ -3,6 +3,39 @@
 
     var data = [];
 
+    var nonWords = [];
+
+    var getKeywords = function (str, excludeWords) {
+        var matchs = (str || '').toLowerCase().match(/[a-zA-Z0-9]\w+[a-zA-Z0-9]/gi);
+
+        if (!matchs)
+            return [];
+
+        if (typeof excludeWords === "string")
+            excludeWords = excludeWords.split(',');
+
+        if (!excludeWords)
+            excludeWords = [];
+
+
+        var result = [];
+
+        matchs.forEach(function (item) {
+            if (result.indexOf(item) !== -1)
+                return;
+
+            if (nonWords.indexOf(item) !== -1)
+                return;
+
+            if (excludeWords.indexOf(item) !== -1)
+                return;
+
+            result.push(item);
+        });
+
+        return result;
+    };
+
     /**
      * @public
      * @type Class
@@ -46,8 +79,7 @@
                     category.display = displayText;
 
                     projectData.categories.push(category);
-                }
-                catch (ex) {
+                } catch (ex) {
                     console.error(ex);
                 }
             }
@@ -86,7 +118,7 @@
                     });
 
                     if (existsdata.length)
-                        throw ERROR_DUPLICATE_DOC_ID;
+                        throw ERROR_DUPLICATE_DOC_ID + ' "' + docId + '"';
 
                     options = options || {};
                     var doc = {};
@@ -99,10 +131,19 @@
                     doc.noDoc = options.noDoc || false;
                     doc.noList = options.noList || false;
 
+                    (function () {
+                        var t = getKeywords(docName, doc.tags).join(',');
+                        if (t && t.length) {
+                            if (doc.tags)
+                                doc.tags += ',';
+
+                            doc.tags += t;
+                        }
+                    })();
+
                     projectData.docs.push(doc);
 
-                }
-                catch (ex) {
+                } catch (ex) {
                     console.error(ex);
                 }
             }
@@ -132,8 +173,7 @@
                 data.push(projectData);
 
                 addCategory('', '');
-            }
-            catch (ex) {
+            } catch (ex) {
                 console.error(ex);
             }
         })();
@@ -153,7 +193,25 @@
         return new Project(projectId, projectName);
     };
 
+    /**
+     * @description Add grammer keywords to non words for exclude searching result
+     * 
+     * @publish
+     * @param {String|Array} words Array of words or words seperate by comma
+     */
+    Project.addNonWords = function (words) {
+        if (typeof words === "string") {
+            words = words.split(/[, ]/ig);
+        }
+
+        words.forEach(function (item) {
+            if (item && nonWords.indexOf(item) !== -1)
+                nonWords.push(item);
+        });
+    };
+
     Project.data = data;
+    Project.getKeywords = getKeywords;
     window.Project = Project;
     window.data = data;
 

@@ -1,5 +1,7 @@
 "use strict";
 
+var process = require('process');
+
 /* 
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -19,10 +21,12 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-karma');
     grunt.loadNpmTasks('grunt-protractor-runner');
     grunt.loadNpmTasks('grunt-contrib-jshint');
+    
+    var pkg = grunt.file.readJSON('package.json');
 
     // Project configuration.
     grunt.initConfig({
-        'pkg': grunt.file.readJSON('package.json'),
+        'pkg': pkg,
         concat: {
             'dist1': {
                 'src': ['src/app/**/*.js'],
@@ -38,7 +42,7 @@ module.exports = function (grunt) {
                     'src/bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js',
                     'src/bower_components/bootstrap/dist/js/bootstrap.min.js',
                     'src/bower_components/marked/lib/marked.js',
-                    'src/bower_components/highlightjs/highlight.pack.js',
+                    'src/bower_components/highlightjs/highlight.pack.js'
                 ],
                 'dest': 'dist/js/lib.min.js'
             },
@@ -52,37 +56,18 @@ module.exports = function (grunt) {
                     'src/bower_components/highlightjs/styles/github.css'
                 ],
                 'dest': 'dist/css/lib.css'
-            },
-            build: {
-                'bin/debug/js/app.js': ['src/app/**/*.js'],
-                //'bin/debug/js/lib.js': [],
-                'bin/debug/js/lib.min.js': [
-                    'src/bower_components/jquery/dist/jquery.min.js',
-                    'src/bower_components/angular/angular.min.js',
-                    'src/bower_components/angular-route/angular-route.min.js',
-                    'src/bower_components/angular-sanitize/angular-sanitize.min.js',
-                    'src/bower_components/angular-animate/angular-animate.min.js',
-                    'src/bower_components/bootstrap/dist/js/bootstrap.min.js',
-                    'src/bower_components/marked/lib/marked.js',
-                    'src/bower_components/highlightjs/highlight.pack.js',
-                ],
-                'dist/css/lib.css': [
-                    'src/bower_components/bootstrap/dist/css/bootstrap.css',
-                    'src/Content/Doc.css',
-                    'src/bower_components/highlightjs/styles/github.css'
-                ]
             }
         },
         uglify: {
             'options': {
                 'mangle': true,
-				'sourceMap': true
+                'sourceMap': true
             },
             'dist': {
                 'files': {
                     'dist/js/app.min.js': ['dist/js/app.js'],
                     //'dist/js/lib.min.js': ['dist/js/lib.js']
-                    'dist/js/template.min.js': ['dist/js/template.js'],
+                    'dist/js/template.min.js': ['dist/js/template.js']
                 }
             }
         },
@@ -95,9 +80,7 @@ module.exports = function (grunt) {
         },
         clean: {
             'minify': ['dist/**/*'],
-            'publish': ['publish/**/*'],
-            'build': ['bin/debug/**/*'],
-            'release': ['bin/release/**/*']
+            'publish': ['publish/**/*']
         },
         copy: {
             main: {
@@ -122,20 +105,14 @@ module.exports = function (grunt) {
                     // flattens results to a single level
                     //{expand: true, flatten: true, src: ['path/**'], dest: 'dest/', filter: 'isFile'},
                 ]
-            },
-            build: {
-                files: [
-                    {expand: true, cwd: 'src/data/', src: ['**/*.*'], dest: 'bin/debug/data/'},
-                    {expand: true, cwd: 'src/img/', src: ['**/*.*'], dest: 'bin/debug/img/'},
-                    {expand: true, cwd: 'src', src: ['favicon.ico'], dest: 'bin/debug/'},
-                    {expand: true, cwd: 'src', src: ['data.js'], dest: 'bin/debug/data/'},
-                    {expand: true, cwd: 'src', src: ['server.js'], dest: 'bin/debug/'},
-                    {expand: true, cwd: 'src', src: ['config.js'], dest: 'bin/debug/'},
-                    {expand: true, cwd: 'src/bower_components/bootstrap/dist/fonts', src: ['*.*'], dest: 'bin/debug/fonts/'},
-                ]
             }
         },
         processhtml: {
+            options: {
+                data: {
+                    version: pkg.version
+                }
+            },
             'dist': {
                 'files': {
                     'publish/index.html': ['src/index.html']
@@ -182,14 +159,14 @@ module.exports = function (grunt) {
         },
         karma: {
             unit: {
-                configFile: 'test/karma.conf.js',
+                configFile: process.cwd() + '/test/karma.conf.js',
                 singleRun: true,
-				browsers:['PhantomJS']
+                browsers: ['PhantomJS']
             },
-			debug: {
+            debug: {
                 configFile: 'test/karma.conf.js',
                 //singleRun: true,
-			}
+            }
         },
         protractor: {
             /*options: {
@@ -213,22 +190,21 @@ module.exports = function (grunt) {
             all: ['Gruntfile.js', 'src/**/*.js', 'test/**/*.js'],
             options: {
                 jshintrc: true,
-                //ignores: ['src/bower_components/**/*.js']
+                ignores: ['src/bower_components/**/*.js']
             }
         }
     });
 
-    grunt.registerTask('clean:all', ['clean:build', 'clean:release']);
+    grunt.registerTask('clean:all', ['clean']);
     grunt.registerTask('test', ['jshint', 'karma:unit']);
-	grunt.registerTask('test:full', ['jshint', 'karma', 'protractor']);
+    grunt.registerTask('test:full', ['jshint', 'karma', 'protractor']);
 
     grunt.registerTask('minify', ['concat', 'html2js', 'uglify', 'cssmin']);
     grunt.registerTask('publish', ['minify', 'processhtml', 'copy']);
     grunt.registerTask('release', ['publish', 'compress']);
 
-    grunt.registerTask('build:debug', ['concat', 'html2js', 'copy:build']);
-    grunt.registerTask('build:release', ['clean:all', 'build', 'test', 'uglify', 'cssmin', 'processhtml', 'copy:release']);
-    grunt.registerTask('release', ['build:release', 'compress']);
+    grunt.registerTask('build', ['test', 'clean:all', 'minify', 'processhtml', 'copy']);
+    grunt.registerTask('build:release', ['build', 'compress']);
 
     /*
      src folder use css - less
@@ -246,10 +222,10 @@ module.exports = function (grunt) {
      
      in run we run release code
      */
-	 
-	grunt.registerTask('gruntTest', 'Grunt test', function() {
-		grunt.log.writeln('Currently running the "Grunt test" task.');
-		
-		grunt.task.run('test', 'minify');
-	});
+
+    grunt.registerTask('gruntTest', 'Grunt test', function () {
+        grunt.log.writeln('Currently running the "Grunt test" task.');
+
+        grunt.task.run('test', 'minify');
+    });
 };

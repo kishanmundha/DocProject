@@ -1,4 +1,4 @@
-/* global jasmine, expect */
+/* global jasmine, expect, getMockLocalStorage */
 
 'use strict';
 

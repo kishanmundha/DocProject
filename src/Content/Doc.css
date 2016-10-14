@@ -183,3 +183,28 @@ a[ng-click] {
     opacity:0;
 }
 
+.footer {
+    width: 100%;
+    height: 32px;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    background-color: #fff;
+    border-top: 1px solid #ddd;
+}
+
+/*
+@media (max-width: 427px) {
+	.footer {
+		height: 50px;
+	}
+}
+*/
+
+#body_content {
+    min-height:100%;
+    position:relative;
+}
+#view-container {
+    padding-bottom:32px; /* Height of the footer element */
+}

@@ -122,14 +122,14 @@ describe('data service', function () {
         p.addDoc('test-doc', 'Test Document', '', {'fileName': 'test-doc-file', 'tags': 'test,doc', 'noDoc': true, 'noList': true});
 
         expect(Project.data[0].docs[0].fileName).toBe('test-doc-file');
-        expect(Project.data[0].docs[0].tags).toBe('test,doc');
+        expect(Project.data[0].docs[0].tags).toBe('test,doc,document');
         expect(Project.data[0].docs[0].noDoc).toBe(true);
         expect(Project.data[0].docs[0].noList).toBe(true);
         
         p.addDoc('test-doc-2', 'Test Document', {'fileName': 'test-doc-file-2', 'tags': 'test,doc', 'noDoc': true, 'noList': true});
         
         expect(Project.data[0].docs[1].fileName).toBe('test-doc-file-2');
-        expect(Project.data[0].docs[1].tags).toBe('test,doc');
+        expect(Project.data[0].docs[1].tags).toBe('test,doc,document');
         expect(Project.data[0].docs[1].noDoc).toBe(true);
         expect(Project.data[0].docs[1].noList).toBe(true);
         

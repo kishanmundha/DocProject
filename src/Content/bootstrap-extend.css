@@ -118,3 +118,116 @@ fieldset[disabled] .navbar-blue .btn-link:hover,
 fieldset[disabled] .navbar-blue .btn-link:focus {
   color: #ccc;
 }
+
+/*******************************************/
+
+@keyframes rotate {
+  100% {
+    transform: rotate(360deg);
+  }
+}
+@keyframes dash {
+  0% {
+    stroke-dasharray: 1,500;
+    stroke-dashoffset: 0;
+  }
+  50% {
+    stroke-dasharray: 89,500;
+    stroke-dashoffset: -35;
+  }
+  100% {
+    stroke-dasharray: 89,500;
+    stroke-dashoffset: -124;
+  }
+}
+@keyframes dash-sm {
+  0% {
+    stroke-dasharray: 1,500;
+    stroke-dashoffset: 0;
+  }
+  50% {
+    stroke-dasharray: 44,500;
+    stroke-dashoffset: -17;
+  }
+  100% {
+    stroke-dasharray: 44,500;
+    stroke-dashoffset: -61;
+  }
+}
+@keyframes color {
+  100%, 0% {
+    stroke: #d62d20;
+  }
+  40% {
+    stroke: #0057e7;
+  }
+  66% {
+    stroke: #008744;
+  }
+  80%, 90% {
+    stroke: #ffa700;
+  }
+}
+
+/***************************************/
+
+.md-checkbox {
+  position: relative;
+  top: 0px;
+  margin: 0 10px 0 0 !important;
+  cursor: pointer;
+}
+
+.md-checkbox:before {
+  -webkit-transition: all 0.3s ease-in-out;
+  -moz-transition: all 0.3s ease-in-out;
+  transition: all 0.3s ease-in-out;
+  content: "";
+  position: absolute;
+  left: 0;
+  z-index: 1;
+  width: 16px;
+  height: 16px;
+  border: 2px solid #337ab7;
+}
+
+.md-checkbox:checked:before {
+  -webkit-transform: rotate(-45deg);
+  -moz-transform: rotate(-45deg);
+  -ms-transform: rotate(-45deg);
+  -o-transform: rotate(-45deg);
+  transform: rotate(-45deg);
+  height: 8px;
+  border-color: #337ab7;
+  border-top-style: none;
+  border-right-style: none;
+}
+
+.md-checkbox:after {
+  content: "";
+  position: absolute;
+  top: -0.125rem;
+  left: 0;
+  width: 17.5px;
+  height: 17.5px;
+  background: #fff;
+  cursor: pointer;
+}
+
+/****************************/
+
+@media (max-width: 1199px) {
+    .container-fluid-sm {
+        width: 100%;
+    }
+}
+
+html, body {
+	font-family: "Segoe UI", "Helvetica Neue", Helvetica, Arial, sans-serif;
+	height:100%;
+}
+
+.navbar {
+    border-radius: 0px;
+}
+
