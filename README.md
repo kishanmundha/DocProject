@@ -118,8 +118,8 @@ publish MVC project and host it on IIS. and copy document project data in hosted
 
 ## Screenshots
 
-![Project list](https://raw.githubusercontent.com/kishanmundha/DocProject/master/private/screenshots/01_ProjectList.png)
+![Project list](https://raw.githubusercontent.com/kishanmundha/DocProject/master/private/screenshots/01_ProjectList.PNG)
 
-![Search](https://raw.githubusercontent.com/kishanmundha/DocProject/master/private/screenshots/02_Search.png)
+![Search](https://raw.githubusercontent.com/kishanmundha/DocProject/master/private/screenshots/02_Search.PNG)
 
-![Document](https://raw.githubusercontent.com/kishanmundha/DocProject/master/private/screenshots/03_Document.png)
+![Document](https://raw.githubusercontent.com/kishanmundha/DocProject/master/private/screenshots/03_Document.PNG)
