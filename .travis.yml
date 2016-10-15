@@ -21,3 +21,6 @@ install: npm install
 
 script: grunt test
 #  - scripts/private/test-all.sh
+
+after_success:
+  - coveralls
