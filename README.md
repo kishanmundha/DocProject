@@ -1,4 +1,4 @@
-# Document management [![Build Status](https://api.travis-ci.org/kishanmundha/DocProject.svg?branch=master)](https://travis-ci.org/kishanmundha/DocProject) [![Coverage Status](https://coveralls.io/repos/kishanmundha/DocProject/badge.svg?branch=master)](https://coveralls.io/github/kishanmundha/DocProject)
+# Document management [![Build Status](https://api.travis-ci.org/kishanmundha/DocProject.svg?branch=master)](https://travis-ci.org/kishanmundha/DocProject) [![Coverage Status](https://coveralls.io/repos/kishanmundha/DocProject/badge.svg?branch=master)](https://coveralls.io/github/kishanmundha/DocProject) [![Dependencies Status](https://david-dm.org/kishanmundha/DocProject/status.svg)](https://david-dm.org/kishanmundha/DocProject) [![DevDependencies Status](https://david-dm.org/kishanmundha/DocProject/dev-status.svg)](https://david-dm.org/kishanmundha/DocProject?type=dev) 
 
 Manage your documents of project with this tool
 
