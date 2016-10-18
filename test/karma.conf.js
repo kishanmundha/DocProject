@@ -43,7 +43,7 @@ module.exports = function (config) {
             outputFile: 'test_out/unit.xml',
             suite: 'unit'
         },
-        reporters: ['progress', 'html', 'coverage'],
+        reporters: ['progress', 'kjhtml', 'coverage'],
         coverageReporter: {
             type: 'lcov',
             dir: 'coverage'
