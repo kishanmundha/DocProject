@@ -1,6 +1,19 @@
 "use strict";
 
+var process = require('process');
+
 module.exports = function (config) {
+	
+	var sourcePreprocessors = ['coverage'];
+	
+	function isDebug(argument) {
+		return argument === '--debug';
+	}
+	
+	if (process.argv.some(isDebug)) {
+		sourcePreprocessors = [];
+	}
+	
     config.set({
         basePath: '../',
         files: [
@@ -19,11 +32,12 @@ module.exports = function (config) {
             'test/unit/routeSpec.js',
             'test/unit/controllersSpec.js',
             'test/unit/servicesSpec.js',
-            'test/unit/dataSpec.js'
+            'test/unit/dataSpec.js',
+			'test/unit/directivesSpec.js'
             //'test/unit/appCtrlSpec.js'
         ],
         preprocessors: {
-            'src/app/**/*.js': ['coverage']
+            'src/app/**/*.js': sourcePreprocessors
         },
         autoWatch: true,
         frameworks: ['jasmine'],

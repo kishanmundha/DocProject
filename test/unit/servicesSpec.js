@@ -160,6 +160,15 @@ describe('service', function () {
             expect(obj.callback).toHaveBeenCalled();
         });
 
+		it('function searchDoc', function() {
+			var docs = docService.searchDoc('about');
+			
+			expect(docs.length).toEqual(1);
+			
+			docs = docService.searchDoc('about', true);
+			
+			expect(docs.length).toEqual(0);
+		});
     });
 
     describe('authInterceptorService', function () {

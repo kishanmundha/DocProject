@@ -55,7 +55,6 @@
                     var html = '<svg style="animation: rotate 2s linear infinite; height: ' + height + 'px; width: ' + width + 'px; position: relative">'
                             + '<circle style="animation:' + animateClass + ' 1.5s ease-in-out infinite, color 6s ease-in-out infinite" cx="' + cx + '" cy="' + cy + '" r="' + r + '" stroke-dasharray="1,200" stroke-dashoffset="0" stroke-linecap="round" fill="none" stroke-width="' + strokeWidth + '" stroke-miterlimit="10"/>'
                             + '</svg>';
-                    element.html(html);
                     var c = $compile(html)($scope);
                     element.replaceWith(c);
                 }

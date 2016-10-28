@@ -104,6 +104,11 @@ describe('app controllers', function () {
             expect(scope.search).toBe('');
 
         });
+
+		it('redirectTo', function() {
+			rootScope.$broadcast('redirectTo', '/docs?q=search');
+			rootScope.$broadcast('redirectTo', '/docs?q=search', true);
+		});
     });
 
     describe('docCtrl', function () {
@@ -115,7 +120,7 @@ describe('app controllers', function () {
             docService = {
                 getDocContent: function (projectId, docId, callback) {
                     if (docId === 'doc1') {
-                        callback({'data': '[link](/docs/dms)', 'lastModified': undefined});
+                        callback({'data': '[link](/docs/dms)', 'lastModified': 'Fri, 28 Oct 2016 7:17:08 GMT'});
                     } else {
                         callback('[link](/docs/dms)');
                     }

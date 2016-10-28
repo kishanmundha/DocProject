@@ -15,7 +15,8 @@
         "setTimeout": false,
         "__dirname": false,
         "window": false,
-        "exports":false
+        "exports":false,
+		"Promise":false
     },
     "predef": [
         "jasmine",
