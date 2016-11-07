@@ -392,4 +392,20 @@ describe('service', function () {
              */
         });
     });
+	
+	describe('loginModalService', function() {
+		var loginModalService;
+		
+        beforeEach(module('app', function ($provide) {
+        }));
+		
+        beforeEach(inject(function (_loginModalService_) {
+            loginModalService = _loginModalService_;
+            //$rootScope = _$rootScope_;
+        }));
+		
+		it('localModalService', function() {
+			loginModalService.login();
+		});
+	});
 });

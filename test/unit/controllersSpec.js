@@ -1,4 +1,4 @@
-/* global jasmine, expect, getMockLocalStorage */
+/* global jasmine, expect, getMockLocalStorage, marked, hljs, $ */
 
 'use strict';
 
@@ -112,7 +112,7 @@ describe('app controllers', function () {
     });
 
     describe('docCtrl', function () {
-        var rootScope, scope, ctrl, routeParams, sce;
+        var rootScope, scope, ctrl, routeParams, sce, timeout;
         var controller;
         var docService;
 
@@ -121,9 +121,11 @@ describe('app controllers', function () {
                 getDocContent: function (projectId, docId, callback) {
                     if (docId === 'doc1') {
                         callback({'data': '[link](/docs/dms)', 'lastModified': 'Fri, 28 Oct 2016 7:17:08 GMT'});
-                    } else {
+                    } else if(docId === 'doc2') {
                         callback('[link](/docs/dms)');
-                    }
+                    } else {
+						callback();
+					}
                 },
                 setCurrentDoc: function (docId) {
 
@@ -132,6 +134,10 @@ describe('app controllers', function () {
 
                 }
             };
+			
+			timeout = function(fn) {
+				fn();
+			};
         });
 
         beforeEach(inject(function ($rootScope, $controller, $routeParams, $sce) {
@@ -159,6 +165,52 @@ describe('app controllers', function () {
             expect(scope.markdown.outputText).toBeDefined();
             outputText = scope.markdown.outputText.$$unwrapTrustedValue().trim();
             expect(outputText).toBe(expectHtml);
+			
+			rootScope.project = {projectId: 'project-2'};
+			
+			var _$_ = window.$;
+			
+			var hrefAttrCount = 0;
+			window.$ = function() {
+				return {
+					on: function(action, fn) {
+						switch(action) {
+							case 'click':
+								fn();
+								fn();
+								fn();
+								break;
+							default:
+								fn();
+						}
+					},
+					each: function(fn) {fn();},
+					attr: function(attr) {
+						var value;
+						switch(attr) {
+							case 'href':
+								if(hrefAttrCount === 0)
+									value = '';
+								else if(hrefAttrCount === 1)
+									value = 'a#';
+								else
+									value = '#a';
+								hrefAttrCount++;
+								break;
+							case 'target':
+								value = '';
+								break;
+							default:
+								break;
+						}
+						return value;
+					}
+				};
+			};
+			routeParams.docId = 'doc3';
+			ctrl = controller('docCtrl', {$scope: scope, $routeParams: routeParams, $sce: sce, docService: docService, $timeout: timeout});
+			
+			window.$ = _$_;
         });
 
         it('should show proper date ago string', function () {
@@ -216,7 +268,7 @@ describe('app controllers', function () {
     });
 
     describe('editDocCtrl', function () {
-        var rootScope, scope, ctrl, routeParams, sce;
+        var rootScope, scope, ctrl, routeParams, sce, timeout;
         var controller;
         var docService;
 
@@ -234,85 +286,220 @@ describe('app controllers', function () {
                 },
                 setCurrentProject: function (projectId) {
 
-                }
+                },
+				saveDocContent: function(projectId, docId, inputText, fn) {
+					fn();
+				}
             };
+			
+			var istimeoutcalled = false;
+			timeout = function(fn) {
+				if(istimeoutcalled)
+					return;
+				
+				istimeoutcalled = true;
+				fn();
+			};
+			
+			timeout.cancel = function() {};
         });
 
         beforeEach(inject(function ($rootScope, $controller, $routeParams, $sce) {
             rootScope = $rootScope;
             scope = $rootScope.$new();
             routeParams = $routeParams;
+			$routeParams.projectId = 'project1';
+			routeParams.docId = 'doc1';
             sce = $sce;
             controller = $controller;
         }));
 
         it('editDocCtrl', function () {
+			var localStorageService = getMockLocalStorage();
+			
+			localStorageService.setItem('project1/doc1', {timestamp: new Date(1900, 1, 1), content: 'test'});
+			
+			var $window = {
+				open: function() {}
+			};
+
             //'$log', '$scope', '$routeParams', '$sce', '$window', 'docService', '$timeout', 'localStorageService', 'config', '$location'
-            ctrl = controller('editDocCtrl', {$scope: scope, $routeParams: routeParams, $sce: sce, docService: docService});
+            ctrl = controller('editDocCtrl', {$scope: scope, $routeParams: routeParams, $sce: sce, docService: docService, $timeout: timeout, localStorageService: localStorageService, $window: $window});
+			
+			scope.getSaveDurationString();
+			scope.removeCache();
+			scope.openSource();
+			scope.save();
+			
+			scope.config.enableDocSave = false;
+			
+			scope.save();
+			
+			scope.showPreview();
+			
+			scope.markdown.inputText = '```test\na=0\n```';
+			
+			scope.$apply();
+			
+			marked.setOptions({
+				renderer: new marked.Renderer(),
+				gfm: true,
+				tables: true,
+				breaks: false,
+				pedantic: false,
+				sanitize: false, // if false -> allow plain old HTML ;)
+				smartLists: true,
+				smartypants: false,
+				highlight: function (code, lang) {
+					if (lang) {
+						return hljs.highlight(lang, code).value;
+					} else {
+						return hljs.highlightAuto(code).value;
+					}
+				}
+			});
+			
+			scope.showPreview();
+			
+			localStorageService.setItem('project1/doc1', {timestamp: new Date(), content: 'test'});
+			ctrl = controller('editDocCtrl', {$scope: scope, $routeParams: routeParams, $sce: sce, docService: docService, $timeout: timeout, localStorageService: localStorageService});
+
+			localStorageService.clear();
+			ctrl = controller('editDocCtrl', {$scope: scope, $routeParams: routeParams, $sce: sce, docService: docService, $timeout: timeout, localStorageService: localStorageService});
+			
+			var config = {};
+			config.editDoc = {};
+			config.editDoc.autoSaveDuration = undefined;
+			config.editDoc.autoSaveExpiry = undefined;
+			var fnCtrl = function() {
+				ctrl = controller('editDocCtrl', {$scope: scope, $routeParams: routeParams, $sce: sce, docService: docService, $timeout: timeout, localStorageService: localStorageService, config: config});
+			};
+			
+			fnCtrl();
+			scope.getSaveDurationString();
+			
+			config.editDoc.autoSaveDuration = 1; // 1 second
+			
+			fnCtrl();
+			scope.getSaveDurationString();
+			
+			config.editDoc.autoSaveDuration = 1 * 2; // > 1 second
+			
+			fnCtrl();
+			scope.getSaveDurationString();
+			
+			config.editDoc.autoSaveDuration = 1 * 60; // 1 minute
+			
+			fnCtrl();
+			scope.getSaveDurationString();
+
+			config.editDoc.autoSaveDuration = 1 * 60 * 2; // > 1 minute
+			
+			fnCtrl();
+			scope.getSaveDurationString();
+
+			config.editDoc.autoSaveDuration = 1 * 60 * 60; // 1 hour
+			
+			fnCtrl();
+
+			scope.getSaveDurationString();
+			config.editDoc.autoSaveDuration = 1 * 60 * 60 * 2; // > 1 hour
+			
+			fnCtrl();
+			scope.getSaveDurationString();
+			
+			config.editDoc.autoSaveDuration = 1 * 60 * 60 * 60; // > 60 hour
+			
+			fnCtrl();
+			scope.getSaveDurationString();
         });
     });
 
-    /*it('test', function () {
-     expect(1).toBe(1);
-     expect([]).toEqualData([]);
-     })*/
+	describe('searchCtrl', function() {
+        var rootScope, scope, ctrl, routeParams, timeout;
+        var controller;
+        var docService;
+		
+		beforeEach(function () {
+			docService = {
+				setCurrentProject: function() {},
+				searchDoc: function() {return [];},
+				redirectTo: function() {}
+            };
+			
+			timeout = function(fn) {
+				fn();
+			};
+        });
+		
+        beforeEach(inject(function ($rootScope, $controller, $routeParams) {
+            rootScope = $rootScope;
+            scope = $rootScope.$new();
+            routeParams = $routeParams;
+			routeParams.q = 'test';
+            controller = $controller;
+        }));
+		
+		it('should work search function proper', function() {
+			ctrl = controller('searchCtrl', {$scope: scope, docService: docService, $timeout: timeout});
+			
+			expect(scope.searchResult).toEqual([]);
+			
+			scope.term = '';
+			scope.search();
+			
+			scope.term = 'test';
+			scope.search();
+		});
+	});
 
-//  beforeEach(module('phonecatApp'));
-//  beforeEach(module('phonecatServices'));
-//
-//  describe('PhoneListCtrl', function(){
-//    var scope, ctrl, $httpBackend;
-//
-//    beforeEach(inject(function(_$httpBackend_, $rootScope, $controller) {
-//      $httpBackend = _$httpBackend_;
-//      $httpBackend.expectGET('phones/phones.json').
-//          respond([{name: 'Nexus S'}, {name: 'Motorola DROID'}]);
-//
-//      scope = $rootScope.$new();
-//      ctrl = $controller('PhoneListCtrl', {$scope: scope});
-//    }));
-//
-//
-//    it('should create "phones" model with 2 phones fetched from xhr', function() {
-//      expect(scope.phones).toEqualData([]);
-//      $httpBackend.flush();
-//
-//      expect(scope.phones).toEqualData(
-//          [{name: 'Nexus S'}, {name: 'Motorola DROID'}]);
-//    });
-//
-//
-//    it('should set the default value of orderProp model', function() {
-//      expect(scope.orderProp).toBe('age');
-//    });
-//  });
-//
-//
-//  describe('PhoneDetailCtrl', function(){
-//    var scope, $httpBackend, ctrl,
-//        xyzPhoneData = function() {
-//          return {
-//            name: 'phone xyz',
-//                images: ['image/url1.png', 'image/url2.png']
-//          }
-//        };
-//
-//
-//    beforeEach(inject(function(_$httpBackend_, $rootScope, $routeParams, $controller) {
-//      $httpBackend = _$httpBackend_;
-//      $httpBackend.expectGET('phones/xyz.json').respond(xyzPhoneData());
-//
-//      $routeParams.phoneId = 'xyz';
-//      scope = $rootScope.$new();
-//      ctrl = $controller('PhoneDetailCtrl', {$scope: scope});
-//    }));
-//
-//
-//    it('should fetch phone detail', function() {
-//      expect(scope.phone).toEqualData({});
-//      $httpBackend.flush();
-//
-//      expect(scope.phone).toEqualData(xyzPhoneData());
-//    });
-//  });
+	describe('projectListCtrl', function() {
+        var rootScope, scope, ctrl, routeParams, timeout;
+        var controller;
+        var docService;
+		
+		beforeEach(function () {
+			docService = {
+				setCurrentProject: function() {},
+				getProjectList: function() {return [];}
+            };
+			
+			timeout = function(fn) {
+				fn();
+			};
+        });
+		
+        beforeEach(inject(function ($rootScope, $controller, $routeParams) {
+            rootScope = $rootScope;
+            scope = $rootScope.$new();
+            controller = $controller;
+        }));
+		
+		it('projectListCtrl', function() {
+			ctrl = controller('projectListCtrl', {$scope: scope, docService: docService, $timeout: timeout});
+			
+			expect(scope.projects).toEqual([]);
+		});
+	});
+
+	describe('loginCtrl', function() {
+        var rootScope, scope, ctrl, routeParams;
+        var controller;
+		
+		beforeEach(function () {
+        });
+		
+        beforeEach(inject(function ($rootScope, $controller, $routeParams) {
+            rootScope = $rootScope;
+            scope = $rootScope.$new();
+            controller = $controller;
+        }));
+		
+		it('loginCtrl', function() {
+			ctrl = controller('loginCtrl', {$scope: scope});
+			
+			scope.onLogin();
+		});
+	});
+
 });

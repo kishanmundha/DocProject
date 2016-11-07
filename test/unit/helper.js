@@ -55,6 +55,9 @@ var getMockLocalStorage = function () {
     localStorageService.clear = function() {
         localStorageData = {};
     };
+	localStorageService.getAll = function() {
+		return localStorageData;
+	};
 
     localStorageService.getItem = localStorageService.get;
     localStorageService.setItem = localStorageService.set;

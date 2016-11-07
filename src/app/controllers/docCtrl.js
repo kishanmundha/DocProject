@@ -128,7 +128,7 @@
                 $timeout(function () {
                     $log.debug($('#docOutput a'));
 
-                    $('#docOutput a[href^="/data/"').each(function () {
+                    $('#docOutput a[href^="/data/"]').each(function () {
                         if (!$(this).attr('target'))
                             $(this).attr('target', '_self');
                     });

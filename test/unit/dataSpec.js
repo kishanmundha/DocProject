@@ -134,4 +134,15 @@ describe('data service', function () {
         expect(Project.data[0].docs[1].noList).toBe(true);
         
     });
+
+	it('other test', function() {
+		Project.addNonWords();
+		Project.addNonWords('');
+		Project.addNonWords('a');
+		Project.addNonWords(['a', 'b', 'aaa']);
+		
+		Project.getKeywords();
+		Project.getKeywords('a b c');
+		Project.getKeywords('abc abc aaa');
+	});
 });

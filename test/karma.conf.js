@@ -17,6 +17,7 @@ module.exports = function (config) {
     config.set({
         basePath: '../',
         files: [
+			'src/bower_components/jquery/dist/jquery.min.js',
             'src/bower_components/angular/angular.js',
             'src/bower_components/angular-route/angular-route.js',
             //'src/bower_components/angular-resource/angular-resource.js',
@@ -25,6 +26,7 @@ module.exports = function (config) {
             'src/bower_components/angular-mocks/angular-mocks.js',
             'src/bower_components/angular-sanitize/angular-sanitize.min.js',
             'src/bower_components/marked/lib/marked.js',
+			'bower_components/highlightjs/highlight.pack.js',
             'src/app/**/*.js',
             'src/config.js',
             //'test/unit/**/*.js'

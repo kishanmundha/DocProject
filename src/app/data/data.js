@@ -203,9 +203,13 @@
         if (typeof words === "string") {
             words = words.split(/[, ]/ig);
         }
+		
+        if(!Array.isArray(words)) {
+            return;
+        }
 
         words.forEach(function (item) {
-            if (item && nonWords.indexOf(item) !== -1)
+            if (item && nonWords.indexOf(item) === -1)
                 nonWords.push(item);
         });
     };
