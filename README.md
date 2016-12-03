@@ -1,4 +1,6 @@
-# Document management [![Build Status](https://api.travis-ci.org/kishanmundha/DocProject.svg?branch=master)](https://travis-ci.org/kishanmundha/DocProject) [![Coverage Status](https://codecov.io/gh/kishanmundha/DocProject/branch/master/graph/badge.svg)](https://codecov.io/gh/kishanmundha/DocProject) [![Dependencies Status](https://david-dm.org/kishanmundha/DocProject/status.svg)](https://david-dm.org/kishanmundha/DocProject) [![DevDependencies Status](https://david-dm.org/kishanmundha/DocProject/dev-status.svg)](https://david-dm.org/kishanmundha/DocProject?type=dev) 
+# Document management
+
+[![Build Status](https://api.travis-ci.org/kishanmundha/DocProject.svg?branch=master)](https://travis-ci.org/kishanmundha/DocProject) [![Coverage Status](https://codecov.io/gh/kishanmundha/DocProject/branch/master/graph/badge.svg)](https://codecov.io/gh/kishanmundha/DocProject) [![Dependencies Status](https://david-dm.org/kishanmundha/DocProject/status.svg)](https://david-dm.org/kishanmundha/DocProject) [![DevDependencies Status](https://david-dm.org/kishanmundha/DocProject/dev-status.svg)](https://david-dm.org/kishanmundha/DocProject?type=dev) 
 
 Manage your documents of project with this tool
 
@@ -73,6 +75,12 @@ var config = {
 
 ``` sh
 $ node server.js
+```
+### Host project using lite-server
+
+```
+$ npm install lite-server
+$ lite-server
 ```
 
 ### Host project on IIS using MVC
