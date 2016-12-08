@@ -2,72 +2,74 @@
     <h3>Access denied</h3>
 </div>
 
-<div ng-if="config.enableEditDoc" class="panel panel-default">
-    <div class="panel-heading">
-        <ul class="nav nav-tabs">
-            <li role="presentation" ng-class="{
+<form name="markdownEditorForm">
+    <div ng-if="config.enableEditDoc" class="panel panel-default">
+        <div class="panel-heading">
+            <ul class="nav nav-tabs">
+                <li role="presentation" ng-class="{
                     'active'
                     :!isPreview}" ng-click="isPreview = false"><a href="#">Edit</a></li>
-            <li role="presentation" ng-class="{
+                <li role="presentation" ng-class="{
                     'active':isPreview}" ng-click="showPreview();
                                 isPreview = true"><a href="#">Preview</a></li>
-        </ul>
-    </div>
-    <div class="panel-body">
-        <div style="margin-top:20px;">
-            <div ng-show="!isPreview">
-                <textarea style="font-family: Consolas,'Courier New'; font-size:13px;"
+            </ul>
+        </div>
+        <div class="panel-body">
+            <div style="margin-top:20px;">
+                <div ng-show="!isPreview">
+                    <textarea style="font-family: Consolas,'Courier New'; font-size:13px;"
                           ng-model="markdown.inputText" class="form-control" auto-grow>
-                </textarea>
+                    </textarea>
                 <!--<div class="alert alert-info" role="alert">Plugin for save not available right now. You can use "View Source" button to open source in new window and save it.</div>-->
-            </div>
-            <div ng-show="isPreview">
-                <div ng-bind-html="markdown.outputText" id="docOutput" style="overflow-x: auto;"></div>
+                </div>
+                <div ng-show="isPreview">
+                    <div ng-bind-html="markdown.outputText" id="docOutput" style="overflow-x: auto;"></div>
+                </div>
             </div>
         </div>
-    </div>
-    <div class="panel-footer">
-        <div class="visible-xs">
-            <button class="btn btn-success col-xs-12" ng-disabled="!config.enableDocSave || markdown.inputText.trim() == markdown.orignalValue.trim()" title="{{config.enableDocSave?'Save':'Plugin not available'}}" ng-click="save()">Save</button>
-            <div class="clearfix"></div>
-            <br/>
-            <button class="btn btn-default col-xs-12" ng-click="openSource()"
+        <div class="panel-footer">
+            <div class="visible-xs">
+                <button class="btn btn-success col-xs-12" ng-disabled="!config.enableDocSave || markdown.inputText.trim() == markdown.orignalValue.trim()" title="{{config.enableDocSave?'Save':'Plugin not available'}}" ng-click="save()">Save</button>
+                <div class="clearfix"></div>
+                <br/>
+                <button class="btn btn-default col-xs-12" ng-click="openSource()"
                     uib-popover="View source content on new tab" popover-trigger="mouseenter"
                     popover-placement="top">View Source</button>
-            <div class="clearfix"></div>
-            <div class="btn-animation"ng-show="cacheTime" >
-                <br/>
-                <button class="btn btn-danger col-xs-12" ng-click="removeCache()" ng-disabled="!cacheTime"
-                        uib-popover="Last Cache saved on {{cacheTime| date:'EEEE, MMMM d, yyyy \'at\' h:mm a'}}" popover-trigger="mouseenter"
-                        popover-title="Auto cache save every {{getSaveDurationString()}}"
-                        popover-placement="top">Remove cache</button>
+                <div class="clearfix"></div>
+                <div class="btn-animation"ng-show="cacheTime" >
+                    <br/>
+                    <button class="btn btn-danger col-xs-12" ng-click="removeCache()" ng-disabled="!cacheTime"
+                            uib-popover="Last Cache saved on {{cacheTime| date:'EEEE, MMMM d, yyyy \'at\' h:mm a'}}" popover-trigger="mouseenter"
+                            popover-title="Auto cache save every {{getSaveDurationString()}}"
+                            popover-placement="top">Remove cache</button>
+                </div>
             </div>
-        </div>
 
-        <!--
-        <div class="alert alert-warning pull-right" ng-if="!config.enableDocSave" style="margin-bottom: 10px; margin-right: 0px;padding: 7px;">
-            Save plugin not avaialble yet, but you can save using view source, copy and replace it to source.
-        </div>
-        <div class="clearfix"></div>
-        -->
-        <div class="hidden-xs">
-            <div class="pull-left btn-animation" ng-show="cacheTime">
-                <button class="btn btn-danger" ng-click="removeCache()" ng-disabled="!cacheTime"
-                        uib-popover="Last Cache saved on {{cacheTime| date:'EEEE, MMMM d, yyyy \'at\' h:mm a'}}" popover-trigger="mouseenter"
-                        popover-title="Auto cache save every {{getSaveDurationString()}}"
-                        popover-placement="right"
-                        >
-                    <!--title="Auto cache save every {{getSaveDurationString()}}&#013;&#013;Last Cache saved on {{cacheTime | date:'EEEE, MMMM d, yyyy \'at\' h:mm a'}}"-->
-                    Remove cache</button>
+            <!--
+            <div class="alert alert-warning pull-right" ng-if="!config.enableDocSave" style="margin-bottom: 10px; margin-right: 0px;padding: 7px;">
+                Save plugin not avaialble yet, but you can save using view source, copy and replace it to source.
             </div>
-            <div class="pull-right">
-                <button class="btn btn-default" ng-click="openSource()"
-                        uib-popover="View source content on new tab" popover-trigger="mouseenter"
-                        popover-placement="top-right"
-                        >View Source</button>
-                <button class="btn btn-success" ng-disabled="!config.enableDocSave || markdown.inputText.trim() == markdown.orignalValue.trim()" title="{{config.enableDocSave?'Save':'Plugin not available'}}" ng-click="save()">Save</button>
+            <div class="clearfix"></div>
+            -->
+            <div class="hidden-xs">
+                <div class="pull-left btn-animation" ng-show="cacheTime">
+                    <button class="btn btn-danger" ng-click="removeCache()" ng-disabled="!cacheTime"
+                            uib-popover="Last Cache saved on {{cacheTime| date:'EEEE, MMMM d, yyyy \'at\' h:mm a'}}" popover-trigger="mouseenter"
+                            popover-title="Auto cache save every {{getSaveDurationString()}}"
+                            popover-placement="right"
+                            >
+                        <!--title="Auto cache save every {{getSaveDurationString()}}&#013;&#013;Last Cache saved on {{cacheTime | date:'EEEE, MMMM d, yyyy \'at\' h:mm a'}}"-->
+                        Remove cache</button>
+                </div>
+                <div class="pull-right">
+                    <button class="btn btn-default" ng-click="openSource()"
+                            uib-popover="View source content on new tab" popover-trigger="mouseenter"
+                            popover-placement="top-right"
+                            >View Source</button>
+                    <button class="btn btn-success" ng-disabled="!config.enableDocSave || markdown.inputText.trim() == markdown.orignalValue.trim()" title="{{config.enableDocSave?'Save':'Plugin not available'}}" ng-click="save()">Save</button>
+                </div>
             </div>
+            <div class="clearfix"></div>
         </div>
-        <div class="clearfix"></div>
     </div>
-</div>
+</form>

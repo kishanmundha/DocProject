@@ -225,6 +225,7 @@ fieldset[disabled] .navbar-blue .btn-link:focus {
 html, body {
 	font-family: "Segoe UI", "Helvetica Neue", Helvetica, Arial, sans-serif;
 	height:100%;
+  font-size: 13px;
 }
 
 .navbar {

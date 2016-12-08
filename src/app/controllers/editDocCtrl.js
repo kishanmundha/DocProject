@@ -200,6 +200,41 @@
             if (config.editDoc.autoLocalSave) {
                 runTimeout();
             }
+
+            var confirmOnPageExit = function (e) {
+                // If we haven't been passed the event get the window.event
+                e = e || window.event;
+
+                if ($scope.markdown.inputText.trim() != $scope.markdown.orignalValue.trim()) {
+                    //console.log('$scope.markdownEditorForm.$dirty=>', $scope.markdownEditorForm.$dirty);
+
+                    var message = "Are you sure you want to leave this page?";
+
+                    // For IE6-8 and Firefox prior to version 4
+                    if (e) {
+                        e.returnValue = message;
+                    }
+
+                    // For Chrome, Safari, IE8+ and Opera 12+
+                    return message;
+                }
+            };
+
+            $scope.$on('$locationChangeStart', function (event, next, current) {
+
+                if ($scope.markdown.inputText.trim() != $scope.markdown.orignalValue.trim()) {
+                    var answer = confirm("Are you sure you want to leave this page?")
+                    if (!answer) {
+                        event.preventDefault();
+                    } else {
+                        window.onbeforeunload = null;
+                    }
+                } else {
+                    window.onbeforeunload = null;
+                }
+            });
+
+            window.onbeforeunload = confirmOnPageExit;
         }]);
 
 })();
