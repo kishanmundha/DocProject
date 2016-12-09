@@ -95,7 +95,7 @@
                 if (!docId) {
                     /* jshint laxbreak: true */
                     filePath += project.projectId + '/'
-                            + (project.fileName || project.projectId);
+                        + (project.fileName || project.projectId);
                 } else {
                     var doc = project.docs.filter(function (item) {
                         return item.docId === docId;
@@ -409,6 +409,38 @@
                 return searchResult;
             };
 
+            var isCheckedForUpdate = false;
+            
+            var checkForUpdate = function () {
+
+                if (isCheckedForUpdate)
+                    return;
+
+                isCheckedForUpdate = true;
+
+                $timeout(function () {
+
+                    var current_tag_name = $('a[href="https://github.com/kishanmundha/DocProject/releases"]').text();
+
+                    if (!current_tag_name) {
+                        $log.debug('skipped to check for update due to dev environment');
+                        return;
+                    }
+
+                    $http.get('https://api.github.com/repos/kishanmundha/DocProject/releases/latest').success(function (response) {
+
+                        $log.debug('latest version =>', response.tag_name);
+
+                        var latest_tag_name = response.tag_name;
+
+                        if (latest_tag_name != current_tag_name) {
+                            $log.warn('New update available, Please udpate to use new features. https://github.com/kishanmundha/DocProject/releases');
+                            $rootScope.$broadcast('updateAvailable', true);
+                        }
+                    });
+                }, 2000);
+            };
+
             return {
                 getProjectList: getProjectList,
                 getProject: getProject,
@@ -418,7 +450,8 @@
                 setCurrentDoc: setCurrentDoc,
                 saveDocContent: saveDocContent,
                 searchDoc: searchDoc,
-                redirectTo: redirectTo
+                redirectTo: redirectTo,
+                checkForUpdate: checkForUpdate
             };
         }]);
 

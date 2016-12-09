@@ -5,3 +5,4 @@ publish
 release
 bin
 coverage
+npm-debug.log.*

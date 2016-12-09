@@ -223,7 +223,7 @@
             $scope.$on('$locationChangeStart', function (event, next, current) {
 
                 if ($scope.markdown.inputText.trim() != $scope.markdown.orignalValue.trim()) {
-                    var answer = confirm("Are you sure you want to leave this page?")
+                    var answer = confirm("Are you sure you want to leave this page?");
                     if (!answer) {
                         event.preventDefault();
                     } else {
