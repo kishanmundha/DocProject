@@ -3,100 +3,90 @@
 
     var app = angular.module('app');
 
-    app.factory('authService', ['$http', '$q', 'localStorageService', 'config', function ($http, $q, localStorageService, config) {
+    app.factory('authService', ['$http', '$q', 'localStorageService', 'config', 'firebaseService', function ($http, $q, localStorageService, config, firebaseService) {
 
-            var serviceBase = config.apiServiceBaseUri;
-            var authServiceFactory = {};
+        var serviceBase = config.apiServiceBaseUri;
+        var authServiceFactory = {};
+        var adminEmail = "kishan.mundha@gmail.com";
 
-            var _authentication = {
-                isAuth: false,
-                username: ""
-            };
+        var _authentication = {
+            isAuth: false
+        };
 
-            var _login = function (user) {
+        var _login = function (method) {
 
-                var deferred = $q.defer();
+            var promise = firebaseService.firebaseLogin(method);
 
-                $http.post(config.apiLogin, user).success(function (response) {
+            promise.then(function (user) {
+                _authentication.isAuth = true;
+                _authentication.displayname = user.displayName;
+                _authentication.email = user.email;
+                _authentication.isAdmin = user.email === adminEmail;
 
-                    localStorageService.set('authorizationData', {
-                        token: response.token,
-                        username: response.username,
-                        first_name: response.first_name,
-                        last_name: response.last_name,
-                        email: response.email
-                    });
+                localStorageService.set('authorizationData', _authentication);
+            });
 
-                    _authentication.isAuth = true;
-                    _authentication.username = response.username;
-                    _authentication.first_name = response.first_name;
-                    _authentication.last_name = response.last_name;
-                    _authentication.email = response.email;
+            return promise;
+        };
 
-                    deferred.resolve(response);
+        var _logOut = function () {
 
-                }).error(function (err) {
-                    _logOut();
-                    deferred.reject(err);
-                });
+            localStorageService.remove('authorizationData');
 
-                return deferred.promise;
+            _authentication.isAuth = false;
+            _authentication.isAdmin = false;
+            _authentication.displayname = "";
+            _authentication.email = '';
 
-            };
+            firebaseService.logOut();
 
-            var _logOut = function () {
+        };
 
-                localStorageService.remove('authorizationData');
+        var _fillAuthData = function () {
 
-                _authentication.isAuth = false;
-                _authentication.username = "";
-                _authentication.username = '';
-                _authentication.first_name = '';
-                _authentication.last_name = '';
-                _authentication.email = '';
-                _authentication.useRefreshTokens = false;
+            var authData = localStorageService.get('authorizationData');
+            if (authData) {
+                _authentication.isAuth = true;
+                _authentication.displayname = authData.displayname;
+                _authentication.email = authData.email;
+                _authentication.isAdmin = authData.email === adminEmail;
+            }
 
-            };
+        };
 
-            var _fillAuthData = function () {
+        var _getFirstName = function () {
+            return _authentication.first_name;
+        };
 
-                var authData = localStorageService.get('authorizationData');
-                if (authData) {
-                    _authentication.isAuth = true;
-                    _authentication.username = authData.username;
-                    _authentication.first_name = authData.first_name;
-                    _authentication.last_name = authData.last_name;
-                    _authentication.email = authData.email;
-                }
+        var _getUserFullName = function () {
+            //return _authentication.first_name + (_authentication.last_name ? ' ' + _authentication.last_name : '');
+            return _authentication.displayname;
+        };
 
-            };
+        var _getUserEmail = function () {
 
-            var _getFirstName = function () {
-                return _authentication.first_name;
-            };
+            return _authentication.email;
+        };
 
-            var _getUserFullName = function () {
-                return _authentication.first_name + (_authentication.last_name ? ' ' + _authentication.last_name : '');
-            };
+        var _isAuthenticated = function () {
+            return _authentication.isAuth;
+        };
 
-            var _getUserEmail = function () {
+        var _isAdmin = function() {
+            return _authentication.isAuth && _authentication.isAdmin;
+        };
 
-                return _authentication.email;
-            };
+        authServiceFactory.isAuthenticated = _isAuthenticated;
+        authServiceFactory.login = _login;
+        authServiceFactory.logOut = _logOut;
+        authServiceFactory.fillAuthData = _fillAuthData;
+        authServiceFactory.authentication = _authentication;
+        authServiceFactory.getFirstName = _getFirstName;
+        authServiceFactory.getUserFullName = _getUserFullName;
+        authServiceFactory.getUserEmail = _getUserEmail;
 
-            var _isAuthenticated = function () {
-                return _authentication.isAuth;
-            };
+        authServiceFactory.isAdmin = _isAdmin;
 
-            authServiceFactory.isAuthenticated = _isAuthenticated;
-            authServiceFactory.login = _login;
-            authServiceFactory.logOut = _logOut;
-            authServiceFactory.fillAuthData = _fillAuthData;
-            authServiceFactory.authentication = _authentication;
-            authServiceFactory.getFirstName = _getFirstName;
-            authServiceFactory.getUserFullName = _getUserFullName;
-            authServiceFactory.getUserEmail = _getUserEmail;
-
-            return authServiceFactory;
-        }]);
+        return authServiceFactory;
+    }]);
 })();

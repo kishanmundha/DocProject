@@ -6,9 +6,11 @@
 
 /* global Project */
 
+/*
+
 Project.addNonWords('a,an,is,are,for');
 
-Project.add('dms', 'Help for Document Management')
+Project.add('dms2', 'Help for Document Management')
         .addCategory('functions', 'Functions')
         .addDoc('about', 'About', '', {"fileName": "dms"})
         .addDoc('markdown', 'Markdown', '')
@@ -17,3 +19,5 @@ Project.add('dms', 'Help for Document Management')
         .addDoc('document', 'Documents', 'functions', {"tags": "design"})
         .addDoc('search', 'Search', 'functions', {"tags": "search"})
 ;
+
+*/

@@ -18,8 +18,6 @@
                         $scope.ngModel = {};
 
                     $log.debug('loginForm scope => ', $scope);
-                    $log.debug(element, attrs, ctrls);
-                    window.temp = ctrls;
 
                     $scope.user = $scope.ngModel;
                     $scope.loginSuccessed = false;

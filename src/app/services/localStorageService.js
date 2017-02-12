@@ -9,7 +9,7 @@
                 if (window.localStorage === undefined)
                     return;
 
-                $log.log('localStorage setItem => ', key);
+                $log.debug('localStorage setItem => ', key);
                 window.localStorage.setItem(key, JSON.stringify(value));
             };
 
@@ -17,7 +17,7 @@
                 if (window.localStorage === undefined)
                     return;
 
-                $log.log('localStorage removeItem => ', key);
+                $log.debug('localStorage removeItem => ', key);
                 window.localStorage.removeItem(key);
             };
 
@@ -25,7 +25,7 @@
                 if (window.localStorage === undefined)
                     return;
 
-                $log.log('localStorage getItem => ', key);
+                $log.debug('localStorage getItem => ', key);
                 var str = window.localStorage.getItem(key);
 
                 if (!str)
@@ -38,7 +38,7 @@
                 if (window.localStorage === undefined)
                     return;
 
-                $log.log('localStorage clear');
+                $log.debug('localStorage clear');
                 window.localStorage.clear();
             };
 

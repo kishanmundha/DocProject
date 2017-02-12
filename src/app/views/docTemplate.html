@@ -13,7 +13,7 @@
                    title="Edit document"
                    ><span class="glyphicon glyphicon-pencil"></span></a>
             </div>
-            ﻿<div ng-bind-html="::markdown.outputText" id="docOutput" style="overflow-x: auto;"></div>
+            <div ng-bind-html="::markdown.outputText" id="docOutput" style="overflow-x: auto;"></div>
             <div ng-show="::lastModified"><i style="color:#aaa;" class="pull-right" title="{{::lastModified| date:'EEEE, MMMM d, yyyy \'at\' h:mm a'}}">Last modified about <span ng-bind="::getDateStringAgo(lastModified)"></span> ago</i></div>
             <div class="clearfix"></div>
         </div>

@@ -1,0 +1,74 @@
+<div ng-if="!enableEditDoc" class="alert alert-warning text-center">
+    <h3>Access denied</h3>
+</div>
+
+<form ng-if="enableEditDoc" class="form-horizontal" name="addDocForm" ng-submit="addDocument()">
+    <div class="panel" style="max-width: 500px; margin: 0px auto;">
+        <div class="panel-heading">
+            <h4 class="panel-title">Add document</h4>
+        </div>
+        <div class="panel-body">
+            <div class="alert alert-danger" ng-if="error" ng-bind="error"></div>
+            <div class="form-group">
+                <label class="col-md-2">Project name</label>
+                <div class="col-md-10">
+                    <select class="form-control highlight-invalid" ng-required="true" ng-model="model.projectId" placeholder="Select a project"
+                        ng-options="item.projectId as item.projectName for item in projectList" ng-change="onProjectChange()">
+                        </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-md-2">Category Name</label>
+                <div class="col-md-10">
+                    <select class="form-control highlight-invalid" ng-model="model.categoryId" placeholder="Select a category" ng-options="item.categoryId as item.categoryName for item in categoryList">
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-md-2">Document Id</label>
+                <div class="col-md-10">
+                    <input type="text" class="form-control highlight-invalid" ng-model="model.docId" ng-required="true" placeholder="Document Id"
+                    />
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-md-2">Document name</label>
+                <div class="col-md-10">
+                    <input type="text" class="form-control highlight-invalid" ng-model="model.docName" ng-required="true" placeholder="Document name"
+                    />
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-md-2">Tags</label>
+                <div class="col-md-10">
+                    <input type="text" class="form-control highlight-invalid" ng-model="model.tags" placeholder="Tags (Optional)" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-md-2">File name</label>
+                <div class="col-md-10">
+                    <input type="text" class="form-control highlight-invalid" ng-model="model.fileName" placeholder="Filename (Optional)" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-md-2">No Doc</label>
+                <div class="col-md-10">
+                    <input type="checkbox" ng-model="model.noDoc" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-md-2">No List</label>
+                <div class="col-md-10">
+                    <input type="checkbox" ng-model="model.noList" />
+                </div>
+            </div>
+        </div>
+        <div class="panel-footer">
+            <div class="pull-right">
+                    <button class="btn btn-success" ng-disabled="!enableEditDoc || addDocForm.$invalid">Save</button>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+    </div>
+</form>
+<br/>

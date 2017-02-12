@@ -37,7 +37,8 @@ module.exports = function (config) {
             "karma-phantomjs-launcher",
             'karma-jasmine',
             'karma-jasmine-html-reporter',
-            'karma-coverage'
+            'karma-coverage',
+			'karma-coveralls'
         ],
         junitReporter: {
             outputFile: 'test_out/unit.xml',
@@ -45,7 +46,7 @@ module.exports = function (config) {
         },
         reporters: ['progress', 'html', 'coverage'],
         coverageReporter: {
-            type: 'html',
+            type: 'lcov',
             dir: 'coverage'
         }
 

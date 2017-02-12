@@ -23,7 +23,7 @@
                 if (!$scope.term)
                     return;
 
-                docService.redirectTo('/docs/search?q=' + encodeURIComponent($scope.term) + '&c=' + $scope.inContent, true);
+                docService.redirectTo('/search?q=' + encodeURIComponent($scope.term) + '&c=' + $scope.inContent, true);
                 //$scope.searchResult = docService.searchDoc($scope.term);
             };
         }]);

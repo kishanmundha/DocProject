@@ -15,8 +15,6 @@
                 template: '<span></span>',
                 link: function ($scope, element) {
 
-                    $log.debug($scope.size);
-
                     /*
                      * normal size
                      * 

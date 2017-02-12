@@ -10,8 +10,8 @@
             + '<p style="line-height:30px"><span class="glyphicon glyphicon-circle-arrow-right"></span> Check file, make sure file must not blank.</p>'
             + '</div>';
     var app = angular.module('app');
-    app.controller('docCtrl', ['$log', '$scope', '$routeParams', '$sce', 'docService', '$timeout', '$anchorScroll', 'config',
-        function ($log, $scope, $routeParams, $sce, docService, $timeout, $anchorScroll, config) {
+    app.controller('docCtrl', ['$log', '$scope', '$routeParams', '$sce', 'docService', '$timeout', '$anchorScroll', 'config', 'authService',
+        function ($log, $scope, $routeParams, $sce, docService, $timeout, $anchorScroll, config, authService) {
             $log.debug('docCtrl controller called');
 
             var projectId = $routeParams.projectId;
@@ -22,10 +22,9 @@
             $scope.lastModified = undefined;
             $scope.config = config;
 
-            $scope.enableEditDoc = config.enableEditDoc;
+            $scope.enableEditDoc = config.enableEditDoc && authService.isAdmin();
 
             $scope.markdown = {};
-            //console.debug($scope);
 
             var trustAsHtml = function (string) {
                 return $sce.trustAsHtml(string);
@@ -109,7 +108,6 @@
                 }, 1);
 
                 $timeout(function () {
-                    $log.debug($('#docOutput a'));
                     $('#docOutput a').on('click', function (e) {
 
                         var href = $(this).attr('href');
@@ -126,8 +124,6 @@
 
                 // add target="_self" for path /data/...
                 $timeout(function () {
-                    $log.debug($('#docOutput a'));
-
                     $('#docOutput a[href^="/data/"').each(function () {
                         if (!$(this).attr('target'))
                             $(this).attr('target', '_self');

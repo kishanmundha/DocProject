@@ -5,8 +5,8 @@
 
     var app = angular.module('app');
 
-    app.service('docService', ['$log', '$http', '$rootScope', 'messageModalService', 'config', '$q', '$timeout', 'localStorageService',
-        function ($log, $http, $rootScope, messageModalService, config, $q, $timeout, localStorageService) {
+    app.service('docService', ['$log', '$http', '$rootScope', 'messageModalService', 'config', '$q', '$timeout', 'localStorageService', 'firebaseService',
+        function ($log, $http, $rootScope, messageModalService, config, $q, $timeout, localStorageService, firebaseService) {
 
             var _allDocs;
 
@@ -16,12 +16,24 @@
              * @returns {Array} List of project
              */
             var getProjectList = function () {
-                return data.map(function (item) {
-                    return {
-                        'projectId': item.projectId,
-                        'projectName': item.projectName
-                    };
+                var defer = $q.defer();
+                var returnValue = [];
+                returnValue.$resolved = false;
+                returnValue.$promise = defer.promise;
+                firebaseService.initProject().then(function () {
+                    data.map(function (item) {
+                        return {
+                            'projectId': item.projectId,
+                            'projectName': item.projectName
+                        };
+                    }).forEach(function (item) {
+                        returnValue.push(item);
+                    });
+
+                    returnValue.$resolved = true;
+                    defer.resolve(returnValue);
                 });
+                return returnValue;
             };
 
             /**
@@ -77,7 +89,7 @@
             };
 
             /**
-             * @public
+             * @private
              * @description Get path of markdown document
              * @param {String} projectId
              * @param {String} docId
@@ -90,12 +102,12 @@
                 if (!project)
                     return false;
 
-                var filePath = '/data/docs/';
+                var filePath = '';
 
                 if (!docId) {
                     /* jshint laxbreak: true */
                     filePath += project.projectId + '/'
-                            + (project.fileName || project.projectId);
+                        + (project.fileName || project.projectId);
                 } else {
                     var doc = project.docs.filter(function (item) {
                         return item.docId === docId;
@@ -107,7 +119,7 @@
                     filePath += project.projectId + '/' + doc.fileName;
                 }
 
-                filePath += ".md";
+                // filePath += ".md";
 
                 return filePath;
             };
@@ -122,39 +134,32 @@
              */
             var getDocContent = function (projectId, docId, callback) {
 
-                // handle request when we send only two param
-                if (angular.isFunction(docId)) {
-                    callback = docId;
-                    docId = undefined;
-                }
-
-                var path = getDocPath(projectId, docId);
-
-                if (!path) {
-                    callback && callback(); //jshint ignore:line
-                    return;
-                }
-
-                $log.debug(path);
-
-                /*
-                 $http.get(path).success(function (data) {
-                 callback && callback(data);
-                 }).error(function () {
-                 callback && callback();
-                 });
-                 */
-
-                $http.get(path).then(function (res) {
-                    var headers = res.headers();
-                    if (callback) {
-                        callback({
-                            'data': res.data,
-                            'lastModified': headers['last-modified']
-                        });
+                firebaseService.initProject().then(function () {
+                    // handle request when we send only two param
+                    if (angular.isFunction(docId)) {
+                        callback = docId;
+                        docId = undefined;
                     }
-                }, function (err) {
-                    callback && callback(); //jshint ignore:line
+
+                    var path = getDocPath(projectId, docId);
+
+                    if (!path) {
+                        callback && callback(); //jshint ignore:line
+                        return;
+                    }
+
+                    $log.debug('docService.getDocContent -> path =>', path);
+
+                    firebaseService.getDocContent(path).then(function (data) {
+                        if (callback) {
+                            callback({
+                                data: data.data,
+                                lastModified: data.lastModified
+                            });
+                        }
+                    }, function (err) {
+                        callback && callback(); // jshint ignore:line
+                    });
                 });
             };
 
@@ -165,11 +170,13 @@
              * @returns {undefined}
              */
             var setCurrentProject = function (projectId) {
-                var project = undefined; // jshint ignore:line
-                if (projectId) {
-                    project = getProject(projectId);
-                }
-                $rootScope.$broadcast('changeProject', project);
+                firebaseService.initProject().then(function () {
+                    var project = undefined; // jshint ignore:line
+                    if (projectId) {
+                        project = getProject(projectId);
+                    }
+                    $rootScope.$broadcast('changeProject', project);
+                });
             };
 
             /***
@@ -179,20 +186,14 @@
              * @returns {undefined}
              */
             var setCurrentDoc = function (docId) {
-                $rootScope.$broadcast('changeDoc', {'docId': docId});
+                $rootScope.$broadcast('changeDoc', { 'docId': docId });
             };
 
             var saveDocContent = function (projectId, docId, docContent, callback) {
                 var docPath = getDocPath(projectId, docId);
 
-                $http.post(config.apiSaveDoc, {path: docPath, content: docContent}).then(function (data) {
+                firebaseService.saveDocContent(docPath, docContent).then(function () {
                     callback && callback(); // jshint ignore:line
-                }, function (err) {
-                    $log.debug(err);
-                    if (err.status !== 401) {
-                        var msg = err.data.error;
-                        messageModalService.show('Error', msg, 'danger');
-                    }
                 });
             };
 
@@ -352,7 +353,6 @@
                     /*jshint loopfunc: true */
                     for (var i = 0; i < terms.length; i++) {
                         var result = docs.filter(function (item) {
-                            //console.debug(item.tags, item);
 
                             var tags = item.tags;
 
@@ -368,8 +368,6 @@
 
                             tags = tags.split(',');
 
-                            //console.debug(tags);
-
                             var s = tags.filter(function (tag) {
                                 if (!isContentSearch)
                                     return tag.toLowerCase().indexOf(terms[i].toLowerCase()) !== -1;
@@ -377,10 +375,7 @@
                                     return tag.toLowerCase() === terms[i].toLowerCase();
                             });
 
-                            //console.debug(s);
-
                             return 0 !== s.length;
-                            //console.debug(item);
                         });
 
                         if (i === 0) {
@@ -409,16 +404,37 @@
                 return searchResult;
             };
 
+            /**
+ * Create a shallow copy of an object and clear other fields from the destination
+ * 
+ * https://github.com/angular/angular.js/blob/master/src/ngResource/resource.js
+ */
+            var shallowClearAndCopy = function (src, dst) {
+                dst = dst || {};
+
+                angular.forEach(dst, function (value, key) {
+                    delete dst[key];
+                });
+
+                for (var key in src) {
+                    if (src.hasOwnProperty(key) && !(key.charAt(0) === '$' && key.charAt(1) === '$')) {
+                        dst[key] = src[key];
+                    }
+                }
+
+                return dst;
+            };
+
+
             return {
                 getProjectList: getProjectList,
-                getProject: getProject,
-                getDocPath: getDocPath,
                 getDocContent: getDocContent,
                 setCurrentProject: setCurrentProject,
                 setCurrentDoc: setCurrentDoc,
                 saveDocContent: saveDocContent,
                 searchDoc: searchDoc,
-                redirectTo: redirectTo
+                redirectTo: redirectTo,
+                getProject: getProject
             };
         }]);
 

@@ -208,3 +208,14 @@ a[ng-click] {
 #view-container {
     padding-bottom:32px; /* Height of the footer element */
 }
+
+.highlight-invalid.ng-invalid, .highlight-invalid.nv-invalid:focus,
+.highlight-invalid.ng-invalid>input, .highlight-invalid.nv-invalid>input:focus
+{
+    border-color: #a94442;
+}
+
+.highlight-invalid.nv-invalid:focus, .highlight-invalid.ng-invalid:focus {
+    box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 6px #ce8483;
+}
+

@@ -3,8 +3,8 @@
 
     var app = angular.module('app');
 
-    app.controller('editDocCtrl', ['$log', '$scope', '$routeParams', '$sce', '$window', 'docService', '$timeout', 'localStorageService', 'config', '$location',
-        function ($log, $scope, $routeParams, $sce, $window, docService, $timeout, localStorageService, config, $location) {
+    app.controller('editDocCtrl', ['$log', '$scope', '$routeParams', '$sce', '$window', 'docService', '$timeout', 'localStorageService', 'config', '$location', 'authService',
+        function ($log, $scope, $routeParams, $sce, $window, docService, $timeout, localStorageService, config, $location, authService) {
             $log.debug('editDocCtrl called');
 
             var projectId = $routeParams.projectId;
@@ -12,6 +12,8 @@
 
             var autoSaveDuration = (config.editDoc.autoSaveDuration || (60)) * 1000;
             var autoSaveExpiry = (config.editDoc.autoSaveExpiry || (60 * 60)) * 1000;    // 1 hour
+
+            $scope.enableEditDoc = config.enableEditDoc && authService.isAdmin();
 
             $scope.getSaveDurationString = function () {
                 var s = autoSaveDuration / 1000;
@@ -52,8 +54,6 @@
             $scope.docContent = undefined;
 
             $scope.markdown = {};
-
-            //console.debug($scope);
 
             var saveToCache = function () {
                 var obj = {
@@ -149,8 +149,6 @@
                     mdContent = '<div class="alert alert-warning" role="alert">Do not press on any link other wise your content will lost</div>' + mdContent;
                 } catch (e) {
                     mdContent = '<div class="alert alert-danger" role="alert">' + e + '</div>';
-                    //console.error(e.message);
-                    //throw e;
                 }
 
                 $scope.markdown.outputText = trustAsHtml(mdContent);
@@ -181,7 +179,7 @@
                     if (docId)
                         key += '/' + docId;
 
-                    $location.path('/docs/' + key);
+                    $location.path('/' + key);
 
                     $timeout.cancel(timer);
                     removeCache();

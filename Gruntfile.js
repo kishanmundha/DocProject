@@ -161,7 +161,7 @@ module.exports = function (grunt) {
             unit: {
                 configFile: process.cwd() + '/test/karma.conf.js',
                 singleRun: true,
-                browsers: ['PhantomJS']
+                browsers: ['Chrome']
             },
             debug: {
                 configFile: 'test/karma.conf.js',
@@ -204,6 +204,7 @@ module.exports = function (grunt) {
     grunt.registerTask('release', ['publish', 'compress']);
 
     grunt.registerTask('build', ['test', 'clean:all', 'minify', 'processhtml', 'copy']);
+    grunt.registerTask('build.notest', ['clean:all', 'minify', 'processhtml', 'copy']);
     grunt.registerTask('build:release', ['build', 'compress']);
 
     /*

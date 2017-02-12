@@ -27,7 +27,7 @@
     </div>
     <div class="panel panel-default" ng-show="q && searchResult.$resolved">
         <div class="list-group">
-            <a href="/docs/{{doc.project.projectId}}/{{doc.docId}}" class="list-group-item" ng-repeat="doc in searchResult">
+            <a href="{{doc.project.projectId}}/{{doc.docId}}" class="list-group-item" ng-repeat="doc in searchResult">
                 <span class="badge">{{doc.project.projectName}}</span>
                 {{doc.docName}}
             </a>
